@@ -24,7 +24,9 @@
     "check:djot-v": "node scripts/djot-v/check.mjs",
     "proof:djot-v": "node scripts/djot-v/proofs.mjs",
     "bench:djot-v": "node scripts/djot-v/bench.mjs",
-    "report:djot-v": "node scripts/djot-v/report.mjs"
+    "report:djot-v": "node scripts/djot-v/report.mjs",
+    "check:djot-extensions": "node scripts/djot-v/extensions.mjs",
+    "proof:djot-extensions": "node scripts/djot-v/extensions-proof.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",

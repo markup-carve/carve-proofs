@@ -90,3 +90,10 @@ timings. `npm run proof:djot-v` requires Rocq 9.2 and stdlib 9.1, builds the
 upstream project, prints theorem assumptions and checks extraction consistency.
 The proof command exits nonzero when extraction differs; inspect the recorded
 diff before drawing conclusions about the packaged code.
+
+The [extension fixtures](tests/djot-extensions/README.md) demonstrate one syntax
+tradeoff: enabling list interruption permits sublists without blank lines, but
+can turn a hard wrap into a new list. Portable JSON expectations, a native
+runner and eight Rocq witnesses make the example reproducible. Run
+`npm run check:djot-extensions` and `npm run proof:djot-extensions` after building
+the pinned package.

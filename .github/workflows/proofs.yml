@@ -50,6 +50,8 @@ jobs:
         run: |
           npm run build:djot-v
           npm run check:djot-v -- --check reports/djot-v-results.json
+          npm run check:djot-extensions -- --check reports/djot-extension-results.json
+          npm run proof:djot-extensions -- --check reports/djot-extension-proofs.json
           npm run report:djot-v
           git diff --exit-code -- reports/djot-v.md
       - name: Check comparison and profiling reports
