@@ -1,115 +1,30 @@
-# Layout ownership prototype
+# Layout ownership model
 
-This prototype models the boundary transition table and the column-only owner
-selection in `CARVE-P0-003`, in [Part 0 of the grammar](https://github.com/markup-carve/carve/blob/38829a972da8f639c4667d9e34cce6de3d73ffa8/resources/grammar.ebnf).
-It follows the approach of [djot.v](https://github.com/hon-gyu/djot.v): state a
-parser property precisely, supply a proof, and compare the model with existing
-implementations.
+The model covers boundary transitions from `CARVE-P0-003`, the list ownership
+rules in §24 C3 (`CARVE-P9-051/053`), stored continuation claims and prefix
+consumption. The [specification](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/resources/spec/01-layout.ebnf) is
+pinned by the repository submodule. The [list-specific clauses](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/resources/spec/16-semantics-comments-security.ebnf)
+define the comment-column qualifications. The approach follows
+[djot.v](https://github.com/hon-gyu/djot.v): state a parser property, check its
+proof, and compare its predictions with existing implementations.
 
-The JavaScript evidence check runs independently and must not be reported as
-proof verification. The proof command compiles the model and checks each
-theorem's reported assumptions.
+## Ownership decisions
 
-## Model and assumptions
+Two traces originally disagreed with the general Part 0 column table. Both
+agree with the explicit list rules in §24 C3. The specification now states
+that those rules qualify the general table. The clarification also settles the
+previously open comment-column distinction while preserving reader behavior:
 
-`Ownership.v` contains eleven theorem scripts:
+- After a blank, a follower below the list item's content column is outside
+  the item, including the band above its base column. Corpus 143 pins this.
+- A line comment below the content column retains the item for a subsequent
+  noninterrupting follower. It creates no stored ordinary-line claim. A blank
+  after the comment clears retention; an interrupting heading goes outside.
+- The comment's column matters. A comment at or above the content column
+  does not retain a subsequent flush-left follower.
 
-- A boundary other than end of input leaves its containing frame open.
-- Comments close the paragraph while leaving the containing frame open.
-- A closed frame stays closed when another boundary arrives.
-- Boundary transitions give the same open/closed state for quotes, list items,
-  definition bodies and footnote bodies.
-- Changing paragraph flags throughout the stack does not change column ownership.
-- A line at or below a frame's base is considered by an ancestor.
-- A line past an open frame's base belongs to that frame before its ancestors.
-- A line reaching the content column belongs to an open, well-formed frame.
-- Processing two boundary sequences together gives the same state as resuming
-  after the first sequence.
-- Equal complete frame states produce equal final states for the same suffix.
-- End of input closes the frame, and later boundaries cannot reopen it.
-
-The input is already classified. The model assumes that prefix decoding,
-comment recognition and opaque-body handling have finished. Column selection
-applies only when there is no eligible stored continuation claim. Frames have
-`base_column < content_column`; the content-column theorem states that
-precondition explicitly. The stack is stored innermost first and has distinct
-frame identifiers in intended use. The document is the fallback owner.
-
-These statements cover a small part of layout. Boundary uniformity does not
-establish uniform parsing of source inside containers: the model deliberately
-uses one boundary operation for all four kinds. The two sequence laws are
-algebraic properties of this state reducer. They do not establish incremental
-parsing of arbitrary edits. The model
-does not cover inline parsing, prefix recognition, lazy-claim construction,
-fence lookahead, block construction, rendering, source positions, roundtrips or
-complexity. No theorem connects the JS, PHP or Rust implementation to the model.
-
-## Run the checks
-
-Use the repository's Node version and installed npm dependencies. CI pins OCaml
-4.14.2, Rocq core 9.2.0 and standard library 9.1.0. To install the proof packages
-in an existing opam switch:
-
-```sh
-opam install rocq-core.9.2.0 rocq-stdlib.9.1.0
-opam exec -- npm run proof:layout
-```
-
-With Rocq or Coq already on `PATH`, run:
-
-```sh
-npm run proof:layout
-```
-
-The runner accepts `rocq compile` or `coqc`. It copies the model into a temporary
-directory, generates 28 examples from the normative JSON transition table and
-six examples from the authored source traces, then compiles both files. An
-exhaustive match checks that the model has no extra boundary constructors. A
-missing compiler or failed proof returns a nonzero exit status. The runner
-rejects local axiom and admission tokens, reported theorem assumptions, and
-disabled kernel checks. It generates a named assumption report for every theorem
-declaration and rejects missing or mismatched reports. Review the theorem statements as well: compilation
-checks the stated proposition, including its preconditions. The build removes
-temporary proof artifacts on exit. The `Proofs` workflow runs this check
-and the evidence tests on every pull request to `main`, push to `main`, and
-manual dispatch.
-
-The source traces compare the executable specification and the pinned JS engine.
-Three also compare the corpus source and expected HTML. All six use one
-top-level list item opened with `- ` at column zero, with content column two.
-The runner checks that restriction and the follower's authored column. It
-measures membership in that item, without distinguishing a new paragraph from
-lazy folding. Boundary classification remains manual. Source equality checks
-prevent a corpus edit from silently reusing an old trace; they do not prove the
-classification correct. These traces exercise the column-only branch, so the
-blank and comment cases have the same modeled owner for the same column.
-
-To run only that evidence comparison:
-
-```sh
-npm run proof:layout:evidence
-```
-
-Both commands report known discrepancies explicitly. Successful checks mean the
-observations match the recorded evidence, including those discrepancies. They
-do not mean that the readers conform to the model. The ordinary test suite runs
-the evidence checks without requiring a proof compiler.
-
-## Discrepancies requiring a specification decision
-
-The six traces contain two disagreements with the Part 0 interpretation.
-`cases.mjs` names both and records the observed result, so changed behavior or a
-removed declaration fails the evidence check.
-
-**After a blank:** corpus case
-`143-post-blank-list-continuation-content-column-model` puts a column-one follower
-outside a list item whose base is zero and content column is two. Both readers
-match that fixture. Part 0's owner table assigns the band strictly above the
-base and below the content column to the surviving frame. The post-blank
-content-column rule and Part 0 need to be reconciled before treating this as an
-implementation defect.
-
-**After a comment:** both readers keep `tail` in the list item for this source:
+For example, the first source keeps `tail` in the item; the second puts it
+outside:
 
 ```carve
 - intro
@@ -117,13 +32,92 @@ implementation defect.
 tail
 ```
 
- Part 0 says the comment clears the continuation
-claim and a subsequent line at the base belongs to an ancestor. The model
-therefore assigns `tail` to the document. This needs the same review against
-the construct-specific rules.
+```carve
+- intro
+  %% c
+tail
+```
 
-The prototype changes no language rules or engine behavior. Resolve these
-disagreements before widening the model to stored claims and prefix handling.
-The next proof obligation is that source classification supplies the preconditions
-used here. Further engine comparisons remain tests until an implementation
-correspondence proof exists.
+An unmatched `%%%` is a line comment. A matched comment fence at the enclosing
+context's opener column ends the item under C3 and corpus 214. The boundary
+transition table describes a comment already owned inside a surviving frame;
+it does not establish which frame owns the comment span.
+
+These decisions preserve the existing reader results. No engine code changed.
+The seventeen traces include the original six plus ordinary continuation,
+interruption, comment-column, sibling-marker and comment-fence controls. All currently agree
+with both readers; a future disagreement must be declared explicitly.
+
+## What the proofs establish
+
+`Ownership.v` contains 26 checked theorems. The original eleven cover boundary
+state, column selection and composition of boundary sequences. Their column
+lemmas describe the general column-only helper, not the complete owner decision.
+
+The additional fifteen cover exact indentation consumption, reconstruction
+of successfully consumed indentation, stopping at the first prefix failure,
+a bound on matched prefixes, ordinary-line claim creation, claim clearing,
+rejection of interrupting or stale claims, selection of live claim owners,
+post-blank list containment, below-column line-comment retention, rejection
+of closed frames, selection after a matched prefix, closure by an outside boundary, and
+selection of an item retained after a comment.
+
+`match_prefixes` consumes rules outermost first. `select_frame` combines prefix
+matching, a stored claim and the boundary-sensitive fallback for one candidate
+frame. A missing quote marker cannot be supplied by indentation alone.
+Ownership selection is separate from paragraph continuation: a live claim is
+checked against the container state, not its paragraph flag.
+
+## Scope and inputs
+
+Prefix inputs are measured tokens: `Space` is one indentation column,
+`Greater` is `>`, and `Text` stands for remaining non-prefix text. Tabs must
+already be expanded in the leading whitespace run. The model checks quote
+marker separation and exact indentation consumption; it does not prove Unicode
+measurement, tab expansion or tokenization from source bytes.
+
+The caller supplies the prefix rule, current column, preceding boundary and
+its column, interruption classification and surviving frame. Frame identifiers must be
+unique, frames must have `base_column < content_column`, and the supplied
+prefix rule must describe that frame in the current local coordinates.
+The source traces
+use a column-zero `- ` item with content column two. The harness checks
+marker geometry and authored boundary/follower columns. Boundary ownership,
+sibling-marker recognition and interruption classification remain authored
+inputs. `owned_step` closes the candidate when a classified
+boundary belongs outside it; an internal boundary uses the transition table.
+The matched-fence and repeated-comment controls exercise this closure input.
+
+The prefix walker supports nested rules, but it is not yet connected to a
+complete nested owner-selection algorithm. `select_frame` considers one
+surviving candidate. Fence recognition, span ownership, lazy-claim production
+from parsed source, `+` block attachment and construction of the surviving
+stack remain outside this model. End-of-input absorption and equal-state
+suffix laws concern the boundary reducer, not arbitrary source edits.
+
+There is no theorem connecting an implementation to this model, proving
+container parsing uniformity, safe wrapping or parser complexity. Comparisons
+with the executable specification and JavaScript engine are tests. PHP and
+Rust are not compared here yet.
+
+## Run the checks
+
+Use Node 24 or newer and the installed npm dependencies. CI pins OCaml 4.14.2,
+Rocq core 9.2.0 and standard library 9.1.0. In an existing opam switch:
+
+```sh
+opam install rocq-core.9.2.0 rocq-stdlib.9.1.0
+opam exec -- npm run proof:layout
+```
+
+With the compiler on `PATH`, run `npm run proof:layout`. The runner compiles
+26 theorems, 28 normative boundary-table examples, 17 source-trace examples
+and 11 prefix/claim examples in a temporary directory. It generates a named
+assumption report for every theorem and requires each report to be closed
+under the global context. Missing compilers, failed proofs, local assumptions,
+admissions and disabled kernel checks fail the run.
+
+`npm test` runs the evidence and harness tests. `npm run proof:layout:evidence`
+runs reader comparisons and explicitly reports that proofs were not checked.
+The `Proofs` workflow runs on every push to `main`, pull request to `main`,
+and manual dispatch.

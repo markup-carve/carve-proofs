@@ -3,11 +3,8 @@ import assert from 'node:assert/strict'
 import { cases } from '../proofs/layout/cases.mjs'
 import { compareReaders, generateChecks, validateProofSource, validateAssumptions } from '../scripts/layout-proof-check.mjs'
 
-test('the ownership prototype reports both disagreements with its Part 0 model', () => {
-  assert.deepEqual(compareReaders().map(f => f.name), [
-    'post-blank-between-base-and-content',
-    'comment-at-base',
-  ])
+test('list-specific ownership rules agree with both readers', () => {
+  assert.deepEqual(compareReaders(), [])
 })
 
 test('the evidence check rejects an empty population', () => {
@@ -32,16 +29,17 @@ test('a missing target is a failed comparison, not an unowned line', () => {
   assert.throws(() => compareReaders(changed), /exactly one target/)
 })
 
-test('removing a discrepancy declaration fails the evidence check', () => {
+test('a model disagreement requires an explicit declaration', () => {
   const changed = structuredClone(cases)
-  delete changed[2].discrepancy
+  changed.find(c => c.name === 'post-blank-between-base-and-content').modelOwner = true
   assert.throws(() => compareReaders(changed), /undeclared discrepancy/)
 })
 
 test('generated Rocq examples cover both deepest states and every source trace', () => {
   const checks = generateChecks()
   assert.equal((checks.match(/^Example table_/gm) ?? []).length, 28)
-  assert.equal((checks.match(/^Example trace_/gm) ?? []).length, 6)
+  assert.equal((checks.match(/^Example trace_/gm) ?? []).length, 17)
+  assert.equal((checks.match(/^Example prefix_/gm) ?? []).length, 11)
   assert.match(checks, /boundary_state quote true = \(true, true\)/)
   assert.match(checks, /boundary_state quote false = \(true, false\)/)
   assert.match(checks, /boundary_state end_input true = \(false, false\)/)
@@ -91,4 +89,23 @@ test('the prototype rejects disabled kernel checks', () => {
   for (const check of ['Guard', 'Positivity', 'Universe']) {
     assert.throws(() => validateProofSource(`Unset ${check} Checking.`), /must remain enabled/)
   }
+})
+
+
+test('comment ownership cannot reuse a different authored boundary column', () => {
+  const changed = structuredClone(cases)
+  changed.find(c => c.name === 'comment-at-content').boundaryColumn = 0
+  assert.throws(() => compareReaders(changed), /boundary column changed/)
+})
+
+
+test('trace metadata rejects invalid boundary lines and item counts', () => {
+  for (const boundaryLine of [-1, 1.5, 100]) {
+    const changed = structuredClone(cases)
+    changed[0].boundaryLine = boundaryLine
+    assert.throws(() => compareReaders(changed), /invalid boundary line/)
+  }
+  const changed = structuredClone(cases)
+  changed[0].itemCount = 0
+  assert.throws(() => compareReaders(changed), /invalid item count/)
 })

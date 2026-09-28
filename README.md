@@ -5,11 +5,12 @@ with tests comparing their predictions against the executable
 specification and the pinned JavaScript engine. The Carve repository remains the
 authority for language rules.
 
-The first model covers layout boundaries and column ownership. Its eleven
-theorems compile without additional assumptions. Six authored traces compare
-the executable specification and the pinned JavaScript engine; two differences
-with the modeled Part 0 rules remain documented. This is a partial model of
-layout, not a verified implementation of the full parser.
+The layout model covers boundary transitions, column ownership, stored
+continuation claims and decoding of measured indentation and quote prefixes.
+Its 26 theorems compile without additional assumptions. Seventeen authored
+traces agree with the executable specification and pinned JavaScript engine.
+The model applies the list-specific rules in §24 C3 where they qualify Part 0.
+It remains a partial model, not a verified implementation of the full parser.
 
 ## Setup
 

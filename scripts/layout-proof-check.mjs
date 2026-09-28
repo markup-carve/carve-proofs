@@ -61,7 +61,13 @@ function validateTrace(entry) {
     { kind: 'ListItem', base: 0, content: 2, open: true, paragraph: true },
     `${entry.name}: unsupported frame geometry`)
   assert.match(entry.source, /^- \S/, `${entry.name}: expected a column-zero '- ' item`)
-  const follower = entry.source.trimEnd().split('\n').at(-1)
+  const sourceLines = entry.source.trimEnd().split('\n')
+  const follower = sourceLines.at(-1)
+  const boundaryLine = entry.boundaryLine ?? sourceLines.length - 2
+  assert.ok(Number.isSafeInteger(boundaryLine) && boundaryLine >= 0 && boundaryLine < sourceLines.length - 1, `${entry.name}: invalid boundary line`)
+  assert.ok(Number.isSafeInteger(entry.itemCount ?? 1) && (entry.itemCount ?? 1) > 0, `${entry.name}: invalid item count`)
+  assert.equal(sourceLines[boundaryLine].match(/^ */)[0].length, entry.boundaryColumn ?? 0, `${entry.name}: boundary column changed`)
+  for (const value of [entry.interrupts ?? false, entry.sibling ?? false, entry.boundaryInside ?? true]) assert.equal(typeof value, 'boolean')
   assert.equal(follower.match(/^ */)[0].length, entry.column, `${entry.name}: follower column changed`)
 }
 
@@ -101,9 +107,25 @@ export function generateChecks(source = read('proofs/layout/Ownership.v')) {
     assert.ok(constructors.includes(entry.boundary))
     assert.ok(Number.isSafeInteger(entry.column) && entry.column >= 0)
     const f = entry.frame
-    const frame = `(step (Frame ${f.kind} ${f.base} ${f.content} ${bool(f.open)} ${bool(f.paragraph)}) (${boundaryConstructor(entry.boundary)}, false))`
-    lines.push(`Example trace_${i} : column_owner ${entry.column} [(0, ${frame})] = ${entry.modelOwner ? 'Some 0' : 'None'}.`,
+    const frame = `(owned_step (Frame ${f.kind} ${f.base} ${f.content} ${bool(f.open)} ${bool(f.paragraph)}) (${boundaryConstructor(entry.boundary)}, false) ${bool(entry.boundaryInside ?? true)})`
+    lines.push(`Example trace_${i} : select_frame 0 ${frame} ${boundaryConstructor(entry.boundary)} ${entry.boundaryColumn ?? 0} (Indent 2) (repeat Space ${entry.column} ++ [Text]) ${entry.column} (claim_after ${boundaryConstructor(entry.boundary)} (Some 0)) ${bool(entry.interrupts ?? false)} ${bool(entry.sibling ?? false)} = ${entry.modelOwner ? 'Some 0' : 'None'}.`,
       'Proof. reflexivity. Qed.')
+  }
+  const prefixExamples = [
+    ['nested_prefixes', 'match_prefixes [QuotePrefix; Indent 2] [Greater; Space; Space; Space; Text] = (2, [Text])'],
+    ['first_mismatch', 'match_prefixes [Indent 2; QuotePrefix] [Space; Greater; Space; Text] = (0, [Space; Greater; Space; Text])'],
+    ['inner_mismatch', 'match_prefixes [QuotePrefix; Indent 2] [Greater; Space; Space; Text] = (1, [Space; Text])'],
+    ['bare_quote', 'consume_prefix QuotePrefix [Greater] = Some []'],
+    ['quote_needs_separator', 'consume_prefix QuotePrefix [Greater; Text] = None'],
+    ['quote_no_column_fallback', 'select_frame 0 (Frame Quote 0 2 true false) heading 0 QuotePrefix [Space; Space; Text] 2 None false false = None'],
+    ['quote_stored_claim', 'select_frame 0 (Frame Quote 0 2 true true) ordinary 0 QuotePrefix [Text] 0 (claim_after ordinary (Some 0)) false false = Some 0'],
+    ['code_fence_clears_claim', 'claim_after code_fence (Some 0) = None'],
+    ['closed_claim', 'eligible_claim (Some 0) false [(0, Frame ListItem 0 2 false true)] = None'],
+    ['missing_claim', 'eligible_claim (Some 1) false [(0, Frame ListItem 0 2 true true)] = None'],
+    ['claim_without_paragraph', 'eligible_claim (Some 0) false [(0, Frame ListItem 0 2 true false)] = Some 0'],
+  ]
+  for (const [name, proposition] of prefixExamples) {
+    lines.push(`Example prefix_${name} : ${proposition}.`, 'Proof. reflexivity. Qed.')
   }
   for (const name of names) {
     lines.push(`Goal True. idtac "CARVE_ASSUMPTIONS:${name}". exact I. Qed.`,
@@ -114,7 +136,7 @@ export function generateChecks(source = read('proofs/layout/Ownership.v')) {
 
 export function compareReaders(entries = cases) {
   const findings = []
-  assert.equal(entries.length, 6, 'Reassess the prototype population when changing its traces.')
+  assert.equal(entries.length, cases.length, 'Reassess the prototype population when changing its traces.')
   for (const entry of entries) {
     validateTrace(entry)
     const oracle = parse(entry.source)
@@ -125,10 +147,10 @@ export function compareReaders(entries = cases) {
     ]) {
       const lists = blocks.filter(isList)
       assert.equal(lists.length, 1, `${entry.name}: ${reader} expected one top-level list`)
-      assert.equal(lists[0].items.length, 1, `${entry.name}: ${reader} expected one top-level item`)
+      assert.equal(lists[0].items.length, entry.itemCount ?? 1, `${entry.name}: ${reader} unexpected top-level item count`)
       const enclosing = blocks.filter(block => containsText(block, entry.target))
       assert.equal(enclosing.length, 1, `${entry.name}: ${reader} must find exactly one target block`)
-      const owned = isList(enclosing[0])
+      const owned = containsText(lists[0].items[0], entry.target)
       assert.equal(owned, entry.observedOwner, `${entry.name}: ${reader} changed; reassess the trace/discrepancy`)
     }
     if (entry.corpus) {
@@ -158,7 +180,7 @@ function main(args) {
   console.log(`Compared ${cases.length} ownership traces with the executable spec and pinned JS engine.`)
   for (const finding of findings) console.log(`DISCREPANCY ${finding.name}: ${finding.reason}`)
   if (args[0] === '--evidence-only') {
-    console.log('Proofs NOT checked. JavaScript evidence includes the discrepancies above.')
+    console.log('Proofs NOT checked. Only reader comparisons were run.')
     return
   }
   const candidates = [['rocq', ['compile']], ['coqc', []]]
@@ -181,7 +203,7 @@ function main(args) {
       assert.equal(result.status, 0, `${file}: proof compilation failed`)
       if (file === 'CorpusChecks.v') validateAssumptions(result.stdout, names)
     }
-    console.log('Model theorems and table/trace examples checked. Reader discrepancies remain as reported.')
+    console.log('Model theorems and table/trace/prefix examples checked.')
   } finally {
     rmSync(dir, { recursive: true, force: true })
   }
