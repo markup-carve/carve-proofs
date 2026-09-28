@@ -52,6 +52,11 @@ jobs:
           npm run check:djot-v -- --check reports/djot-v-results.json
           npm run check:djot-extensions -- --check reports/djot-extension-results.json
           npm run proof:djot-extensions -- --check reports/djot-extension-proofs.json
+          npm run build:djot-differential
+          npm run check:djot-differential -- --check reports/djot-differential.json --diagnostic-output reports/djot-differential-ci.json
+          npm run proof:djot-differential -- --check reports/djot-differential-proofs.json
+          npm run report:djot-differential
+          git diff --exit-code -- reports/djot-differential.md
           npm run report:djot-v
           git diff --exit-code -- reports/djot-v.md
       - name: Check comparison and profiling reports
@@ -76,6 +81,7 @@ jobs:
           path: |
             reports/property-ci.json
             reports/comparison-ci.json
+            reports/djot-differential-ci.json
       - name: Upload benchmark measurements
         if: always() && github.event_name == 'workflow_dispatch' && inputs.benchmark
         uses: actions/upload-artifact@v4

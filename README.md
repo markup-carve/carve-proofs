@@ -97,3 +97,9 @@ can turn a hard wrap into a new list. Portable JSON expectations, a native
 runner and eight Rocq witnesses make the example reproducible. Run
 `npm run check:djot-extensions` and `npm run proof:djot-extensions` after building
 the pinned package.
+
+The [differential report](reports/djot-differential.md) compares 4,177 inputs
+against pinned current djot.js, its npm release and djot.v. It includes a
+footnote conformance bug, an unresolved-image rendering candidate, controls
+and a portable upstream test fixture. Run `npm run build:djot-differential`
+and `npm run check:djot-differential` after building the native package.

@@ -8,3 +8,5 @@ _opam/
 reports/*.partial
 
 .cache/
+
+reports/*-ci.json

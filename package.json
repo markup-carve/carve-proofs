@@ -26,7 +26,11 @@
     "bench:djot-v": "node scripts/djot-v/bench.mjs",
     "report:djot-v": "node scripts/djot-v/report.mjs",
     "check:djot-extensions": "node scripts/djot-v/extensions.mjs",
-    "proof:djot-extensions": "node scripts/djot-v/extensions-proof.mjs"
+    "proof:djot-extensions": "node scripts/djot-v/extensions-proof.mjs",
+    "build:djot-differential": "node scripts/differential/build.mjs",
+    "check:djot-differential": "node scripts/differential/run.mjs",
+    "proof:djot-differential": "node scripts/differential/proof.mjs",
+    "report:djot-differential": "node scripts/differential/report.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",

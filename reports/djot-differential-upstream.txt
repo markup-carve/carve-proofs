@@ -1,0 +1,40 @@
+
+--- footnote-lazy.test:1
+input:
+[^n]: a
+b
+
+[^n]
+expected:
+<p><a id="fnref1" href="#fn1" role="doc-noteref"><sup>1</sup></a></p>
+<section role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1">
+<p>a
+b<a href="#fnref1" role="doc-backlink">↩︎</a></p>
+</li>
+</ol>
+</section>
+differential-html:
+<p>b</p>
+<p><a id="fnref1" href="#fn1" role="doc-noteref"><sup>1</sup></a></p>
+<section role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1">
+<p>a<a href="#fnref1" role="doc-backlink">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+--- footnote-lazy.test:56
+input:
+[^n]: a
+b
+expected:
+differential-html:
+<p>b</p>
+
+== summary: 4 cases run, 0 skipped (options) ==
+differential-html  match    2   mismatch    2   error    0
