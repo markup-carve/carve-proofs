@@ -35,7 +35,7 @@ jobs:
         with:
           ocaml-compiler: '4.14.2'
       - name: Install proof compiler and standard library
-        run: opam install --yes rocq-core.9.2.0 rocq-stdlib.9.1.0
+        run: opam install --yes rocq-core.9.2.0 rocq-stdlib.9.1.0 dune.3.23.1
       - name: Use HTTPS for Git dependencies
         run: |
           git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
@@ -46,6 +46,12 @@ jobs:
         run: npm run check:properties -- --check-artifact reports/property-results.json --output reports/property-ci.json
       - name: Check three-reader comparison
         run: npm run check:comparison -- --check reports/comparison-results.json --output reports/comparison-ci.json
+      - name: Check pinned djot.v package
+        run: |
+          npm run build:djot-v
+          npm run check:djot-v -- --check reports/djot-v-results.json
+          npm run report:djot-v
+          git diff --exit-code -- reports/djot-v.md
       - name: Check comparison and profiling reports
         run: |
           npm run report:comparison

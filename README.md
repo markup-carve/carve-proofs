@@ -74,3 +74,19 @@ claiming a linear parser bound.
 Run `npm run check:comparison`, `npm run bench:comparison` and
 `npm run profile:nesting` to collect evidence. Regenerate the reports with
 `npm run report:comparison` and `npm run report:profiling`.
+
+## djot.v extraction
+
+The [djot.v report](reports/djot-v.md) checks the pinned OCaml package against
+the shared fixtures, separates raw parsing from document processing, and
+records streaming composition and native timing measurements. It also records
+eight theorem assumption checks and the extraction diff under our toolchain.
+
+Run `npm run build:djot-v` with OCaml 4.14.2 and Dune 3.23.1 available through
+opam, then `npm run check:djot-v -- --check reports/djot-v-results.json`.
+`DJOT_V_OPAM_SWITCH` selects an optional opam switch. The build downloads the
+pinned public source into ignored `.cache/`. `npm run bench:djot-v` records
+timings. `npm run proof:djot-v` requires Rocq 9.2 and stdlib 9.1, builds the
+upstream project, prints theorem assumptions and checks extraction consistency.
+The proof command exits nonzero when extraction differs; inspect the recorded
+diff before drawing conclusions about the packaged code.

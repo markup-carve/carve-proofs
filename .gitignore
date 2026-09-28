@@ -6,3 +6,5 @@ _opam/
 *.glob
 .*.aux
 reports/*.partial
+
+.cache/
