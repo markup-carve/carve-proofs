@@ -58,3 +58,19 @@ Run `npm run check:properties` for deterministic comparisons and
 `npm run bench:scaling` for timed measurements. `npm test` includes the
 comparisons and selected layout-work budgets. These checks do not extend the
 scope of the Rocq proofs.
+
+## Reader comparison and nesting profiles
+
+The [three-reader comparison](reports/comparison.md) tests equivalent Carve,
+Djot and CommonMark inputs and measures their default JavaScript APIs on the
+same machine. Language differences are recorded explicitly. CI checks the
+reviewed observations; timing measurements are optional.
+
+The [nesting profile](reports/nesting-profile.md) separates parsing, rendering,
+allocation and regex work. It identifies repeated prefix inspection that the
+original layout counters miss. Regression ceilings cover its regex-mediated portion without
+claiming a linear parser bound.
+
+Run `npm run check:comparison`, `npm run bench:comparison` and
+`npm run profile:nesting` to collect evidence. Regenerate the reports with
+`npm run report:comparison` and `npm run report:profiling`.

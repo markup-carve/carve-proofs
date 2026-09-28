@@ -44,6 +44,13 @@ jobs:
       - run: npm test
       - name: Record property observations
         run: npm run check:properties -- --check-artifact reports/property-results.json --output reports/property-ci.json
+      - name: Check three-reader comparison
+        run: npm run check:comparison -- --check reports/comparison-results.json --output reports/comparison-ci.json
+      - name: Check comparison and profiling reports
+        run: |
+          npm run report:comparison
+          npm run report:profiling
+          git diff --exit-code -- reports/comparison.md reports/nesting-profile.md
       - name: Check committed report
         run: |
           npm run report:properties
@@ -58,7 +65,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: property-observations
-          path: reports/property-ci.json
+          path: |
+            reports/property-ci.json
+            reports/comparison-ci.json
       - name: Upload benchmark measurements
         if: always() && github.event_name == 'workflow_dispatch' && inputs.benchmark
         uses: actions/upload-artifact@v4

@@ -14,10 +14,17 @@
     "proof:layout:evidence": "node scripts/layout-proof-check.mjs --evidence-only",
     "check:properties": "node scripts/property-check.mjs",
     "bench:scaling": "node scripts/scaling-check.mjs",
-    "report:properties": "node scripts/report-properties.mjs"
+    "report:properties": "node scripts/report-properties.mjs",
+    "check:comparison": "node scripts/comparison/check.mjs",
+    "bench:comparison": "node scripts/comparison/bench.mjs",
+    "report:comparison": "node scripts/comparison/report.mjs",
+    "profile:nesting": "node scripts/profiling/run.mjs",
+    "report:profiling": "node scripts/profiling/report.mjs"
   },
   "devDependencies": {
+    "@djot/djot": "0.3.2",
     "@markup-carve/carve": "github:markup-carve/carve-js#c5df77f658c80a3a80a4d31ec1855d854e5da648",
+    "commonmark": "0.31.2",
     "ohm-js": "^17.5.0"
   }
 }
