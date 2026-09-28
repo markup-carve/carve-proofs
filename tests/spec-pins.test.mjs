@@ -26,3 +26,10 @@ test('missing dependency evidence fails instead of counting as matching', () => 
   delete lock.packages['node_modules/@markup-carve/carve']
   assert.throws(() => validateSpecPins({ lock }), /missing lockfile entry/)
 })
+
+
+test('a stale installed engine cannot be reported as the new project pin', () => {
+  const installed = read('node_modules/.package-lock.json')
+  installed.packages['node_modules/@markup-carve/carve'].resolved = 'git+ssh://example.test/old.git#old'
+  assert.throws(() => validateSpecPins({ installed }), /installed resolved differs/)
+})

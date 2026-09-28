@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      benchmark:
+        description: Run timing benchmarks and upload raw measurements
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -37,5 +42,27 @@ jobs:
           git config --global --add url."https://github.com/".insteadOf git@github.com:
       - run: npm ci --no-audit --no-fund
       - run: npm test
+      - name: Record property observations
+        run: npm run check:properties -- --check-artifact reports/property-results.json --output reports/property-ci.json
+      - name: Check committed report
+        run: |
+          npm run report:properties
+          git diff --exit-code -- reports/properties.md
       - name: Check model proofs and recorded evidence
         run: opam exec -- npm run proof:layout
+      - name: Measure parser scaling
+        if: github.event_name == 'workflow_dispatch' && inputs.benchmark
+        run: npm run bench:scaling -- reports/scaling-ci.json
+      - name: Upload measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-observations
+          path: reports/property-ci.json
+      - name: Upload benchmark measurements
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.benchmark
+        uses: actions/upload-artifact@v4
+        with:
+          name: scaling-measurements
+          path: reports/scaling-ci.json
+          if-no-files-found: error

@@ -8,6 +8,7 @@ export function validateSpecPins({
   lock = read('package-lock.json'),
   spec = read('spec/package.json'),
   specLock = read('spec/package-lock.json'),
+  installed = read('node_modules/.package-lock.json'),
 } = {}) {
   for (const name of ['@markup-carve/carve', 'ohm-js']) {
     assert.equal(project.devDependencies?.[name], spec.devDependencies?.[name],
@@ -17,5 +18,10 @@ export function validateSpecPins({
     assert.ok(actual && expected, `${name}: missing lockfile entry`)
     assert.equal(actual.version, expected.version, `${name}: locked version differs from the spec submodule`)
     assert.equal(actual.resolved, expected.resolved, `${name}: locked source differs from the spec submodule`)
+    const present = installed.packages?.[`node_modules/${name}`]
+    assert.ok(present, `${name}: missing installed dependency evidence`)
+    for (const field of ['version', 'resolved', 'integrity']) {
+      assert.equal(present[field], actual[field], `${name}: installed ${field} differs from the project lock`)
+    }
   }
 }

@@ -46,3 +46,15 @@ trace or discrepancy.
 See the [layout model](proofs/layout/README.md) for theorem scope, preconditions,
 recorded differences and trust boundaries. CI runs the tests and compiler check
 on pull requests and pushes to `main`.
+
+## Language properties and scaling
+
+The [property report](reports/properties.md) records wrapping, container,
+reference-locality and append-stability checks against the pinned readers,
+plus timing measurements for seven input families. It identifies specified
+exceptions to the broad guarantees and records the nesting performance signal.
+
+Run `npm run check:properties` for deterministic comparisons and
+`npm run bench:scaling` for timed measurements. `npm test` includes the
+comparisons and selected layout-work budgets. These checks do not extend the
+scope of the Rocq proofs.
