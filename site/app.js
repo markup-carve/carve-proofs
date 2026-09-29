@@ -48,15 +48,15 @@ function overview() {
   const ownership = data.reports['ownership-results'], h = data.history, cards = el('div', undefined, 'cards');
   for (const [title, body, count, href] of [
     ['Ownership cases', 'Four Carve readers, one generated suite.', ownership.rows.length, '#ownership'],
-    ['Reader disagreements', `Grouped into ${new Set(ownership.rows.map(r => r.finding).filter(Boolean)).size} observed families. These are cases, not a count of independent bugs.`, h.after, '#ownership'],
+    ['Reader disagreements', h.after === 0 ? 'All recorded ownership cases agree at these pins.' : `Grouped into ${new Set(ownership.rows.map(r => r.finding).filter(Boolean)).size} observed families.`, h.after, '#ownership'],
     ['Layout theorems', 'Rocq statements about a partial ownership model.', data.theorems.length, '#proofs'],
-    ['After the fence fix', `${h.before} disagreements became ${h.after} on the same suite.`, `${h.before} → ${h.after}`, '#history']
+    ['After the ownership fixes', `${h.before} disagreements became ${h.after} on the same suite.`, `${h.before} → ${h.after}`, '#history']
   ]) { const c = card(title, body, count); c.append(link('Explore →', href)); cards.append(c); }
   main.append(cards, el('h2', 'Three kinds of evidence'), table(['Evidence', 'What it establishes', 'Limit'], [
     ['Checked model', 'A theorem follows from its definitions and hypotheses.', 'No refinement proof connects the complete Carve implementations to the model.'],
     ['Reader tests', 'The recorded output agrees or differs for these fixtures and pins.', 'Finite samples do not establish a universal language property.'],
     ['Measurements', 'Time, allocation and selected operation counts in recorded runs.', 'Historical runs with different APIs and host load do not establish a speed ranking or complexity bound.']
-  ]), el('h2', 'Next work suggested by the evidence'), el('p', 'Reduce and resolve the remaining ownership families, connect source parsing to the ownership model, and rerun isolated benchmarks after fixes. The case explorer provides reproducers; the proof map shows which steps still need a model.'), link(`Repository snapshot ${data.revision.slice(0, 12)}`, `${repo}/tree/${data.revision}`));
+  ]), el('h2', 'Next work suggested by the evidence'), el('p', 'Extend the ownership matrix to deeper stacks, tabs and comment spans, connect source parsing to the ownership model, and rerun isolated benchmarks after fixes. The case explorer provides reproducers; the proof map shows which steps still need a model.'), link(`Repository snapshot ${data.revision.slice(0, 12)}`, `${repo}/tree/${data.revision}`));
 }
 function ownership() {
   heading('Who owns this block?', 'Compare the specification, JavaScript, PHP and Rust readers. Agreement means equal projected outputs under this suite, not a universal correctness guarantee.');
@@ -153,8 +153,8 @@ function proofs() {
 function history() {
   const h = data.history;
   heading('Recorded changes', 'Compare preserved evidence across reader revisions. Ownership and parser work use separate suites and pins.');
-  main.append(el('h2', 'Fence ownership fix'));
-  main.append(el('div', `${h.before} → ${h.after}`, 'history-count'), el('p', `Disagreeing cases out of ${h.total}. ${h.changes.length} reader partitions changed.`), link('Earlier evidence commit', `${repo}/blob/${h.sourceCommit}/reports/ownership-results.json`), details('Before reader pins', h.previousPins), details('After reader pins', data.reports['ownership-results'].pins));
+  main.append(el('h2', 'Container ownership fixes'));
+  main.append(el('div', `${h.before} → ${h.after}`, 'history-count'), el('p', `Disagreeing cases out of ${h.total}. ${h.changes.length} cases changed output, including ${h.changes.filter(c => c.before.groups.length === 1).length} previously agreeing cases.`), link('Earlier evidence commit', `${repo}/blob/${h.sourceCommit}/reports/ownership-results.json`), details('Before reader pins', h.previousPins), details('After reader pins', data.reports['ownership-results'].pins));
   const bar = el('div', undefined, 'bar'); const agreeing = el('span'); agreeing.style.width = `${100 * (h.total - h.after) / h.total}%`; const different = el('span', undefined, 'difference'); different.style.flex = '1'; bar.append(agreeing, different); main.append(bar, el('p', `${h.total - h.after} agree; ${h.after} disagree.`));
   const panel = el('div'); main.append(table(['Case', 'Before reader groups', 'After reader groups'], h.changes.map(c => [button(c.after.id, () => { panel.replaceChildren(el('h2', 'Before')); outputs(c.before, panel); panel.append(el('h2', 'After')); outputs(c.after, panel); panel.scrollIntoView({ block: 'start' }); }), c.before.groups.map(g => g.join(' + ')).join(' | '), c.after.groups.map(g => g.join(' + ')).join(' | ')])), panel);
   main.append(el('p', 'This ownership comparison is one measured transition, not a long-term trend.'));

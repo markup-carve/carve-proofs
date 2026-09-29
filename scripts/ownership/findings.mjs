@@ -14,16 +14,5 @@ export function finding(row) {
   throw new Error(`Unclassified disagreement: ${row.family}/${row.id}`)
 }
 
-export const representatives = {
-  'opener-after-content-comment': 'list/content-comment/4/heading',
-  'marker-below-content': 'list/low-comment/1/sibling',
-  'quote-lazy-interruption': 'list-quote/ordinary/1/heading',
-  'quote-comment-opener': 'list-quote/low-comment/4/heading',
-  'nested-lazy-code': 'list-list/ordinary/1/fence',
-  'nested-comment-outer-opener': 'list-list/low-comment/2/heading',
-  'nested-comment-inner-opener': 'list-list/low-comment/4/heading',
-  'nested-content-comment-opener': 'list-list/content-comment/4/heading',
-  'nested-comment-marker': 'list-list/content-comment/1/sibling',
-  'nested-comment-retention': 'list-list/content-comment/1/text',
-  'nested-comment-blank': 'list-list/comment-blank/4/text',
-}
+// Resolved cases stay in the matrix; only disagreements need reduction.
+export const representatives = {}

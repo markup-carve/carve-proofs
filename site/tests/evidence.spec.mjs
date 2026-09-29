@@ -13,7 +13,7 @@ test('all views load without browser errors', async ({ page }) => {
 });
 test('ownership filters reproduce recorded counts and render safe outputs', async ({ page }) => {
   await page.goto('/#ownership');
-  await expect(page.locator('.result-count')).toHaveText('43 of 472 cases');
+  await expect(page.locator('.result-count')).toHaveText('0 of 472 cases');
   await page.getByLabel('Fixture family').selectOption('fences');
   await expect(page.locator('.result-count')).toHaveText('0 of 472 cases');
   await page.getByLabel('Result', { exact: true }).selectOption('all');
@@ -43,10 +43,12 @@ test('chart exports and table match the selected dataset', async ({ page, reques
   await expect(page.locator('tbody')).toContainText('djot.v / OCaml');
   await expect(page.locator('tbody')).not.toContainText('commonmark');
 });
-test('history derives twelve changes from the same suite', () => {
-  expect(evidence.history.before).toBe(55); expect(evidence.history.after).toBe(43);
-  expect(evidence.history.changes).toHaveLength(12);
-  expect(evidence.history.changes.every(c => c.before.groups.length > 1 && c.after.groups.length === 1)).toBeTruthy();
+test('history includes resolved disagreements and changed consensus outputs', () => {
+  expect(evidence.history.before).toBe(43); expect(evidence.history.after).toBe(0);
+  expect(evidence.history.changes).toHaveLength(49);
+  expect(evidence.history.changes.filter(c => c.before.groups.length > 1)).toHaveLength(43);
+  expect(evidence.history.changes.filter(c => c.before.groups.length === 1)).toHaveLength(6);
+  expect(evidence.history.changes.every(c => c.after.groups.length === 1)).toBeTruthy();
   expect(evidence.theorems).toHaveLength(26);
 });
 test('exported chart values preserve source medians and missing observations', () => {
@@ -66,7 +68,8 @@ test('mobile layout fits the viewport', async ({ page }) => {
 });
 test('fixture HTML cannot execute scripts or load external images', async ({ page }) => {
   const poisoned = structuredClone(evidence);
-  const row = poisoned.reports['ownership-results'].rows.find(r => r.groups.length > 1);
+  const row = poisoned.reports['ownership-results'].rows[0];
+  row.groups = [['spec'], ['js', 'php', 'rs']];
   row.outputs.spec = '<script>parent.document.body.dataset.injected="yes"</script><img src="https://example.invalid/tracker">';
   const failures = [];
   page.on('requestfailed', r => { if (r.url().includes('example.invalid')) failures.push(r.failure().errorText); });
