@@ -2,11 +2,11 @@
 
 This run compares the pinned Carve JS engine with @djot/djot 0.3.2
 and commonmark 0.31.2. Carve uses commit
-`8fe00fd672e1d9af43fe1f92ca1cc64387412990`. The lockfile records package sources and integrity hashes.
+`7b6e57b69dced437822647682838688100ca65c6`. The lockfile records package sources and integrity hashes.
 
-This run evaluates the candidate implementation in
-[parser PR #2375](https://github.com/markup-carve/carve-js/pull/2375), before merge.
-The [preceding comparison](history/pre-tail-refresh/comparison.md) remains available.
+This reader snapshot was recorded at 2026-09-29T13:53:04.415Z.
+The [preceding comparison](history/pre-current-refresh/comparison.md) and
+[timings](history/pre-current-refresh/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
@@ -106,24 +106,24 @@ milliseconds per call. CPU includes all process threads.
 
 | Family | Bytes | Carve | Djot | CommonMark |
 |---|---:|---:|---:|---:|
-| long-line | 40964 | 1.935 / 2.786 | 0.190 / 0.302 | 0.034 / 0.037 |
-| unmatched-brackets | 1028 | 0.526 / 1.194 | 0.184 / 0.395 | 0.093 / 0.101 |
-| unmatched-closers | 8196 | 0.412 / 0.611 | 0.768 / 1.391 | 0.687 / 0.736 |
-| unclosed-code | 40965 | 2.091 / 2.423 | 0.166 / 0.235 | 0.055 / 0.059 |
-| many-paragraphs | 12288 | 1.363 / 2.408 | 3.596 / 8.122 | 0.568 / 0.708 |
-| nested-quotes | 388 | 1.317 / 4.572 | 0.142 / 0.446 | 0.045 / 0.048 |
-| nested-lists | 388 | 2.141 / 5.141 | 0.948 / 2.950 | 0.276 / 0.293 |
+| long-line | 40964 | 2.486 / 3.519 | 0.163 / 0.234 | 0.038 / 0.041 |
+| unmatched-brackets | 1028 | 1.893 / 2.550 | 0.145 / 0.300 | 0.213 / 0.249 |
+| unmatched-closers | 8196 | 0.472 / 0.775 | 0.752 / 1.377 | 1.125 / 1.254 |
+| unclosed-code | 40965 | 2.533 / 3.103 | 0.187 / 0.289 | 0.071 / 0.085 |
+| many-paragraphs | 12288 | 1.960 / 3.878 | 3.900 / 7.472 | 0.851 / 0.901 |
+| nested-quotes | 388 | 2.157 / 6.268 | 0.204 / 0.828 | 0.058 / 0.072 |
+| nested-lists | 388 | 2.945 / 6.665 | 1.271 / 3.838 | 0.536 / 0.566 |
 
 Nested inputs at depth 192, median wall milliseconds:
 
 | Reader | Family | Parse | Render prebuilt AST | Full HTML |
 |---|---|---:|---:|---:|
-| carve | nested-quotes | 0.677 | 0.114 | 1.317 |
-| carve | nested-lists | 1.744 | 0.229 | 2.141 |
-| djot | nested-quotes | 0.120 | 0.012 | 0.142 |
-| djot | nested-lists | 0.863 | 0.032 | 0.948 |
-| commonmark | nested-quotes | 0.030 | 0.019 | 0.045 |
-| commonmark | nested-lists | 0.252 | 0.043 | 0.276 |
+| carve | nested-quotes | 0.866 | 0.126 | 2.157 |
+| carve | nested-lists | 1.806 | 0.576 | 2.945 |
+| djot | nested-quotes | 0.152 | 0.013 | 0.204 |
+| djot | nested-lists | 0.911 | 0.034 | 1.271 |
+| commonmark | nested-quotes | 0.035 | 0.023 | 0.058 |
+| commonmark | nested-lists | 0.303 | 0.084 | 0.536 |
 
 The stages are measured independently. Full HTML can use fast paths and includes
 resolution work not covered by render-only, so its time need not equal the sum.
@@ -136,10 +136,11 @@ relative-speed conclusions; it is not evidence that rendering removes parse work
 
 Serial workers, 60s group deadline including startup, at least 200ms warmup per size, five batches of at least 20ms with 16-call time checks and no iteration cap, GC before batches. Render reuses a prebuilt AST. CPU includes all process threads. RSS is cumulative peak.
 Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs.
-The host is shared; load averages at the end were 9.29, 13.03, 11.79.
+The host is shared; load averages at the end were 7.67, 10.21, 16.42.
 Tiny samples, runtime warmup and scheduling affect ratios. No timing threshold
 runs in ordinary CI. The Carve nesting costs are investigated in the
-[nesting profile](nesting-profile.md).
+[nesting profile](nesting-profile.md). The [current cost investigation](current-costs.md)
+measures longer batches, position options and both parse and full HTML hotspots.
 
 ## Reproduce
 

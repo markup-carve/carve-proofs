@@ -1,69 +1,34 @@
-import assert from 'node:assert/strict'
-import { readFileSync, writeFileSync } from 'node:fs'
-import { comparisonEnvironment, digest, comparisonFiles } from './environment.mjs'
-import { scalingCases } from '../properties/scaling-cases.mjs'
-const read = file => JSON.parse(readFileSync(new URL('../../reports/' + file, import.meta.url)))
-const data = read('comparison-results.json'), timing = read('comparison-timings.json'), current = comparisonEnvironment()
-assert.deepEqual(data.metadata, { ...current, suiteSha256: digest(comparisonFiles) })
-assert.deepEqual(timing.metadata.parsers, current.parsers)
-assert.equal(timing.metadata.runnerSha256, digest(['scripts/comparison/bench.mjs', 'scripts/comparison/worker.mjs', 'scripts/comparison/adapters.mjs', 'scripts/comparison/environment.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/properties/benchmark-results.mjs']))
-const contractData = read('comparison-contracts.json'), containers = read('container-regressions.json')
-const historical = read('history/pre-prefix-refresh/comparison-results.json')
-const historicalRows = new Map(historical.rows.map(row => [`${row.reader}/${row.family}/${row.id}`, row]))
-const changedObservations = data.rows.filter(row => JSON.stringify(row) !== JSON.stringify(historicalRows.get(`${row.reader}/${row.family}/${row.id}`))).length
-const removedObservations = historical.rows.filter(row => !data.rows.some(now => now.reader === row.reader && now.family === row.family && now.id === row.id)).length
-assert.ok(contractData.rows.every(r => r.expected === r.outcome))
-const readers = ['carve', 'djot', 'commonmark'], families = Object.keys(scalingCases)
-assert.deepEqual(timing.groups.map(g => `${g.reader}/${g.mode}/${g.family}`).sort(), readers.flatMap(r => ['parse', 'render', 'html'].flatMap(m => families.map(f => `${r}/${m}/${f}`))).sort())
-assert.ok(timing.groups.every(g => g.completed && g.rows.every(r => r.status === 'ok')))
-assert.equal(data.rows.length, 420)
-for (const [reader, expected] of [['carve', ['code', 'unclosedCode', 'unclosedCode', 'heading', 'quote']], ['djot', ['code', 'unclosedCode', 'unclosedCode']], ['commonmark', ['bullet', 'ordered', 'heading', 'quote']]]) {
-  assert.deepEqual(data.rows.filter(r => r.reader === reader && r.family === 'wrapping' && r.outcome === 'different').map(r => r.id.split('@')[0]), expected, 'Review the wrapping explanation')
-  assert.deepEqual(data.rows.filter(r => r.reader === reader && r.family === 'stability' && r.outcome === 'different').map(r => r.id), ['list/list'], 'Review the stability explanation')
-  assert.equal(data.rows.filter(r => r.reader === reader && r.family === 'resolution').length, 12)
-}
-for (const group of timing.groups) assert.deepEqual(group.rows.map(r => r.size), scalingCases[group.family].sizes)
-const fraction = (family, reader) => { const rows = data.rows.filter(r => r.family === family && r.reader === reader); return `${rows.filter(r => r.outcome === 'equal').length}/${rows.length}` }
-const behavior = ['wrapping', 'containers', 'locality', 'stability'].map(f => `| ${f} | ${readers.map(r => fraction(f, r)).join(' | ')} |`).join('\n')
-const fixed = n => n.toFixed(3)
-const timings = families.map(f => {
-  const groups = readers.map(r => timing.groups.find(g => g.reader === r && g.mode === 'html' && g.family === f)), size = groups[0].rows.at(-1).size
-  return `| ${f} | ${groups[0].rows.at(-1).bytes} | ${readers.map((_, i) => { const row = groups[i].rows.find(row => row.size === size); return `${fixed(row.medianMs)} / ${fixed(row.medianCpuMs)}` }).join(' | ')} |`
-}).join('\n')
-const stages = readers.flatMap(r => ['nested-quotes', 'nested-lists'].map(f => {
-  const values = ['parse', 'render', 'html'].map(mode => timing.groups.find(g => g.reader === r && g.mode === mode && g.family === f).rows.find(row => row.size === 192))
-  return `| ${r} | ${f} | ${values.map(v => fixed(v.medianMs)).join(' | ')} |`
-})).join('\n')
-const differences = data.rows.filter(r => r.outcome === 'different' && !['resolution'].includes(r.family)).map(r => `| ${r.reader} | ${r.family} | \`${r.id}\` |`).join('\n')
-const probeOutputs = data.rows.filter(r => r.family === 'dialect-probe').map(r => `### ${r.id}: ${r.reader}\n\nSource:\n\n\`\`\`text\n${r.source}\`\`\`\n\nOutput:\n\n\`\`\`html\n${r.html.trim()}\n\`\`\``).join('\n\n')
-const text = `# Carve, Djot and CommonMark comparison
+# Carve, Djot and CommonMark comparison
 
-This run compares the pinned Carve JS engine with @djot/djot ${current.parsers['@djot/djot'].version}
-and commonmark ${current.parsers.commonmark.version}. Carve uses commit
-\`${current.engine.split('#')[1]}\`. The lockfile records package sources and integrity hashes.
+This run compares the pinned Carve JS engine with @djot/djot 0.3.2
+and commonmark 0.31.2. Carve uses commit
+`8fe00fd672e1d9af43fe1f92ca1cc64387412990`. The lockfile records package sources and integrity hashes.
 
-This reader snapshot was recorded at ${timing.metadata.generatedAt}.
-The [preceding comparison](history/pre-current-refresh/comparison.md) and
-[timings](history/pre-current-refresh/comparison-timings.json) remain available.
+This run evaluates the candidate implementation in
+[parser PR #2375](https://github.com/markup-carve/carve-js/pull/2375), before merge.
+The [preceding comparison](history/pre-tail-refresh/comparison.md) remains available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
 [timings](history/pre-prefix-refresh/comparison-timings.json) are preserved.
-${data.rows.length - changedObservations} observations are unchanged from that baseline;
-${changedObservations} are changed or added and ${removedObservations} are removed.
-The comparison reader is installed separately as \`carve-comparison\`; the checked
+420 observations are unchanged from that baseline;
+0 are changed or added and 0 are removed.
+The comparison reader is installed separately as `carve-comparison`; the checked
 layout model retains its original engine and specification pins.
 
 ## Behavior
 
-${data.rows.length} observations cover three readers. Each relation compares a reader with itself
+420 observations cover three readers. Each relation compares a reader with itself
 before and after an edit. Fractions count unchanged projections, not specification
 conformance or a score for the language. Known language differences do not fail CI;
 a change to their recorded output requires review.
 
 | Relation | Carve | Djot | CommonMark |
 |---|---:|---:|---:|
-${behavior}
+| wrapping | 30/35 | 32/35 | 31/35 |
+| containers | 40/40 | 40/40 | 40/40 |
+| locality | 12/12 | 12/12 | 10/12 |
+| stability | 35/36 | 35/36 | 35/36 |
 
 The twelve wrapping fixtures use each language's spelling for strong and emphasis.
 Every individual ASCII space is replaced once, giving 35 edits per reader.
@@ -101,7 +66,7 @@ The tested implementation here is djot.js, not djot.v.
 
 ## Scoped contracts and expanded cases
 
-${contractData.rows.length} [contract observations](comparison-contracts.json) check
+525 [contract observations](comparison-contracts.json) check
 eligible prose wrapping, append stability after an explicit heading boundary,
 reference classification and nested container payloads. These are executable
 contracts over the authored cases, not universal proofs.
@@ -111,7 +76,7 @@ contracts over the authored cases, not universal proofs.
 - Reference classification omits resolved destinations and titles. CommonMark has two expected classification changes when a definition turns text into a link. Separate controls assert the rendered destination. Inline links and code spans are recorded as nonreference controls.
 - Container tests use quote, list and alternating wrappers at depths 2, 4 and 8. They do not establish arbitrary definition scoping.
 
-${containers.rows.length} additional [Carve container regressions](container-regressions.json)
+112 additional [Carve container regressions](container-regressions.json)
 cover lazy continuation, tables, fences, definitions, tabs, Unicode, comments
 and headings in quote, list and mixed wrappers through depth 16. They preserve
 full-AST fingerprints including positions, HTML fingerprints and measured regex
@@ -141,13 +106,24 @@ milliseconds per call. CPU includes all process threads.
 
 | Family | Bytes | Carve | Djot | CommonMark |
 |---|---:|---:|---:|---:|
-${timings}
+| long-line | 40964 | 1.935 / 2.786 | 0.190 / 0.302 | 0.034 / 0.037 |
+| unmatched-brackets | 1028 | 0.526 / 1.194 | 0.184 / 0.395 | 0.093 / 0.101 |
+| unmatched-closers | 8196 | 0.412 / 0.611 | 0.768 / 1.391 | 0.687 / 0.736 |
+| unclosed-code | 40965 | 2.091 / 2.423 | 0.166 / 0.235 | 0.055 / 0.059 |
+| many-paragraphs | 12288 | 1.363 / 2.408 | 3.596 / 8.122 | 0.568 / 0.708 |
+| nested-quotes | 388 | 1.317 / 4.572 | 0.142 / 0.446 | 0.045 / 0.048 |
+| nested-lists | 388 | 2.141 / 5.141 | 0.948 / 2.950 | 0.276 / 0.293 |
 
 Nested inputs at depth 192, median wall milliseconds:
 
 | Reader | Family | Parse | Render prebuilt AST | Full HTML |
 |---|---|---:|---:|---:|
-${stages}
+| carve | nested-quotes | 0.677 | 0.114 | 1.317 |
+| carve | nested-lists | 1.744 | 0.229 | 2.141 |
+| djot | nested-quotes | 0.120 | 0.012 | 0.142 |
+| djot | nested-lists | 0.863 | 0.032 | 0.948 |
+| commonmark | nested-quotes | 0.030 | 0.019 | 0.045 |
+| commonmark | nested-lists | 0.252 | 0.043 | 0.276 |
 
 The stages are measured independently. Full HTML can use fast paths and includes
 resolution work not covered by render-only, so its time need not equal the sum.
@@ -158,25 +134,24 @@ Djot's two paths use the same parser. A large gap between its parse-only and
 full-pipeline timings needs isolated repeat measurements before drawing
 relative-speed conclusions; it is not evidence that rendering removes parse work.
 
-${timing.metadata.method}
-Node ${timing.metadata.node}, ${timing.metadata.cpu}, ${timing.metadata.logicalCpus} logical CPUs.
-The host is shared; load averages at the end were ${timing.metadata.loadEnd.map(n => n.toFixed(2)).join(', ')}.
+Serial workers, 60s group deadline including startup, at least 200ms warmup per size, five batches of at least 20ms with 16-call time checks and no iteration cap, GC before batches. Render reuses a prebuilt AST. CPU includes all process threads. RSS is cumulative peak.
+Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs.
+The host is shared; load averages at the end were 9.29, 13.03, 11.79.
 Tiny samples, runtime warmup and scheduling affect ratios. No timing threshold
 runs in ordinary CI. The Carve nesting costs are investigated in the
-[nesting profile](nesting-profile.md). The [current cost investigation](current-costs.md)
-measures longer batches, position options and both parse and full HTML hotspots.
+[nesting profile](nesting-profile.md).
 
 ## Reproduce
 
-\`\`\`sh
+```sh
 npm run check:comparison -- --check reports/comparison-results.json
 npm run check:contracts -- --check reports/comparison-contracts.json
 npm run check:containers -- --check reports/container-regressions.json
 npm run bench:comparison -- reports/comparison-timings.json
 npm run report:comparison
-\`\`\`
+```
 
-To record reviewed behavior changes, use \`check:comparison -- --output reports/comparison-results.json\`.
+To record reviewed behavior changes, use `check:comparison -- --output reports/comparison-results.json`.
 The adapter supports only the tested node vocabulary and rejects unknown nodes.
 It merges text and soft breaks, preserves code bytes and list tightness, omits
 positions, and flattens Djot sections. Dialect-only probes below compare output
@@ -188,10 +163,257 @@ Raw data: [observations](comparison-results.json), [timings](comparison-timings.
 
 | Reader | Relation | Case |
 |---|---|---|
-${differences}
+| carve | wrapping | `code@11` |
+| carve | wrapping | `unclosedCode@11` |
+| carve | wrapping | `unclosedCode@17` |
+| carve | wrapping | `heading@5` |
+| carve | wrapping | `quote@5` |
+| carve | stability | `list/list` |
+| djot | wrapping | `code@11` |
+| djot | wrapping | `unclosedCode@11` |
+| djot | wrapping | `unclosedCode@17` |
+| djot | stability | `list/list` |
+| commonmark | wrapping | `bullet@5` |
+| commonmark | wrapping | `ordered@5` |
+| commonmark | wrapping | `heading@5` |
+| commonmark | wrapping | `quote@5` |
+| commonmark | locality | `full/defined` |
+| commonmark | locality | `collapsed/defined` |
+| commonmark | stability | `list/list` |
 
 ## Dialect-only probes
 
-${probeOutputs}
-`
-writeFileSync(new URL('../../reports/comparison.md', import.meta.url), text)
+### comment: carve
+
+Source:
+
+```text
+alpha %% hidden
+```
+
+Output:
+
+```html
+<p>alpha</p>
+```
+
+### caption: carve
+
+Source:
+
+```text
+> alpha
+
+^ caption
+```
+
+Output:
+
+```html
+<figure>
+  <blockquote><p>alpha</p></blockquote>
+  <figcaption>caption</figcaption>
+</figure>
+```
+
+### shortcut: carve
+
+Source:
+
+```text
+[ref]
+
+[ref]: /target
+```
+
+Output:
+
+```html
+<p>[ref]</p>
+```
+
+### setext: carve
+
+Source:
+
+```text
+heading
+======
+```
+
+Output:
+
+```html
+<p>heading
+======</p>
+```
+
+### unclosedCode: carve
+
+Source:
+
+```text
+`payload
+```
+
+Output:
+
+```html
+<p><code>payload</code></p>
+```
+
+### comment: djot
+
+Source:
+
+```text
+alpha %% hidden
+```
+
+Output:
+
+```html
+<p>alpha %% hidden</p>
+```
+
+### caption: djot
+
+Source:
+
+```text
+> alpha
+
+^ caption
+```
+
+Output:
+
+```html
+<blockquote>
+<p>alpha</p>
+</blockquote>
+```
+
+### shortcut: djot
+
+Source:
+
+```text
+[ref]
+
+[ref]: /target
+```
+
+Output:
+
+```html
+<p>[ref]</p>
+```
+
+### setext: djot
+
+Source:
+
+```text
+heading
+======
+```
+
+Output:
+
+```html
+<p>heading
+======</p>
+```
+
+### unclosedCode: djot
+
+Source:
+
+```text
+`payload
+```
+
+Output:
+
+```html
+<p><code>payload</code></p>
+```
+
+### comment: commonmark
+
+Source:
+
+```text
+alpha %% hidden
+```
+
+Output:
+
+```html
+<p>alpha %% hidden</p>
+```
+
+### caption: commonmark
+
+Source:
+
+```text
+> alpha
+
+^ caption
+```
+
+Output:
+
+```html
+<blockquote>
+<p>alpha</p>
+</blockquote>
+<p>^ caption</p>
+```
+
+### shortcut: commonmark
+
+Source:
+
+```text
+[ref]
+
+[ref]: /target
+```
+
+Output:
+
+```html
+<p><a href="/target">ref</a></p>
+```
+
+### setext: commonmark
+
+Source:
+
+```text
+heading
+======
+```
+
+Output:
+
+```html
+<h1>heading</h1>
+```
+
+### unclosedCode: commonmark
+
+Source:
+
+```text
+`payload
+```
+
+Output:
+
+```html
+<p>`payload</p>
+```

@@ -20,6 +20,12 @@ const changes = ['quotes', 'lists'].map(family => {
   assert.ok(b.calls < a.calls / 2, 'Review the recorded prefix-work improvement')
   return `| ${family} | ${a.calls} → ${b.calls} | ${fixed(100 * (1 - b.calls / a.calls))}% | ${fixed(allocation(old))} → ${fixed(allocation(now))} |`
 }).join('\n')
+const preceding = read('history/pre-current-refresh/nesting-profile.json')
+const recentChanges = ['quotes', 'lists'].map(family => {
+  const old = regexTotals(get(preceding, 'js', 'parse', family, 192).patterns).calls
+  const now = regexTotals(get(data, 'js', 'parse', family, 192).patterns).calls
+  return `${family}: ${old} → ${now} (${now - old >= 0 ? '+' : ''}${now - old})`
+}).join('; ')
 const growth = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
   const low = get(data, reader, 'parse', family, 64), high = get(data, reader, 'parse', family, 128), last = get(data, reader, 'parse', family, 192)
   const a = regexTotals(low.patterns), b = regexTotals(high.patterns)
@@ -53,10 +59,9 @@ regex calls recorded by the earlier reader. The historical
 [profile](history/pre-prefix-refresh/nesting-profile.json) and
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
-This run evaluates the candidate implementation in
-[parser PR #2375](https://github.com/markup-carve/carve-js/pull/2375). It is not a
-merged release snapshot. The immediately preceding
-[profile](history/pre-tail-refresh/nesting-profile.json) preserves the prior reader.
+This reader snapshot was recorded at ${data.metadata.generatedAt}.
+The immediately preceding [profile](history/pre-current-refresh/nesting-profile.json)
+and [report](history/pre-current-refresh/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.
 Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.
@@ -83,6 +88,10 @@ The relevant changes landed in
 before this refresh.
 The current reader also replaces repeated quote and unordered-list tail captures
 with prefix recognition and reuses recorded origins for literal prefix strips.
+
+Against the immediately preceding snapshot, regex calls at depth 192 changed by
+${recentChanges}. These net changes are recorded separately from the larger
+historical reduction; it is not evidence of a wall-time regression.
 
 ## Current growth and phase costs
 

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / '_site' / 'charts'
 OUT.mkdir(parents=True, exist_ok=True)
 plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 10, 'svg.fonttype': 'none'})
-COLORS = ['#126c68', '#c95730', '#6154a4', '#ad7d19']
+COLORS = ['#126c68', '#c95730', '#6154a4', '#ad7d19', '#477ba8']
 charts = []
 
 def export(dataset, family, phase, metric, unit, series, metadata, note):
@@ -27,20 +27,29 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
         cached.write_text(json.dumps(record))
         charts.append(record)
         return
-    fig, ax = plt.subplots(figsize=(8.4, 5.2), layout='constrained')
+    fig, ax = plt.subplots(figsize=(8.4, 7.2 if dataset == 'current-costs' and len(series) > 5 else 5.2), layout='constrained')
+    variant_colors = {reader.split(' / round ')[0]: COLORS[index % len(COLORS)] for index, reader in enumerate(dict.fromkeys(reader.split(' / round ')[0] for reader in series))}
     points = []
     for index, (reader, rows) in enumerate(series.items()):
         valid = [r for r in rows if r['value'] is not None]
         if valid:
-            ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
-            ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
+            if dataset == 'current-costs':
+                point = valid[0]
+                ax.barh(reader, point['value'], xerr=[[point['value'] - point['low']], [point['high'] - point['value']]], color=variant_colors[reader.split(' / round ')[0]], capsize=3)
+            else:
+                ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
+                ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
     depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change', 'container-tails']
-    ax.set(xlabel='Nesting depth' if depth else 'Input bytes', ylabel=unit, title=f'{family} · {phase} · {metric}')
-    ax.set_ylim(bottom=0)
+    if dataset == 'current-costs':
+        ax.set(xlabel=unit, title=f'{family} · {phase} · {metric}')
+        ax.set_xlim(left=0)
+    else:
+        ax.set(xlabel='Nesting depth' if depth else 'Input bytes', ylabel=unit, title=f'{family} · {phase} · {metric}')
+        ax.set_ylim(bottom=0)
     ax.grid(alpha=.18)
     ax.spines[['top', 'right']].set_visible(False)
-    if ax.lines:
+    if ax.lines and dataset != 'current-costs':
         ax.legend(frameon=False)
     date = metadata.get('generatedAt', 'date not recorded')
     fig.supxlabel(f'{dataset} | {date}\nHistorical observations; see accompanying JSON for pins and method.', fontsize=8)
@@ -120,7 +129,8 @@ for family in sorted({g['family'] for g in data['groups']}):
                 export('profile-js', family, phase, metric, unit, {'js': series['js']}, data['metadata'], 'JavaScript reader only. Input exposure, successful match lengths, global progress and suffix argument lengths do not count engine steps. Failed non-global scans and non-regex operations are outside the match-length counter. These measurements do not prove asymptotic complexity.')
 for dataset, history in [('prefix-change', 'pre-prefix-refresh'), ('tail-change', 'pre-tail-refresh')]:
     before = json.loads((ROOT / 'reports/history' / history / 'nesting-profile.json').read_text())
-    after = json.loads((ROOT / 'reports/nesting-profile.json').read_text())
+    after_path = 'reports/history/pre-current-refresh/nesting-profile.json' if dataset == 'tail-change' else 'reports/nesting-profile.json'
+    after = json.loads((ROOT / after_path).read_text())
     for family in ['quotes', 'lists']:
         for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Regex input exposure (UTF-16 units)'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
             series = {}
@@ -157,5 +167,17 @@ for family in sorted({g['family'] for g in tails['copies']}):
     label = 'candidate / ' + tails['metadata']['candidate']['source'].split('#')[-1][:10]
     points = [dict(x=g['size'], value=g['seam'], low=g['seam'], high=g['seam'], status='ok') for g in tails['copies'] if g['family'] == family]
     export('container-tails', family, 'parse', 'seam-copy', 'Selected copied lengths (UTF-16 units)', {label: points}, tails['metadata'], 'Candidate only. Each leaf has 100,000 characters. Counts source normalization and attributed-tail reconstruction, not total allocation. The baseline does not instrument the same copy sites.')
+costs = json.loads((ROOT / 'reports/current-costs.json').read_text())
+for family in sorted({g['family'] for g in costs['groups']}):
+    for phase in ['parse', 'html']:
+        for metric, unit in [('wall', 'Wall milliseconds / operation'), ('cpu', 'CPU milliseconds / operation'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
+            series = {}
+            for group in costs['groups']:
+                if group['family'] != family or group['phase'] != phase:
+                    continue
+                for round in group['rounds']:
+                    values = [round['sampledAllocationBytes'] / round['heapIterations']] if metric == 'sampled-allocation' else [s[metric + 'Ms'] for s in round['samples']]
+                    series[group['variant'] + ' / round ' + str(round['round'] + 1)] = [observation(group, values, 'nested' in family)]
+            export('current-costs', family, phase, metric, unit, series, costs['metadata'], costs['metadata']['method'] + ' Error bars show sample minimum and maximum, not confidence intervals. Rounds remain separate because shared-host drift makes pooled medians misleading. These timings do not establish a performance ordering. Heap sampling measures allocation churn, not retained memory. Carve positions:false drops fields after parsing; it does not bypass position construction.')
 (OUT / 'index.json').write_text(json.dumps(charts))
 print(f'Exported {len(charts)} charts as SVG, PNG, CSV and JSON')
