@@ -7,14 +7,14 @@
       "integrity": "sha512-hdguh1FNMdMV1+AZkEfeFmIqLFIjedaTTTOIWtssbki690MiUf+Eluh8HduKh4PiJgP9S8KuYX6TwPde15854g=="
     },
     "candidate": {
-      "source": "github:markup-carve/carve-js#06c76fe8a80551b0d0f6f41a5cf56d6eeba62bfb",
+      "source": "github:markup-carve/carve-js#5001ebb049eda7b68e1905aa96ccf47aa92b1109",
       "version": "0.1.8",
-      "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#06c76fe8a80551b0d0f6f41a5cf56d6eeba62bfb",
+      "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#5001ebb049eda7b68e1905aa96ccf47aa92b1109",
       "integrity": "sha512-g2IpjPgMprSCGfCkbRha42bYKhbCWcfWd1GIkohprIbsjkuiNkNvJvMDFzW+kgrdq05Igr2nRuaeCodswD5Ziw=="
     },
     "method": "Deterministic counters in separate parses. UTF-16 input, successful match and suffix argument lengths; global forward progress. These are not engine steps or wall times. Complete ASTs and source positions are checked.",
     "copyMethod": "Candidate layoutWork.seam, enabled around a separate parse: source normalization and attributed-tail reconstruction. Selected UTF-16 copy lengths, not total allocation. Long-payload ASTs are checked against the baseline.",
-    "suiteSha256": "8ae054f23cb4359f6f255bd858dc98324940e6c63076a5d02ff3f041d1eedb62"
+    "suiteSha256": "d4c4d6514ba1d5098d59ef43f227d6c31b9b6a07833cf11aefbee46b67da1c5e"
   },
   "groups": [
     {

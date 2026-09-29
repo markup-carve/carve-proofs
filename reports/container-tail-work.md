@@ -1,12 +1,14 @@
 # Remaining container tail work
 
 Baseline: `github:markup-carve/carve-js#8fe00fd672e1d9af43fe1f92ca1cc64387412990`.
-Candidate: `github:markup-carve/carve-js#06c76fe8a80551b0d0f6f41a5cf56d6eeba62bfb`.
-This records the changes in merged [parser PR #2378](https://github.com/markup-carve/carve-js/pull/2378)
-and candidate [PR #2379](https://github.com/markup-carve/carve-js/pull/2379).
-The immutable candidate snapshot is evaluated separately from the established
-comparison reader. The PR branch may advance; these results describe only the
-commit pinned above.
+Candidate: `github:markup-carve/carve-js#5001ebb049eda7b68e1905aa96ccf47aa92b1109`.
+The evaluated reader includes merged [parser PR #2378](https://github.com/markup-carve/carve-js/pull/2378)
+and [PR #2379](https://github.com/markup-carve/carve-js/pull/2379). The snapshots also
+span behavior and source-position changes in [#2376](https://github.com/markup-carve/carve-js/pull/2376)
+and [#2377](https://github.com/markup-carve/carve-js/pull/2377), so this comparison
+does not isolate each PR's contribution. AST equivalence is checked on these fixtures.
+The immutable candidate snapshot is pinned to a merged commit and evaluated
+separately from the established comparison reader.
 
 | Fixture | Matched lengths at depth 128, baseline → candidate | Candidate matched growth, 64 → 128 | Candidate input exposure growth, 64 → 128 | Suffix lengths at depth 128, baseline → candidate |
 |---|---:|---:|---:|---:|
@@ -35,8 +37,9 @@ suffix comparison per level, so its suffix work grows with depth.
 
 Nine additional candidate observations use 100,000-character payloads under
 attributed bullet, ordered and task markers. The parser's seam counter records
-only the initial source normalization, with no attributed-tail reconstruction.
-These counters cover selected copies, not total allocation. Their charts have a
+only the initial source normalization; the instrumented fallback getter is not
+called. This guards that fallback path, not arbitrary engine string copies or
+a reversion to uninstrumented code. These counters do not measure total allocation. Their charts have a
 candidate series only: the baseline does not instrument the same copy sites.
 
 Deterministic counters in separate parses. UTF-16 input, successful match and suffix argument lengths; global forward progress. These are not engine steps or wall times. Complete ASTs and source positions are checked.
@@ -45,7 +48,9 @@ counter. Input exposure still grows roughly fourfold when depth doubles: it char
 whole remaining string even to anchored checks that inspect only a prefix. It
 is not a count of characters actually inspected. A separate bound guards
 terminator-scan input. The counters cover these
-fixtures and do not establish whole-parser complexity.
+fixtures and do not establish whole-parser complexity. No growth bound is claimed
+here for tab-expanded continuations, closed comment blocks, reference definitions
+or fence bodies.
 
 Reproduce with `npm run check:container-tails`. Raw observations are in
 [container-tail-work.json](container-tail-work.json); the evidence site's

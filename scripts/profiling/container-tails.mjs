@@ -38,29 +38,40 @@ function candidatePin() {
   return { source, version: locked.version, resolved: locked.resolved, integrity: locked.integrity }
 }
 
-function assertShape(ast, depth, source) {
+function assertShape(ast, depth, source, payload = 'end', itemKind = null) {
   const points = Array.from(source)
-  let containers = 0, leaf = 0
-  function visit(node) {
+  let containers = 0, leaf = 0, items = 0, maxDepth = 0
+  function visit(node, nesting = 0) {
     if (!node || typeof node !== 'object') return
-    if (node.type === 'list' || node.type === 'block_quote') containers++
+    if (node.type === 'list' || node.type === 'block_quote') {
+      containers++
+      maxDepth = Math.max(maxDepth, ++nesting)
+    }
+    if (itemKind !== null && node.type === 'list') assert.equal(node.ordered, itemKind === 'ordered')
+    if (itemKind !== null && node.type === 'list_item') {
+      items++
+      assert.deepEqual(node.attrs?.classes, ['x'])
+      assert.equal(node.checked, itemKind === 'task' ? false : undefined)
+    }
     if (node.pos) {
       const p = node.pos
       assert.ok(Number.isInteger(p.startOffset) && Number.isInteger(p.endOffset))
       assert.ok(p.startOffset >= 0 && p.endOffset >= p.startOffset && p.endOffset <= points.length)
     }
-    if (node.type === 'text' && node.value === 'end') {
+    if (node.type === 'text' && node.value === payload) {
       leaf++
       assert.ok(node.pos, 'The terminal leaf must retain source positions')
       const p = node.pos, before = points.slice(0, p.startOffset).join('').split('\n')
-      assert.equal(points.slice(p.startOffset, p.endOffset).join(''), 'end')
+      assert.equal(points.slice(p.startOffset, p.endOffset).join(''), payload)
       assert.equal(p.startLine, before.length)
       assert.equal(p.startColumn, Array.from(before.at(-1)).length + 1)
     }
-    for (const value of Object.values(node)) if (Array.isArray(value)) value.forEach(visit)
+    for (const value of Object.values(node)) if (Array.isArray(value)) value.forEach(child => visit(child, nesting))
   }
   visit(ast)
-  assert.equal(containers, depth, 'The fixture must retain its requested nesting')
+  assert.equal(containers, depth, 'The fixture must retain its requested container count')
+  assert.equal(maxDepth, depth, 'The fixture must retain its requested nesting')
+  if (itemKind !== null) assert.equal(items, depth, 'Every nested item must retain its attributes')
   assert.equal(leaf, 1, 'The nested payload must survive exactly once')
 }
 
@@ -107,7 +118,8 @@ export function collectTailWork() {
   for (const [family, marker] of [['long-attributes-bullet', '-{.x} '], ['long-attributes-ordered', '1.{.x} '], ['long-attributes-task', '-{.x} [ ] ']]) {
     for (const size of [32, 64, 128]) {
       const payloadLength = 100_000
-      const source = marker.repeat(size) + 'x'.repeat(payloadLength) + '\n'
+      const payload = 'x'.repeat(payloadLength)
+      const source = marker.repeat(size) + payload + '\n'
       const previous = layoutWork.on
       layoutWork.reset()
       layoutWork.on = true
@@ -116,6 +128,7 @@ export function collectTailWork() {
       finally { layoutWork.on = previous; layoutWork.reset() }
       assert.equal(seam, source.length, `${family}/${size}: attributed tail reconstruction`)
       assert.deepEqual(ast, baselineParse(source), `${family}/${size}: long payload behavior changed`)
+      assertShape(ast, size, source, payload, family.split('-').at(-1))
       copies.push({ family, marker, size, payloadLength, sourceLength: source.length, seam })
     }
   }
@@ -132,11 +145,13 @@ export function tailReport(data) {
 
 Baseline: \`${data.metadata.baseline.source}\`.
 Candidate: \`${data.metadata.candidate.source}\`.
-This records the changes in merged [parser PR #2378](https://github.com/markup-carve/carve-js/pull/2378)
-and candidate [PR #2379](https://github.com/markup-carve/carve-js/pull/2379).
-The immutable candidate snapshot is evaluated separately from the established
-comparison reader. The PR branch may advance; these results describe only the
-commit pinned above.
+The evaluated reader includes merged [parser PR #2378](https://github.com/markup-carve/carve-js/pull/2378)
+and [PR #2379](https://github.com/markup-carve/carve-js/pull/2379). The snapshots also
+span behavior and source-position changes in [#2376](https://github.com/markup-carve/carve-js/pull/2376)
+and [#2377](https://github.com/markup-carve/carve-js/pull/2377), so this comparison
+does not isolate each PR's contribution. AST equivalence is checked on these fixtures.
+The immutable candidate snapshot is pinned to a merged commit and evaluated
+separately from the established comparison reader.
 
 | Fixture | Matched lengths at depth 128, baseline → candidate | Candidate matched growth, 64 → 128 | Candidate input exposure growth, 64 → 128 | Suffix lengths at depth 128, baseline → candidate |
 |---|---:|---:|---:|---:|
@@ -156,8 +171,9 @@ suffix comparison per level, so its suffix work grows with depth.
 
 Nine additional candidate observations use 100,000-character payloads under
 attributed bullet, ordered and task markers. The parser's seam counter records
-only the initial source normalization, with no attributed-tail reconstruction.
-These counters cover selected copies, not total allocation. Their charts have a
+only the initial source normalization; the instrumented fallback getter is not
+called. This guards that fallback path, not arbitrary engine string copies or
+a reversion to uninstrumented code. These counters do not measure total allocation. Their charts have a
 candidate series only: the baseline does not instrument the same copy sites.
 
 ${data.metadata.method}
@@ -166,7 +182,9 @@ counter. Input exposure still grows roughly fourfold when depth doubles: it char
 whole remaining string even to anchored checks that inspect only a prefix. It
 is not a count of characters actually inspected. A separate bound guards
 terminator-scan input. The counters cover these
-fixtures and do not establish whole-parser complexity.
+fixtures and do not establish whole-parser complexity. No growth bound is claimed
+here for tab-expanded continuations, closed comment blocks, reference definitions
+or fence bodies.
 
 Reproduce with \`npm run check:container-tails\`. Raw observations are in
 [container-tail-work.json](container-tail-work.json); the evidence site's
