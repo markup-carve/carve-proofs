@@ -19,7 +19,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
     load = metadata.get('loadStart', metadata.get('loadAverage'))
     if load:
         note += f" Recorded host load: {load}; logical CPUs: {metadata.get('logicalCpus', 'not recorded')}."
-    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change']
+    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change', 'container-tails']
     cached_points = [dict(reader=reader, **r) for reader, rows in series.items() for r in rows]
     record = dict(id=slug, dataset=dataset, family=family, phase=phase, metric=metric, unit=unit, xUnit='depth' if depth else 'bytes', points=cached_points, metadata=metadata, note=note)
     cached = OUT / f'{slug}.json'
@@ -35,7 +35,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
             ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
             ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
-    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change']
+    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change', 'container-tails']
     ax.set(xlabel='Nesting depth' if depth else 'Input bytes', ylabel=unit, title=f'{family} · {phase} · {metric}')
     ax.set_ylim(bottom=0)
     ax.grid(alpha=.18)
@@ -142,5 +142,20 @@ for dataset, history in [('prefix-change', 'pre-prefix-refresh'), ('tail-change'
                 series[f'{label} / {pin}'] = rows
             metadata = dict(generatedAt=after['metadata']['generatedAt'], before=before['metadata'], after=after['metadata'])
             export(dataset, family, 'parse', metric, unit, series, metadata, 'Different pinned reader revisions and historical runs. Regex calls use the same instrumentation; timing and allocation are affected by host load and sampling. These observations do not isolate a single commit or prove a complexity bound.')
+tails = json.loads((ROOT / 'reports/container-tail-work.json').read_text())
+for family in sorted({g['family'] for g in tails['groups']}):
+    for metric, field, unit in [('regex-matched', 'matchedChars', 'Successful match lengths (UTF-16 units)'), ('regex-input', 'inputChars', 'Regex input exposure (UTF-16 units)'), ('suffix-input', 'suffixChars', 'Suffix argument lengths (UTF-16 units)'), ('terminator-input', 'terminatorInput', 'Terminator scan input (UTF-16 units)')]:
+        series = {}
+        for group in tails['groups']:
+            if group['family'] != family:
+                continue
+            value = group['suffixes'][field] if field == 'suffixChars' else group[field]
+            label = group['reader'] + ' / ' + tails['metadata'][group['reader']]['source'].split('#')[-1][:10]
+            series.setdefault(label, []).append(dict(x=group['size'], value=value, low=value, high=value, status='ok'))
+        export('container-tails', family, 'parse', metric, unit, series, tails['metadata'], tails['metadata']['method'])
+for family in sorted({g['family'] for g in tails['copies']}):
+    label = 'candidate / ' + tails['metadata']['candidate']['source'].split('#')[-1][:10]
+    points = [dict(x=g['size'], value=g['seam'], low=g['seam'], high=g['seam'], status='ok') for g in tails['copies'] if g['family'] == family]
+    export('container-tails', family, 'parse', 'seam-copy', 'Selected copied lengths (UTF-16 units)', {label: points}, tails['metadata'], 'Candidate only. Each leaf has 100,000 characters. Counts source normalization and attributed-tail reconstruction, not total allocation. The baseline does not instrument the same copy sites.')
 (OUT / 'index.json').write_text(json.dumps(charts))
 print(f'Exported {len(charts)} charts as SVG, PNG, CSV and JSON')
