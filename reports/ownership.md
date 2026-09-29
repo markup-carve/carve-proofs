@@ -1,13 +1,13 @@
 # Four-reader ownership matrix
 
 The matrix records 472 inputs against independently pinned Carve readers. There
-are 55 structural HTML disagreements and 417 agreements. Every input completes
-in all four readers. The disagreements fall into twelve investigation families;
-these counts do not establish twelve independent bugs.
+are 43 structural HTML disagreements and 429 agreements. Every input completes
+in all four readers. The disagreements fall into eleven investigation families;
+these counts do not establish eleven independent bugs.
 
 | Family | Inputs | Disagreements |
 |---|---:|---:|
-| Footnote/list fences, columns 2 through 8 | 42 | 12 |
+| Footnote/list fences, columns 2 through 8 | 42 | 0 |
 | Empty and visible blocks in lists and quoted lists | 30 | 0 |
 | Boundary, indentation and follower combinations | 400 | 43 |
 
@@ -18,18 +18,22 @@ proofs. This experiment adds no Rocq theorem.
 
 ## Issue seeds
 
-[Carve #2598](https://github.com/markup-carve/carve/issues/2598) reproduces:
-following a quote on a footnote definition line, JS treats a fence at columns
-3 through 8 as inline code. The specification, PHP and Rust produce a code
-block. Visible raw HTML fences give the corresponding split. Column 2 agrees, as do both
-control hosts: a footnote starting with prose and a list starting with a quote.
+[Carve #2598](https://github.com/markup-carve/carve/issues/2598) is resolved at
+these pins. [Carve #2605](https://github.com/markup-carve/carve/pull/2605) pins the
+block interpretation after a footnote quote, and
+[carve-js #2361](https://github.com/markup-carve/carve-js/pull/2361) fixes fence
+rebasing. All 42 code and visible raw HTML fence cases now agree across the four
+readers, including columns 2 through 8 and both control hosts: a footnote
+starting with prose and a list starting with a quote.
 
-The current rule already gives a basis for resolving this family:
-[CARVE-P0-004](https://github.com/markup-carve/carve/blob/c48e4778f972e42495132adf76b9e371d7d4365a/resources/spec/01-layout.ebnf)
-says a recognized opener beyond the minimum content column establishes its
-own block base, and explicitly includes footnote bodies. Recommended decision:
-pin the block interpretation with the quote/prose controls, then correct JS.
-A preceding quote should not change this rule.
+Compared with the [previous evidence](https://github.com/markup-carve/carve-proofs/blob/3496c574f1b40b27dc102aef0327a9eb1dcc6abd/reports/ownership-results.json),
+only twelve JS outputs changed: the code and raw fences at columns 3 through 8
+after a footnote quote. Each changed from an inline-code interpretation to the
+block output already produced by the other readers. The remaining 460 inputs
+are unchanged, including all 43 unresolved disagreements. Every spec, PHP and
+Rust output is unchanged. The input suite and comparison projection are also
+unchanged; the PHP and Rust pins stay fixed. The resolved family remains in the
+matrix as a regression check and is removed from the active reductions.
 
 The empty-comment seed from
 [Carve #2567](https://github.com/markup-carve/carve/issues/2567) now renders a tight
@@ -44,14 +48,15 @@ The evidence baseline records observed behavior, including disagreements. It
 does not declare a majority result correct or silently turn these proposals
 into normative expectations.
 
-The principal clauses are [Part 0 owner selection and block bases](https://github.com/markup-carve/carve/blob/c48e4778f972e42495132adf76b9e371d7d4365a/resources/spec/01-layout.ebnf),
-[§10 paragraph interruption](https://github.com/markup-carve/carve/blob/c48e4778f972e42495132adf76b9e371d7d4365a/resources/spec/14-semantics-blocks.ebnf),
-and [§24 C3 list ownership](https://github.com/markup-carve/carve/blob/c48e4778f972e42495132adf76b9e371d7d4365a/resources/spec/16-semantics-comments-security.ebnf).
+The principal clauses are [Part 0 owner selection and block bases](https://github.com/markup-carve/carve/blob/44c267b0e2eece256cefbcd718408326db6e8487/resources/spec/01-layout.ebnf),
+[§10 paragraph interruption](https://github.com/markup-carve/carve/blob/44c267b0e2eece256cefbcd718408326db6e8487/resources/spec/14-semantics-blocks.ebnf),
+and [§24 C3 list ownership](https://github.com/markup-carve/carve/blob/44c267b0e2eece256cefbcd718408326db6e8487/resources/spec/16-semantics-comments-security.ebnf).
+CARVE-P0-004 gives a recognized opener beyond the minimum content column its
+own authored block base.
 
 | Investigation family | Cases | Observation | Recommended decision or missing specification fixture |
 |---|---:|---|---|
-| `footnote-fence-base` | 12 | JS alone produces inline code. | Apply P0-004's authored block base, as above. |
-| `opener-after-content-comment` | 9 | JS/PHP recognize a block; spec/Rust retain marker text. | Apply P0-004 after paragraph closure too. Pin heading, quote and matched fence at a column beyond the item's minimum. |
+| `opener-after-content-comment` | 9 | JS/PHP recognize a block; spec/Rust retain marker text. | Apply P0-004 after paragraph closure. Pin heading, quote and matched fence at a column beyond the item's minimum. |
 | `marker-below-content` | 4 | Spec retains marker text; engines open a sublist. | C3 requires a child to reach the content column. Reject below-column child creation; explicitly settle retained text versus reclassification in the surviving context after the comment. |
 | `quote-lazy-interruption` | 3 | For heading/fence followers, Rust opens an outer block. For a quote follower, Rust consumes the marker; the others keep it as text. | Pin both interruption coordinates and whether a below-item-column quote marker can satisfy the nested quote prefix. Keep these as open selection questions until the fixtures are normative. |
 | `quote-comment-opener` | 3 | Rust retains opener text; others recognize a block in the outer item. | Close the quote paragraph at the comment and apply P0-004 in the surviving item. Pin the enclosing stack explicitly. |

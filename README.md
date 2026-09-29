@@ -108,7 +108,7 @@ and `npm run check:djot-differential` after building the native package.
 
 The [ownership report](reports/ownership.md) compares 472 inputs across pinned
 versions of the executable specification, JavaScript, PHP and Rust. It records
-55 structural disagreements, reduced examples and proposed specification
+43 structural disagreements, reduced examples and proposed specification
 decisions for nested ownership. Run `npm run build:ownership`, then
 `npm run check:ownership -- --check reports/ownership-results.json`.
 The matrix uses separate pins and does not extend the layout proofs.

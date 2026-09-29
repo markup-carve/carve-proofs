@@ -15,7 +15,6 @@ export function finding(row) {
 }
 
 export const representatives = {
-  'footnote-fence-base': 'footnote-quote/3/code',
   'opener-after-content-comment': 'list/content-comment/4/heading',
   'marker-below-content': 'list/low-comment/1/sibling',
   'quote-lazy-interruption': 'list-quote/ordinary/1/heading',
