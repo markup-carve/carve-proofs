@@ -5,7 +5,7 @@
   },
   "js": {
     "repository": "https://github.com/markup-carve/carve-js.git",
-    "commit": "adb64587295cf2832eaa8a54ddb4946809a44590"
+    "commit": "393111222a45ba916f18290581e345169500b71b"
   },
   "php": {
     "repository": "https://github.com/markup-carve/carve-php.git",

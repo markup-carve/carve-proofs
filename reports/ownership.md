@@ -17,7 +17,7 @@ the current reader changes address the other 39. There is no separately recorded
 [Raw observations](ownership-results.json) preserve every source, complete HTML
 output and reader partition. The same 472-case HTML fixture is tested in the
 [checker](https://github.com/markup-carve/carve/blob/53b5e949f55bbf4696e49e1b6fd10e439590309b/tests/fixtures/container-ownership.json),
-[JavaScript](https://github.com/markup-carve/carve-js/blob/adb64587295cf2832eaa8a54ddb4946809a44590/test/fixtures/container-ownership.json),
+[JavaScript](https://github.com/markup-carve/carve-js/blob/393111222a45ba916f18290581e345169500b71b/test/fixtures/container-ownership.json),
 [PHP](https://github.com/markup-carve/carve-php/blob/78e62590d24f13da7ee4ad477d70bb317a9294a8/tests/fixtures/container-ownership.json)
 and [Rust](https://github.com/markup-carve/carve-rs/blob/a2d1537672060aa27660b64b456e9aa397db0d25/tests/fixtures/container-ownership.json).
 There are no active disagreement witnesses in
@@ -46,9 +46,8 @@ Review found regressions outside the matrix. Follow-up changes to the
 [checker](https://github.com/markup-carve/carve/pull/2626),
 [JavaScript](https://github.com/markup-carve/carve-js/pull/2386) and
 [PHP](https://github.com/markup-carve/carve-php/pull/2753) preserve opaque quote
-heads and matched comment spans, with 15 added boundary cases. At recording
-time, the JavaScript follow-up pin is an unmerged PR head; the checker, PHP and
-Rust use merged commits. The original ownership fixes have merged. Inline-code
+heads and matched comment spans, with 15 added boundary cases. All four
+pins are merged commits. Inline-code
 newlines are unchanged; this update adds no Rocq theorem. The executable
 specification remains a derived checker, not the language authority.
 
