@@ -1,21 +1,23 @@
 import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
-import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
-import { scalingCases } from '../properties/scaling-cases.mjs'
+import { comparisonEnvironment, digest, costFiles } from '../comparison/environment.mjs'
+import { scalingCases } from '../comparison/scaling-cases.mjs'
 import { aggregateFrames } from './summary.mjs'
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b), middle = Math.floor(sorted.length / 2)
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
 }
 
-const families = ['long-line', 'unclosed-code', 'many-paragraphs', 'nested-quotes', 'nested-lists']
+import { costFamilies as families, checkControls, costVariants } from '../comparison/controls.mjs'
+import { createHash } from 'node:crypto'
 export function validateCostData(data) {
   const environment = comparisonEnvironment()
   assert.deepEqual(data.metadata.parsers, environment.parsers)
   assert.equal(data.metadata.engine, environment.engine)
-  assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/current-costs.mjs', 'scripts/profiling/cost-worker.mjs', 'scripts/profiling/summary.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/comparison/environment.mjs']))
-  const expected = families.flatMap(family => ['parse', 'html'].flatMap(phase => (phase === 'parse' ? ['carve', 'carve-no-positions', 'djot', 'djot-positions', 'commonmark'] : ['carve', 'djot', 'commonmark']).map(variant => `${family}/${phase}/${variant}`)))
+  assert.equal(data.metadata.runnerSha256, digest(costFiles))
+  assert.deepEqual(data.metadata.controls, checkControls())
+  const expected = families.flatMap(family => ['parse', 'html', 'direct-html-probe'].flatMap(phase => costVariants(phase).map(variant => `${family}/${phase}/${variant}`)))
   assert.deepEqual(data.groups.map(g => `${g.family}/${g.phase}/${g.variant}`), expected)
   for (const group of data.groups) {
     const fixture = scalingCases[group.family]
@@ -29,6 +31,7 @@ export function validateCostData(data) {
         assert.equal(load.length, 3)
         assert.ok(load.every(value => Number.isFinite(value) && value >= 0))
       }
+      assert.equal(round.sourceSha256, createHash('sha256').update(fixture.make(group.size)).digest('hex'))
       assert.equal(round.samples.length, 7)
       assert.equal(round.heapIterations, 50)
       assert.ok(round.cpuIterations > 0)
@@ -53,7 +56,7 @@ export function validateCostData(data) {
 }
 
 export function costReport(data) {
-  const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-latest-main/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
+  const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-cross-reader-refresh/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
   validateCostData(data)
   const fixed = number => number.toFixed(3)
   const sample = (g, field) => g.rounds.map(r => `${fixed(median(r.samples.map(s => s[field])))} (${fixed(Math.min(...r.samples.map(s => s[field])))}–${fixed(Math.max(...r.samples.map(s => s[field])))})`).join(' / ')
@@ -96,7 +99,8 @@ feature sets are not identical.
 The [HTML entrypoint](${source}/index.ts) tries a direct HTML path before building
 an AST. Untimed probes record which path accepts each fixture and check direct
 output against the public HTML entrypoint: ${htmlPaths}. An AST fallback still
-pays for the rejected direct-path attempt. The unclosed-code HTML profile
+pays for the rejected direct-path attempt. The \`direct-html-probe\` phase measures
+that attempt independently, including declines, without running the AST fallback. The unclosed-code HTML profile
 attributes substantial sampled work to that eligibility scan; choosing the AST
 path does not mean that the fast-path code did no work.
 The phases must not be added or interpreted as a single pipeline breakdown.
@@ -126,10 +130,9 @@ ${hot}
 
 This reader includes parser allocation changes since the preceding reader
 commit \`${previousReader}\`.
-The current profile records their resulting costs, but the shared host does
-not establish a controlled speed improvement. Ownership and performance now
-use the same JavaScript commit, with their different test scopes recorded
-separately. The original model and historical baselines retain their pins.
+The current profile records their resulting costs. The preceding snapshot used
+a different host and cannot isolate a reader speed improvement. Ownership retains the independently pinned snapshot from #12. The comparison
+uses the reader recorded above, with its separate test scope. The original model and historical baselines retain their pins.
 
 ## Method and limits
 
@@ -137,7 +140,7 @@ ${data.metadata.method}
 
 Host load averaged ${data.metadata.loadStart.join(', ')} at the start and
 ${data.metadata.loadEnd.join(', ')} at the end on ${data.metadata.logicalCpus}
-logical CPUs. This was not an idle-host run. Scheduling, JIT state and GC can
+logical CPUs. ${data.metadata.execution.controlled ? `The dedicated [workflow run](${data.metadata.execution.runUrl}) ran workers serially and rejected load above the available CPU count.` : 'This was a shared-host run.'} Scheduling, JIT state and GC can
 change ratios, even with reversed variant order. Overlapping sample ranges do
 not establish an ordering. Confirm improvements with controlled paired runs before setting
 budgets. Position-variant trees are checked against their default reader after

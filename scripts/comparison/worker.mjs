@@ -1,6 +1,7 @@
 import { performance } from 'node:perf_hooks'
+import { createHash } from 'node:crypto'
 import { adapters, nestingDepth } from './adapters.mjs'
-import { scalingCases } from '../properties/scaling-cases.mjs'
+import { scalingCases } from './scaling-cases.mjs'
 const [reader, mode, family] = process.argv.slice(2)
 const adapter = adapters[reader], fixture = scalingCases[family]
 if (!adapter || !fixture || !['parse', 'render', 'html'].includes(mode)) throw new Error('Invalid benchmark task')
@@ -31,7 +32,7 @@ for (const size of fixture.sizes) {
       samplesMs.push(elapsed / iterations); samplesCpuMs.push((usage.user + usage.system) / 1000 / iterations)
     }
     const median = xs => [...xs].sort((a, b) => a - b)[2]
-    process.stdout.write(JSON.stringify({ event: 'result', status: 'ok', size, bytes, batchIterations, samplesMs, samplesCpuMs, medianMs: median(samplesMs), medianCpuMs: median(samplesCpuMs), peakRssKiB: process.resourceUsage().maxRSS }) + '\n')
+    process.stdout.write(JSON.stringify({ event: 'result', status: 'ok', size, bytes, sourceSha256: createHash('sha256').update(source).digest('hex'), batchIterations, samplesMs, samplesCpuMs, medianMs: median(samplesMs), medianCpuMs: median(samplesCpuMs), peakRssKiB: process.resourceUsage().maxRSS }) + '\n')
   } catch (error) {
     process.stdout.write(JSON.stringify({ event: 'result', status: 'error', size, bytes, error: error.message }) + '\n'); break
   }

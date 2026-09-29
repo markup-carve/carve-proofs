@@ -4,18 +4,23 @@ import { writeFileSync, renameSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { cpus, loadavg, platform } from 'node:os'
 import { aggregateFrames } from './summary.mjs'
-import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
+import { comparisonEnvironment, digest, costFiles } from '../comparison/environment.mjs'
+
+import { costFamilies, checkControls, costVariants } from '../comparison/controls.mjs'
+import { measurementHost, checkHostLoad } from '../comparison/measurement-host.mjs'
 
 const output = process.argv[2] ?? 'reports/current-costs.json'
 const metadata = { ...comparisonEnvironment(), generatedAt: new Date().toISOString(), node: process.version, platform: platform(), cpu: cpus()[0].model,
-  logicalCpus: cpus().length, loadStart: loadavg(), runnerSha256: digest(['scripts/profiling/current-costs.mjs', 'scripts/profiling/cost-worker.mjs', 'scripts/profiling/summary.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/comparison/environment.mjs']),
-  method: 'Two fresh-worker rounds per fixture and phase, with reversed variant order in the second round. Parse and full HTML measured separately at the largest existing fixture per family. 500ms warmup, seven batches of at least 100ms with GC before each; separate 500ms CPU profile and 50-call heap sample at 4096 bytes, including collected objects. Position variants preserve the same reader tree after removing positions. Shared host; samples are not performance thresholds.' }
+  logicalCpus: cpus().length, loadStart: loadavg(), runnerSha256: digest(costFiles), execution: measurementHost(), controls: checkControls(),
+  method: 'Two fresh-worker rounds per fixture and phase, with reversed variant order in the second round. Parse, full HTML and direct-HTML eligibility attempts measured separately at the largest existing fixture per family. 500ms warmup, seven batches of at least 100ms with GC before each; separate 500ms CPU profile and 50-call heap sample at 4096 bytes, including collected objects. Position variants preserve the same reader tree after removing positions. Dedicated workflow runs are labeled in metadata; local runs remain shared-host observations. Samples are not performance thresholds.' }
 const groups = []
-for (const family of ['long-line', 'unclosed-code', 'many-paragraphs', 'nested-quotes', 'nested-lists']) for (const phase of ['parse', 'html']) {
-  const variants = phase === 'parse' ? ['carve', 'carve-no-positions', 'djot', 'djot-positions', 'commonmark'] : ['carve', 'djot', 'commonmark']
+for (const family of costFamilies) for (const phase of ['parse', 'html', 'direct-html-probe']) {
+  const variants = costVariants(phase)
   const rounds = new Map(variants.map(variant => [variant, []]))
   for (const [round, order] of [variants, [...variants].reverse()].entries()) for (const variant of order) {
+    checkHostLoad()
     const result = spawnSync(process.execPath, ['--expose-gc', fileURLToPath(new URL('./cost-worker.mjs', import.meta.url)), variant, family, phase], { encoding: 'utf8', timeout: 60_000, maxBuffer: 4_000_000 })
+    checkHostLoad()
     assert.equal(result.status, 0, result.error?.message ?? result.stderr)
     rounds.get(variant).push({ round, ...JSON.parse(result.stdout) })
     console.log(`${family}/${phase}/${variant}/round-${round}: recorded`)

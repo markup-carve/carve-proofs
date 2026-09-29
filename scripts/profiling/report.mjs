@@ -7,7 +7,7 @@ const data = read('nesting-profile.json'), before = read('history/pre-prefix-ref
 assert.deepEqual(data.metadata.parsers, current.parsers)
 assert.equal(data.metadata.specCommit, current.specCommit)
 assert.equal(data.metadata.specDirty, false)
-assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/run.mjs', 'scripts/profiling/worker.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs']))
+assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/run.mjs', 'scripts/profiling/worker.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs', 'scripts/comparison/measurement-host.mjs']))
 assert.deepEqual(data.groups.map(g => `${g.reader}/${g.phase}/${g.family}/${g.size}`).sort(), ['js', 'spec'].flatMap(r => ['parse', 'render'].flatMap(p => ['quotes', 'lists'].flatMap(f => [32, 64, 128, 192].map(n => `${r}/${p}/${f}/${n}`)))).sort())
 assert.ok(data.groups.every(g => !g.error))
 const get = (report, reader, phase, family, size) => report.groups.find(g => g.reader === reader && g.phase === phase && g.family === family && g.size === size)
@@ -20,7 +20,7 @@ const changes = ['quotes', 'lists'].map(family => {
   assert.ok(b.calls < a.calls / 2, 'Review the recorded prefix-work improvement')
   return `| ${family} | ${a.calls} → ${b.calls} | ${fixed(100 * (1 - b.calls / a.calls))}% | ${fixed(allocation(old))} → ${fixed(allocation(now))} |`
 }).join('\n')
-const preceding = read('history/pre-latest-main/nesting-profile.json')
+const preceding = read('history/pre-cross-reader-refresh/nesting-profile.json')
 const recentChanges = ['quotes', 'lists'].map(family => {
   const old = regexTotals(get(preceding, 'js', 'parse', family, 192).patterns).calls
   const now = regexTotals(get(data, 'js', 'parse', family, 192).patterns).calls
@@ -60,7 +60,7 @@ regex calls recorded by the earlier reader. The historical
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
 This reader snapshot was recorded at ${data.metadata.generatedAt}.
-The immediately preceding [profile](history/pre-latest-main/nesting-profile.json)
+The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
 and [report](history/pre-latest-main/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.

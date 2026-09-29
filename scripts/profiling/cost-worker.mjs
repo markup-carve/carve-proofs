@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { Session } from 'node:inspector'
 import { loadavg } from 'node:os'
 import { performance } from 'node:perf_hooks'
@@ -6,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { parse as carveParse, carveToHtml } from 'carve-comparison'
 import { parse as djotParse, renderHTML as djotHtml } from '@djot/djot'
 import { Parser, HtmlRenderer } from 'commonmark'
-import { scalingCases } from '../properties/scaling-cases.mjs'
+import { scalingCases } from '../comparison/scaling-cases.mjs'
 import { aggregateFrames } from './summary.mjs'
 
 const [variant, family, phase = 'parse'] = process.argv.slice(2)
@@ -18,7 +19,7 @@ const parsers = {
   'djot-positions': source => djotParse(source, { sourcePositions: true }),
   commonmark: source => cm.parse(source),
 }
-assert.ok(parsers[variant] && scalingCases[family] && ['parse', 'html'].includes(phase))
+assert.ok(parsers[variant] && scalingCases[family] && ['parse', 'html', 'direct-html-probe'].includes(phase))
 const html = { carve: carveToHtml, djot: source => djotHtml(djotParse(source)), commonmark: source => cmHtml.render(cm.parse(source)) }
 if (phase === 'html') assert.ok(html[variant])
 const loadStart = loadavg()
@@ -28,16 +29,18 @@ const strip = value => Array.isArray(value) ? value.map(strip) : value && typeof
   ? Object.fromEntries(Object.entries(value).filter(([key]) => key !== 'pos').map(([key, child]) => [key, strip(child)])) : value
 if (variant.startsWith('carve')) assert.deepEqual(strip(parse(source)), strip(carveParse(source)))
 if (variant.startsWith('djot')) assert.deepEqual(strip(parse(source)), strip(djotParse(source)))
-let htmlPath = null
+let htmlPath = null, probe
 if (variant.startsWith('carve')) {
   const { tryFastHtml } = await import(new URL('./fast-html.js', import.meta.resolve('carve-comparison')))
+  probe = () => tryFastHtml(source, {})
   const direct = tryFastHtml(source, {})
   htmlPath = direct === undefined ? 'ast' : 'direct'
   if (direct !== undefined) assert.equal(direct, carveToHtml(source))
 }
 let sink = 0
-const operation = phase === 'parse' ? parse : html[variant]
-const once = () => { const result = operation(source); sink ^= typeof result === 'string' ? result.length : result.children?.length ?? (result.firstChild ? 1 : 0) }
+if (phase === 'direct-html-probe') assert.equal(variant, 'carve')
+const operation = phase === 'parse' ? parse : phase === 'html' ? html[variant] : probe
+const once = () => { const result = operation(source); sink ^= typeof result === 'string' ? result.length : result?.children?.length ?? (result?.firstChild ? 1 : 0) }
 const warmUntil = performance.now() + 500
 while (performance.now() < warmUntil) once()
 const samples = []
@@ -71,5 +74,5 @@ const heapFrames = []
 function walk(node) { if (node.selfSize) heapFrames.push({ ...frame(node.callFrame), sampledBytes: node.selfSize }); node.children.forEach(walk) }
 walk(heap.head)
 const heapNodes = aggregateFrames(heapFrames, 'sampledBytes')
-console.log(JSON.stringify({ variant, phase, family, htmlPath, loadStart, loadEnd: loadavg(), size, bytes: Buffer.byteLength(source), samples, cpuIterations, cpuSamples, heapIterations,
+console.log(JSON.stringify({ sourceSha256: createHash('sha256').update(source).digest('hex'), variant, phase, family, htmlPath, loadStart, loadEnd: loadavg(), size, bytes: Buffer.byteLength(source), samples, cpuIterations, cpuSamples, heapIterations,
   sampledAllocationBytes: heapNodes.reduce((sum, row) => sum + row.sampledBytes, 0), heapNodes, sink }))

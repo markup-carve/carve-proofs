@@ -189,3 +189,24 @@ test('all runtime chart points preserve measured samples and units', () => {
     }
   }
 });
+
+test('paired JavaScript controls expose both rounds and exact exports', async ({ page }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset', { exact: true }).selectOption('javascript');
+  await page.getByLabel('Input family', { exact: true }).selectOption('long-unicode');
+  await page.getByLabel('API phase', { exact: true }).selectOption('parse');
+  await page.getByLabel('Metric', { exact: true }).selectOption('wall');
+  await expect(page.locator('tbody')).toContainText('carve / round 1');
+  await expect(page.locator('tbody')).toContainText('carve / round 2');
+  const chart = charts.find(c => c.id === 'javascript-long-unicode-parse-wall');
+  expect(chart.points).toHaveLength(24);
+  expect(new Set(chart.points.map(p => p.reader)).size).toBe(6);
+  expect(chart.metadata.execution.controlled).toBe(true);
+  await expect(page.locator('a[download$=".csv"]')).toHaveAttribute('href', /javascript-long-unicode-parse-wall.csv$/);
+  await page.getByLabel('Dataset', { exact: true }).selectOption('current-costs');
+  await page.getByLabel('Input family', { exact: true }).selectOption('inline-links');
+  await page.getByLabel('API phase', { exact: true }).selectOption('direct-html-probe');
+  await page.getByLabel('Metric', { exact: true }).selectOption('wall');
+  await expect(page.locator('tbody')).toContainText('carve / round 2');
+  await expect(page.locator('.chart')).toHaveAttribute('src', /current-costs-inline-links-direct-html-probe-wall.svg$/);
+});

@@ -37,8 +37,8 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
                 point = valid[0]
                 ax.barh(reader, point['value'], xerr=[[point['value'] - point['low']], [point['high'] - point['value']]], color=variant_colors[reader.split(' / round ')[0]], capsize=3)
             else:
-                ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
-                ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
+                ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=variant_colors[reader.split(' / round ')[0]], linestyle='--' if reader.endswith(' / round 2') else '-', linewidth=1.8, markersize=4)
+                ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=variant_colors[reader.split(' / round ')[0]], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
     depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change', 'container-tails']
     if dataset == 'current-costs':
@@ -83,15 +83,20 @@ for dataset, file in [('javascript', 'comparison-timings'), ('native', 'djot-v-t
                 for group in groups:
                     if group['family'] != family or group.get('mode', group.get('phase')) != phase:
                         continue
-                    rows = []
-                    for row in group['rows']:
-                        if dataset == 'native':
-                            key = dict(wall='wallMs', cpu='cpuMs', allocation='allocatedBytes')[metric]
-                            samples = [s[key] for s in row.get('samples', [])]
-                        else:
-                            samples = row.get('samplesMs' if metric == 'wall' else 'samplesCpuMs', [])
-                        rows.append(observation(row, samples, 'nested' in family))
-                    series[group.get('reader', 'djot.v / OCaml')] = rows
+                    rounds = group.get('rounds', [group])
+                    for run in rounds:
+                        rows = []
+                        for row in run['rows']:
+                            if dataset == 'native':
+                                key = dict(wall='wallMs', cpu='cpuMs', allocation='allocatedBytes')[metric]
+                                samples = [s[key] for s in row.get('samples', [])]
+                            else:
+                                samples = row.get('samplesMs' if metric == 'wall' else 'samplesCpuMs', [])
+                            rows.append(observation(row, samples, 'nested' in family))
+                        label = group.get('reader', 'djot.v / OCaml')
+                        if 'round' in run:
+                            label += ' / round ' + str(run['round'] + 1)
+                        series[label] = rows
                 if series:
                     note = 'Median and observed sample range, not a confidence interval. Phases are independent runs. API features differ; these curves are not a language ranking.'
                     if dataset == 'native':
@@ -185,7 +190,7 @@ for family in sorted({g['family'] for g in tails['copies']}):
     export('container-tails', family, 'parse', 'seam-copy', 'Selected copied lengths (UTF-16 units)', {label: points}, tails['metadata'], 'Candidate only. Each leaf has 100,000 characters. Counts source normalization and attributed-tail reconstruction, not total allocation. The baseline does not instrument the same copy sites.')
 costs = json.loads((ROOT / 'reports/current-costs.json').read_text())
 for family in sorted({g['family'] for g in costs['groups']}):
-    for phase in ['parse', 'html']:
+    for phase in ['parse', 'html', 'direct-html-probe']:
         for metric, unit in [('wall', 'Wall milliseconds / operation'), ('cpu', 'CPU milliseconds / operation'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
             series = {}
             for group in costs['groups']:
@@ -194,6 +199,6 @@ for family in sorted({g['family'] for g in costs['groups']}):
                 for round in group['rounds']:
                     values = [round['sampledAllocationBytes'] / round['heapIterations']] if metric == 'sampled-allocation' else [s[metric + 'Ms'] for s in round['samples']]
                     series[group['variant'] + ' / round ' + str(round['round'] + 1)] = [observation(group, values, 'nested' in family)]
-            export('current-costs', family, phase, metric, unit, series, costs['metadata'], costs['metadata']['method'] + ' Error bars show sample minimum and maximum, not confidence intervals. Rounds remain separate because shared-host drift makes pooled medians misleading. These timings do not establish a performance ordering. Heap sampling measures allocation churn, not retained memory. Carve positions:false drops fields after parsing; it does not bypass position construction.')
+            export('current-costs', family, phase, metric, unit, series, costs['metadata'], costs['metadata']['method'] + ' Error bars show sample minimum and maximum, not confidence intervals. Fresh-worker rounds remain separate; pooled medians would hide variation. These timings do not establish a performance ordering. Heap sampling measures allocation churn, not retained memory. Carve positions:false drops fields after parsing; it does not bypass position construction.')
 (OUT / 'index.json').write_text(json.dumps(charts))
 print(f'Exported {len(charts)} charts as SVG, PNG, CSV and JSON')
