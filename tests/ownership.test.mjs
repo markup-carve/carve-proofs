@@ -66,45 +66,10 @@ test('reduced witnesses preserve geometry and their original reader split', asyn
   }
 })
 
-test('triage preserves block recognition and nested owner direction', async () => {
-  const { finding } = await import('../scripts/ownership/findings.mjs')
+test('all 472 ownership cases agree at the recorded pins', () => {
   const { rows } = JSON.parse(readFileSync(new URL('../reports/ownership-results.json', import.meta.url)))
-  const partitions = new Map()
-  const text = node => typeof node === 'string' ? node : node.children.map(text).join('')
-  function targetDepth(html, tag) {
-    const depths = []
-    function visit(node, depth) {
-      if (typeof node === 'string') return
-      if (node.tag === 'ul') depth++
-      const hasPayload = node.children.some(child => typeof child === 'string'
-        ? child.includes('tail') : ['p', 'code'].includes(child.tag) && text(child).includes('tail'))
-      if (node.tag === tag && hasPayload) depths.push(depth)
-      node.children.forEach(child => visit(child, depth))
-    }
-    project(html).forEach(node => visit(node, 0))
-    return depths
-  }
-  for (const row of rows) {
-    const group = finding(row)
-    if (!group) continue
-    if (!partitions.has(group)) partitions.set(group, row.groups)
-    assert.deepEqual(row.groups, partitions.get(group), `${group} reader partition`)
-    const tag = { heading: 'h1', quote: 'blockquote', fence: 'pre' }[row.parameters.follower]
-    if (!tag) continue
-    for (const reader of ['spec', 'js', 'php', 'rs']) {
-      let expected
-      if (group === 'quote-lazy-interruption') {
-        if (row.parameters.follower === 'quote') {
-          assert.equal(row.outputs[reader].includes('&gt; tail'), reader !== 'rs', `${row.id}/${reader} literal marker`)
-        } else expected = reader === 'rs' ? [1] : []
-      }
-      if (group === 'opener-after-content-comment') expected = ['js', 'php'].includes(reader) ? [1] : []
-      if (group === 'nested-content-comment-opener') expected = ['spec', 'rs'].includes(reader) ? [2] : [1]
-      if (group === 'nested-comment-outer-opener') expected = reader === 'rs' ? [] : [1]
-      if (group === 'nested-comment-inner-opener') expected = reader === 'rs' ? [1] : [2]
-      if (expected) assert.deepEqual(targetDepth(row.outputs[reader], tag), expected, `${row.id}/${reader}`)
-    }
-  }
+  assert.equal(rows.length, 472)
+  for (const row of rows) assert.deepEqual(row.groups, [['spec', 'js', 'php', 'rs']], row.id)
 })
 
 test('projection ignores block-edge formatting while preserving inline word separation', () => {
@@ -122,6 +87,23 @@ test('footnote fences and control hosts keep their block interpretation', () => 
       ? '<pre><code class="language-js">c\n</code></pre>' : '<b>c</b>'
     for (const [reader, html] of Object.entries(row.outputs)) {
       assert.ok(html.includes(expected), `${row.id}/${reader}: expected rendered block payload`)
+    }
+  }
+})
+
+test('resolved and consensus-change cases retain their reviewed HTML structure', () => {
+  const expected = JSON.parse(readFileSync(new URL('./fixtures/ownership-resolved.json', import.meta.url)))
+  const { rows } = JSON.parse(readFileSync(new URL('../reports/ownership-results.json', import.meta.url)))
+  const previous = JSON.parse(readFileSync(new URL('../site/history/ownership-before-container-fixes.json', import.meta.url)))
+  const oldRows = new Map(previous.rows.map(row => [row.id, row]))
+  const changed = rows.filter(row => JSON.stringify(row.outputs) !== JSON.stringify(oldRows.get(row.id).outputs))
+  assert.equal(expected.length, 49)
+  assert.equal(changed.filter(row => oldRows.get(row.id).groups.length > 1).length, 43)
+  assert.deepEqual(expected.map(row => row.id), changed.map(row => row.id))
+  for (const fixture of expected) {
+    const row = rows.find(row => row.id === fixture.id)
+    for (const [reader, html] of Object.entries(row.outputs)) {
+      assert.deepEqual(project(html), project(fixture.html), `${row.id}/${reader}`)
     }
   }
 })

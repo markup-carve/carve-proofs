@@ -25,7 +25,7 @@ The proof inventory links theorem declarations to their source. It does not clai
 
 ## History
 
-`history/ownership-before-fence-fix.json` is copied verbatim from `reports/ownership-results.json` at commit `3496c574f1b40b27dc102aef0327a9eb1dcc6abd`. The generator requires the same suite hash before comparing reader partitions. This records one transition, from 55 to 43 disagreeing cases, rather than an inferred trend. Preserve the source artifact and suite identity when adding another transition.
+`history/ownership-before-fence-fix.json` preserves the earlier 55-disagreement baseline from commit `3496c574f1b40b27dc102aef0327a9eb1dcc6abd`. The current history view compares `history/ownership-before-container-fixes.json`, copied verbatim from `reports/ownership-results.json` at commit `3483541aa364f697920057fd36ea4e7777bb6532`, with the new pins. This records 43 to 0 disagreements and includes output changes on six previously agreeing cases. The generator requires identical suite hashes, case IDs and sources. Preserve these artifacts when adding another transition.
 
 ## Publishing
 

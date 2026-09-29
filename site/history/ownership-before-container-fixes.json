@@ -2,19 +2,19 @@
   "pins": {
     "spec": {
       "repository": "https://github.com/markup-carve/carve.git",
-      "commit": "041616d77e77f89296121fcb3267ec9ab64fdc52"
+      "commit": "44c267b0e2eece256cefbcd718408326db6e8487"
     },
     "js": {
       "repository": "https://github.com/markup-carve/carve-js.git",
-      "commit": "502256cf16948f92c4fce409c0a44ec1ae0306a5"
+      "commit": "9f3d058708a287b58aa701596dfb76e5c45d73a2"
     },
     "php": {
       "repository": "https://github.com/markup-carve/carve-php.git",
-      "commit": "9c6821f8902cfa387111d143e425310ae8f5c38a"
+      "commit": "0618c3fe54c730f25a0d43a9468dba25a108b0ea"
     },
     "rs": {
       "repository": "https://github.com/markup-carve/carve-rs.git",
-      "commit": "a2d1537672060aa27660b64b456e9aa397db0d25"
+      "commit": "d8e95bdef804f4a1f90f43f292a4300e314ed4f9"
     }
   },
   "projectionVersion": 1,
@@ -2935,13 +2935,15 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>\n"
+        "js": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
-          "spec",
+          "spec"
+        ],
+        [
           "js",
           "php",
           "rs"
@@ -3434,10 +3436,10 @@
         "follower": "sibling"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>intro\n    - tail\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>intro\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
@@ -3659,17 +3661,19 @@
         "follower": "heading"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>intro\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>intro\n    # tail\n  </li>\n</ul>",
         "js": "<ul>\n  <li>intro\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>intro\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>intro\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>intro\n    # tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -3709,17 +3713,19 @@
         "follower": "quote"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>intro\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>intro\n    &gt; tail\n  </li>\n</ul>",
         "js": "<ul>\n  <li>intro\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>intro\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>intro\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>intro\n    &gt; tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -3734,17 +3740,19 @@
         "follower": "fence"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>intro\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>intro\n    <code>\ntail\n</code>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>intro\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>intro\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>intro\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>intro\n    <code>\ntail\n</code>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -5435,13 +5443,15 @@
       },
       "outputs": {
         "spec": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>",
-        "js": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>",
-        "php": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>\n",
-        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>\n"
+        "js": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>",
+        "php": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>\n",
+        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>\n"
       },
       "groups": [
         [
-          "spec",
+          "spec"
+        ],
+        [
           "js",
           "php",
           "rs"
@@ -5934,10 +5944,10 @@
         "follower": "sibling"
       },
       "outputs": {
-        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>",
-        "js": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>",
-        "php": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>\n",
-        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      - tail\n    </li>\n  </ul>\n</blockquote>\n"
+        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>",
+        "js": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>",
+        "php": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>\n",
+        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <ul>\n        <li>tail</li>\n      </ul>\n    </li>\n  </ul>\n</blockquote>\n"
       },
       "groups": [
         [
@@ -6159,17 +6169,19 @@
         "follower": "heading"
       },
       "outputs": {
-        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      <h1 id=\"tail\">tail</h1>\n    </li>\n  </ul>\n</blockquote>",
+        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      # tail\n    </li>\n  </ul>\n</blockquote>",
         "js": "<blockquote>\n  <ul>\n    <li>intro\n      <h1 id=\"tail\">tail</h1>\n    </li>\n  </ul>\n</blockquote>",
         "php": "<blockquote>\n  <ul>\n    <li>intro\n      <h1 id=\"tail\">tail</h1>\n    </li>\n  </ul>\n</blockquote>\n",
-        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <h1 id=\"tail\">tail</h1>\n    </li>\n  </ul>\n</blockquote>\n"
+        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      # tail\n    </li>\n  </ul>\n</blockquote>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -6209,17 +6221,19 @@
         "follower": "quote"
       },
       "outputs": {
-        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      <blockquote><p>tail</p></blockquote>\n    </li>\n  </ul>\n</blockquote>",
+        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      &gt; tail\n    </li>\n  </ul>\n</blockquote>",
         "js": "<blockquote>\n  <ul>\n    <li>intro\n      <blockquote><p>tail</p></blockquote>\n    </li>\n  </ul>\n</blockquote>",
         "php": "<blockquote>\n  <ul>\n    <li>intro\n      <blockquote><p>tail</p></blockquote>\n    </li>\n  </ul>\n</blockquote>\n",
-        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <blockquote><p>tail</p></blockquote>\n    </li>\n  </ul>\n</blockquote>\n"
+        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      &gt; tail\n    </li>\n  </ul>\n</blockquote>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -6234,17 +6248,19 @@
         "follower": "fence"
       },
       "outputs": {
-        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      <pre><code>tail\n</code></pre>\n    </li>\n  </ul>\n</blockquote>",
+        "spec": "<blockquote>\n  <ul>\n    <li>intro\n      <code>\ntail\n</code>\n    </li>\n  </ul>\n</blockquote>",
         "js": "<blockquote>\n  <ul>\n    <li>intro\n      <pre><code>tail\n</code></pre>\n    </li>\n  </ul>\n</blockquote>",
         "php": "<blockquote>\n  <ul>\n    <li>intro\n      <pre><code>tail\n</code></pre>\n    </li>\n  </ul>\n</blockquote>\n",
-        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <pre><code>tail\n</code></pre>\n    </li>\n  </ul>\n</blockquote>\n"
+        "rs": "<blockquote>\n  <ul>\n    <li>intro\n      <code>\ntail\n</code>\n    </li>\n  </ul>\n</blockquote>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -6912,13 +6928,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -6962,13 +6980,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\ntail</p></blockquote>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -6987,13 +7007,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -7159,10 +7181,10 @@
         "follower": "heading"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n# tail</p></blockquote>\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
@@ -7209,10 +7231,10 @@
         "follower": "quote"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n&gt; tail</p></blockquote>\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro\ntail</p></blockquote>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>\n    <blockquote><p>intro\ntail</p></blockquote>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <blockquote><p>intro\ntail</p></blockquote>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\ntail</p></blockquote>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
@@ -7234,10 +7256,10 @@
         "follower": "fence"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro\n<code>\ntail\n</code></p></blockquote>\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
@@ -7935,13 +7957,15 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>\n"
+        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
-          "spec",
+          "spec"
+        ],
+        [
           "js",
           "php",
           "rs"
@@ -8162,13 +8186,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    # tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -8212,13 +8238,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    &gt; tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -8237,13 +8265,15 @@
         "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <code>\ntail\n</code>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -8434,10 +8464,10 @@
         "follower": "sibling"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    - tail\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
@@ -8659,17 +8689,19 @@
         "follower": "heading"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    # tail\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    # tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -8709,17 +8741,19 @@
         "follower": "quote"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    &gt; tail\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    &gt; tail\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -8734,17 +8768,19 @@
         "follower": "fence"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
+        "spec": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <code>\ntail\n</code>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <blockquote><p>intro</p></blockquote>\n    <code>\ntail\n</code>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -9486,15 +9522,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n<code>\ntail\n</code></li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n<code>\ntail\n</code></li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n<code>\ntail\n</code></li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n<code></code></li>\n    </ul>\n  </li>\n</ul>\n<p>tail\n<code></code></p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n<code>\ntail\n</code></li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10435,13 +10473,15 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
-          "spec",
+          "spec"
+        ],
+        [
           "js",
           "php",
           "rs"
@@ -10486,15 +10526,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code></code>\n      </li>\n    </ul>\n  </li>\n</ul>\n<p>tail\n<code></code></p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10537,13 +10579,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        # tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10562,13 +10606,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10587,13 +10633,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        &gt; tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10612,13 +10660,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10662,13 +10712,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10687,13 +10739,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10712,13 +10766,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10737,13 +10793,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -10886,15 +10944,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        tail\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        tail\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n  </li>\n</ul>\n<p>tail</p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10911,15 +10971,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        # tail\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        # tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        # tail\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n  </li>\n</ul>\n<p># tail</p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        # tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10934,17 +10996,21 @@
         "follower": "sibling"
       },
       "outputs": {
-        "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        - tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>",
+        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n  </li>\n</ul>\n<ul>\n  <li>tail</li>\n</ul>\n",
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
-          "spec",
+          "spec"
+        ],
+        [
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10961,15 +11027,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        &gt; tail\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        &gt; tail\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        &gt; tail\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n  </li>\n</ul>\n<p>&gt; tail</p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        &gt; tail\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -10986,15 +11054,17 @@
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n  </li>\n</ul>\n<p><code>\ntail\n</code></p>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <code>\ntail\n</code>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
           "rs"
+        ],
+        [
+          "php"
         ]
       ]
     },
@@ -11160,16 +11230,18 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -11210,16 +11282,18 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -11235,16 +11309,18 @@
       },
       "outputs": {
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
-        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
+        "js": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>",
+        "php": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n",
         "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
-          "js",
-          "php",
           "rs"
+        ],
+        [
+          "js",
+          "php"
         ]
       ]
     },
@@ -11562,13 +11638,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p></li>\n      <li><p>tail</p></li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p></li>\n      <li><p>tail</p></li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p></li>\n      <li><p>tail</p></li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p></li>\n      <li><p>tail</p></li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <ul>\n      <li>tail</li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -11637,13 +11715,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p>\n        <p>tail</p>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p>\n        <p>tail</p>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p>\n        <p>tail</p>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p>\n        <p>tail</p>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <p>tail</p>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -11662,13 +11742,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <h1 id=\"tail\">tail</h1>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <h1 id=\"tail\">tail</h1>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -11687,13 +11769,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <ul>\n          <li>tail</li>\n        </ul>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li><p>intro</p></li>\n      <li><p>tail</p></li>\n    </ul>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -11712,13 +11796,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <blockquote><p>tail</p></blockquote>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <blockquote><p>tail</p></blockquote>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
@@ -11737,13 +11823,15 @@
         "spec": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "js": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>",
         "php": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n",
-        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro\n        <pre><code>tail\n</code></pre>\n      </li>\n    </ul>\n  </li>\n</ul>\n"
+        "rs": "<ul>\n  <li>\n    <ul>\n      <li>intro</li>\n    </ul>\n    <pre><code>tail\n</code></pre>\n  </li>\n</ul>\n"
       },
       "groups": [
         [
           "spec",
           "js",
-          "php",
+          "php"
+        ],
+        [
           "rs"
         ]
       ]
