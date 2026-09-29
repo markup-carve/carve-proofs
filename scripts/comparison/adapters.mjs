@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import * as carve from '@markup-carve/carve'
+import * as carve from 'carve-comparison'
 import * as djot from '@djot/djot'
 import * as commonmark from 'commonmark'
 

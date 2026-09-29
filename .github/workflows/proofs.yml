@@ -46,6 +46,10 @@ jobs:
         run: npm run check:properties -- --check-artifact reports/property-results.json --output reports/property-ci.json
       - name: Check three-reader comparison
         run: npm run check:comparison -- --check reports/comparison-results.json --output reports/comparison-ci.json
+      - name: Check scoped contracts and container positions
+        run: |
+          npm run check:contracts -- --check reports/comparison-contracts.json
+          npm run check:containers -- --check reports/container-regressions.json
       - name: Check pinned djot.v package
         run: |
           npm run build:djot-v

@@ -5,12 +5,17 @@ import { evidenceEnvironment } from '../evidence-environment.mjs'
 const read = p => JSON.parse(readFileSync(new URL('../../' + p, import.meta.url)))
 export function comparisonEnvironment() {
   const metadata = evidenceEnvironment(), project = read('package.json'), lock = read('package-lock.json'), installed = read('node_modules/.package-lock.json')
+  metadata.proofEngine = metadata.engine
+  metadata.engine = project.devDependencies['carve-comparison']
+  metadata.installedEngine = installed.packages['node_modules/carve-comparison']?.resolved
+  assert.match(metadata.engine, /^github:markup-carve\/carve-js#[0-9a-f]{40}$/, 'Comparison requires an immutable Carve commit')
   metadata.parsers = {}
   for (const name of ['@markup-carve/carve', '@djot/djot', 'commonmark']) {
-    const p = `node_modules/${name}`, entry = lock.packages[p]
+    const p = `node_modules/${name === '@markup-carve/carve' ? 'carve-comparison' : name}`, entry = lock.packages[p]
     assert.ok(entry && installed.packages[p], `Missing installed ${name}`)
     for (const key of ['version', 'resolved', 'integrity']) assert.equal(installed.packages[p][key], entry[key], `${name}: installed ${key} differs`)
-    if (name !== '@markup-carve/carve') assert.equal(project.devDependencies[name], entry.version, `${name}: require an exact version`)
+    if (name === '@markup-carve/carve') assert.ok(entry.resolved.endsWith('#' + metadata.engine.split('#')[1]), 'Comparison manifest and lock commits differ')
+    else assert.equal(project.devDependencies[name], entry.version, `${name}: require an exact version`)
     metadata.parsers[name] = { version: entry.version, resolved: entry.resolved, ...(entry.integrity ? { integrity: entry.integrity } : {}) }
   }
   assert.equal(metadata.specDirty, false)

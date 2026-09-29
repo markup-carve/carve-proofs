@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { parse } from '@markup-carve/carve'
+import { parse } from 'carve-comparison'
 import { parse as parseSpec } from '../spec/scripts/spec/layout.mjs'
 import { regexWork } from '../scripts/profiling/instrument.mjs'
 import { aggregateFrames, regexTotals } from '../scripts/profiling/summary.mjs'
@@ -39,4 +39,13 @@ for (const reader of ['js', 'spec']) for (const family of ['quotes', 'lists']) t
 test('sticky regex split expansion cannot silently enter the work totals', () => {
   const patterns = regexWork(() => 'alpha beta'.split(/ /))
   assert.throws(() => regexTotals(patterns), /Sticky regex calls need review/)
+})
+
+test('post-fix JavaScript keeps simple nesting regex-call growth near doubling', () => {
+  for (const family of ['quotes', 'lists']) {
+    const marker = family === 'quotes' ? '> ' : '- '
+    const counts = [64, 128, 192].map(depth => regexTotals(regexWork(() => parse(marker.repeat(depth) + 'end\n'))).calls)
+    assert.ok(counts[1] <= counts[0] * 2.1, `${family}: depth doubling repeats excess regex work`)
+    assert.ok(counts[2] <= counts[1] * 1.6, `${family}: depth growth repeats excess regex work`)
+  }
 })

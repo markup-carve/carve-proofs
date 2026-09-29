@@ -2,155 +2,134 @@ import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
 import { median, aggregateFrames, regexTotals } from './summary.mjs'
-const data = JSON.parse(readFileSync(new URL('../../reports/nesting-profile.json', import.meta.url))), current = comparisonEnvironment()
+const read = name => JSON.parse(readFileSync(new URL('../../reports/' + name, import.meta.url)))
+const data = read('nesting-profile.json'), before = read('history/pre-prefix-refresh/nesting-profile.json'), current = comparisonEnvironment()
 assert.deepEqual(data.metadata.parsers, current.parsers)
 assert.equal(data.metadata.specCommit, current.specCommit)
 assert.equal(data.metadata.specDirty, false)
 assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/run.mjs', 'scripts/profiling/worker.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs']))
 assert.deepEqual(data.groups.map(g => `${g.reader}/${g.phase}/${g.family}/${g.size}`).sort(), ['js', 'spec'].flatMap(r => ['parse', 'render'].flatMap(p => ['quotes', 'lists'].flatMap(f => [32, 64, 128, 192].map(n => `${r}/${p}/${f}/${n}`)))).sort())
 assert.ok(data.groups.every(g => !g.error))
-for (const reader of ['js', 'spec']) for (const family of ['quotes', 'lists']) {
-  const pick = (phase, size) => data.groups.find(g => g.reader === reader && g.phase === phase && g.family === family && g.size === size)
-  const parsing = pick('parse', 192), rendering = pick('render', 192)
-  assert.ok(median(rendering.samples.map(s => s.wallMs)) < median(parsing.samples.map(s => s.wallMs)) / 2, 'Review the parse-versus-render conclusion')
-  const representatives = family === 'quotes' ? (reader === 'js' ? ['classifyQuotedLine'] : ['nestedQuoteOpensParagraph']) : (reader === 'js' ? ['markerPrefixLength', 'markerLineState', 'parseList'] : ['matchMarkerAt', 'opensParagraph'])
-  const hottest = aggregateFrames(parsing.cpuSamples, 'selfUs').slice(0, 10)
-  assert.ok(hottest.some(f => representatives.includes(f.function)), 'Review the named prefix hotspots')
-  assert.ok(regexTotals(pick('parse', 128).patterns).calls > 2 * regexTotals(pick('parse', 64).patterns).calls, 'Review the faster-than-input call growth conclusion')
-}
+const get = (report, reader, phase, family, size) => report.groups.find(g => g.reader === reader && g.phase === phase && g.family === family && g.size === size)
 const fixed = n => n.toFixed(2)
-const get = (reader, phase, family, size) => data.groups.find(g => g.reader === reader && g.phase === phase && g.family === family && g.size === size)
-const timingRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
-  const p64 = get(reader, 'parse', family, 64), p128 = get(reader, 'parse', family, 128), p192 = get(reader, 'parse', family, 192), r192 = get(reader, 'render', family, 192)
-  const time = g => median(g.samples.map(s => s.wallMs)), cpu = g => median(g.samples.map(s => s.cpuMs))
-  return `| ${reader} | ${family} | ${fixed(time(p64))} → ${fixed(time(p128))} | ${fixed(time(p128)/time(p64))}× | ${fixed(time(p192))} / ${fixed(cpu(p192))} | ${fixed(time(r192))} / ${fixed(cpu(r192))} |`
+const time = g => median(g.samples.map(s => s.wallMs))
+const allocation = g => g.sampledAllocationBytes / g.heapIterations / 1024
+const changes = ['quotes', 'lists'].map(family => {
+  const old = get(before, 'js', 'parse', family, 192), now = get(data, 'js', 'parse', family, 192)
+  const a = regexTotals(old.patterns), b = regexTotals(now.patterns)
+  assert.ok(b.calls < a.calls / 2, 'Review the recorded prefix-work improvement')
+  return `| ${family} | ${a.calls} → ${b.calls} | ${fixed(100 * (1 - b.calls / a.calls))}% | ${fixed(allocation(old))} → ${fixed(allocation(now))} |`
+}).join('\n')
+const growth = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
+  const low = get(data, reader, 'parse', family, 64), high = get(data, reader, 'parse', family, 128), last = get(data, reader, 'parse', family, 192)
+  const a = regexTotals(low.patterns), b = regexTotals(high.patterns)
+  if (reader === 'js') assert.ok(b.calls <= a.calls * 2.1, 'Review the near-doubling call-growth observation')
+  return `| ${reader} | ${family} | ${a.calls} → ${b.calls} | ${fixed(b.calls / a.calls)}× | ${a.inputChars} → ${b.inputChars} | ${fixed(time(last))} | ${fixed(time(get(data, reader, 'render', family, 192)))} |`
 })).join('\n')
-const countRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
-  const low = get(reader, 'parse', family, 64), high = get(reader, 'parse', family, 128), a = regexTotals(low.patterns), b = regexTotals(high.patterns)
-  const layout = g => reader === 'js' ? g.layout.total : Object.values(g.layout).reduce((a,b) => a+b,0)
-  return `| ${reader} | ${family} | ${a.calls} → ${b.calls} | ${fixed(b.calls/a.calls)}× | ${a.inputChars} → ${b.inputChars} | ${layout(low)} → ${layout(high)} |`
-})).join('\n')
-const allocationRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
-  const allocated = (phase, size) => { const g = get(reader, phase, family, size); return g.sampledAllocationBytes/g.heapIterations/1024 }
-  return `| ${reader} | ${family} | ${fixed(allocated('parse',64))} | ${fixed(allocated('parse',128))} | ${fixed(allocated('parse',192))} | ${fixed(allocated('render',192))} |`
-})).join('\n')
-const sourceUrl = file => file.startsWith('spec/') ? `https://github.com/markup-carve/carve/blob/${current.specCommit}/${file.slice(5)}` : file.startsWith('node_modules/@markup-carve/carve/') ? `https://github.com/markup-carve/carve-js/blob/${current.engine.split('#')[1]}/src/parse.ts` : null
+const allocationRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => `| ${reader} | ${family} | ${[64, 128, 192].map(size => fixed(allocation(get(data, reader, 'parse', family, size)))).join(' | ')} |`)).join('\n')
+const sourceUrl = file => file.startsWith('spec/') ? `https://github.com/markup-carve/carve/blob/${current.specCommit}/${file.slice(5)}` : file.startsWith('node_modules/carve-comparison/') ? `https://github.com/markup-carve/carve-js/blob/${current.engine.split('#')[1]}/${file.replace('node_modules/carve-comparison/dist/', 'src/').replace(/\.js$/, '.ts')}` : null
 const hotspots = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
-  const g = get(reader,'parse',family,192)
-  const relevant = aggregateFrames(g.cpuSamples, 'selfUs').filter(n => n.file.startsWith('spec/') || n.file.startsWith('node_modules/@markup-carve/carve/')).slice(0,3)
-  const heap = aggregateFrames(g.heapNodes, 'sampledBytes').slice(0,3)
-  return `### ${reader}: ${family}\n\nCPU self samples, aggregated across recursive call paths:\n\n${relevant.map(n => `- [\`${n.function}\`](${sourceUrl(n.file)}): ${fixed(n.selfUs/1000)} ms of sampled self time. Runtime location: \`${n.file}:${n.line}\`.`).join('\n')}\n\nLargest allocation frames: ${heap.map(n => `\`${n.function}\` (${fixed(n.sampledBytes/g.heapIterations/1024)} KiB/call)`).join(', ')}.`
+  const g = get(data, reader, 'parse', family, 192)
+  const frames = aggregateFrames(g.cpuSamples, 'selfUs').filter(n => sourceUrl(n.file)).slice(0, 3)
+  const heap = aggregateFrames(g.heapNodes, 'sampledBytes').slice(0, 3)
+  return `### ${reader}: ${family}\n\n${frames.map(n => `- [\`${n.function}\`](${sourceUrl(n.file)}): ${fixed(n.selfUs / 1000)} ms sampled self time at \`${n.file}:${n.line}\`.`).join('\n')}\n\nLargest sampled allocation frames: ${heap.map(n => `\`${n.function}\` (${fixed(n.sampledBytes / g.heapIterations / 1024)} KiB/call)`).join(', ')}.`
 })).join('\n\n')
 const text = `# Nested-container profiling
 
-Repeated inspection of remaining container prefixes is a source of growth that
-the current layout counters miss. CPU profiles, deterministic regex counts and
-allocation samples point to parsing work, especially quote-state classification
-and list-marker recognition. The render-only samples are much smaller on these
-fixtures. This investigation changes no parser implementation.
+The refreshed JavaScript reader already contains quote-state reuse and prefix
+memoization. At depth 192, both quote and list parsing use fewer than half the
+regex calls recorded by the earlier reader. The historical
+[profile](history/pre-prefix-refresh/nesting-profile.json) and
+[report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
-The JS engine is pinned to \`${current.engine.split('#')[1]}\`; the executable
-specification is pinned to \`${current.specCommit}\`. Each source is one line
-of repeated quote or list markers followed by \`end\`, at depths 32, 64, 128 and
-192. Depth 192 is below the 200-level layout limit. The three-reader comparison
-also verifies the resulting JS, Djot and CommonMark trees at these depths.
+Current JS pin: \`${current.engine.split('#')[1]}\`.
+Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.
+The executable specification remains pinned separately to
+\`${current.specCommit}\`; its measurements do not describe the latest specification.
+The model's JS dependency also stays at its original pin. The comparison uses
+the separately locked \`carve-comparison\` dependency.
 
-## Separate parse and render measurements
+## Recorded change at depth 192
 
-Median wall milliseconds at depths 64 and 128, then wall / process CPU milliseconds
-at depth 192. Render uses a prebuilt AST. Specification parsing builds block
-layout; its renderer also interprets inline content. These stages do different
-work from their JS counterparts.
+| Family | Regex calls, before → after | Call reduction | Sampled allocation KiB/call, before → after |
+|---|---:|---:|---:|
+${changes}
 
-| Reader | Family | Parse 64 → 128 | Growth | Parse 192 wall / CPU | Render 192 wall / CPU |
-|---|---|---:|---:|---:|---:|
-${timingRows}
+Regex calls are deterministic observations under the same instrumentation.
+Allocation estimates come from separate runs on a shared host and remain
+subject to sampling variation. Wall times are shown only for the current run
+below; differing host load prevents attributing a before/after timing change
+to the prefix optimization.
 
-## Work missing from the old counters
+The relevant changes landed in
+[quote-state reuse](https://github.com/markup-carve/carve-js/pull/2259) and
+[prefix classification reuse](https://github.com/markup-carve/carve-js/pull/2274)
+before this refresh. This update measures and guards the existing optimization.
+It does not introduce another parser rewrite.
 
-These are exact calls observed with an instrumented \`RegExp.prototype.exec\`
-during one parse, including calls made by \`test\` and string operations.
-Replacing that method can disable V8 fast paths, so the counts describe matching
-attempts under instrumentation, not native instruction counts or call overhead. Input exposure sums the lengths
-passed to those calls. It is not the number of characters the regex engine
-actually examines: an anchored failure can inspect only the first character.
-The exposure column must not be treated as a runtime complexity proof.
+## Current growth and phase costs
 
-| Reader | Family | Regex calls 64 → 128 | Call growth | Input characters presented 64 → 128 | Existing layout counter 64 → 128 |
-|---|---|---:|---:|---:|---:|
-${countRows}
+| Reader | Family | Regex calls, depth 64 → 128 | Call growth | Regex input exposure, 64 → 128 | Parse wall ms, 192 | Render wall ms, 192 |
+|---|---|---:|---:|---:|---:|---:|
+${growth}
 
-The operation counts grow faster than input size, so scheduling alone cannot
-explain the timing signal. The JS quote tracker walks the remaining quote
-prefix in \`trackBlockQuoteLazyState\` and \`classifyQuotedLine\`; each recursive
-\`parseBlockQuote\` invokes that tracker again. JS list parsing likewise calls
-\`walkContainerPrefix\` and \`markerPrefixLength\` on remaining prefixes.
+On these simple JavaScript nesting fixtures, regex-call growth is near doubling
+when depth doubles. Input exposure still counts every character supplied to a
+regex. Input exposure grows roughly fourfold when depth doubles on these
+fixtures, so substantial repeated input presentation remains. An anchored match
+may inspect only its first character. Exposure is not
+an executed-character count, and neither metric proves a whole-parser bound.
+The older specification reader retains its separately measured costs.
 
-The specification's \`nestedQuoteOpensParagraph\` loops through the inner quote
-markers for each enclosing quote parse. Its \`opensParagraph\` also peels nested
-list markers through \`matchMarkerAt\`. These repeated walks explain why the
-existing counts for indentation, prefix stripping and source splitting can stay
-linear while other work grows faster. The source inspection supports this
-mechanism; the samples do not assign an exact fraction of total cost to it.
+The parse and render phases are independent runs. JavaScript parsing includes
+source positions. Specification parsing produces block layout, while its
+renderer also interprets inline content. Those phases do different work.
 
-## Allocation
+## Allocation and sampled frames
 
-V8 heap sampling estimates allocated KiB per call, including objects collected
-by minor and major GC. These values measure allocation churn, not retained heap
-or peak memory, and vary between runs.
+V8 heap sampling estimates allocation churn, including collected objects. It
+does not measure retained heap or peak memory.
 
-| Reader | Family | Parse 64 | Parse 128 | Parse 192 | Render 192 |
-|---|---|---:|---:|---:|---:|
+| Reader | Family | Parse KiB/call, 64 | Parse KiB/call, 128 | Parse KiB/call, 192 |
+|---|---|---:|---:|---:|
 ${allocationRows}
 
 ${hotspots}
 
-CPU profiles include inspector startup and GC frames in the raw data. The lists
-above show parser-source frames only, aggregated by function and source location.
-Allocation lists include runtime allocation frames such as \`exec\`.
-The JS links point to TypeScript source; recorded line numbers refer to installed
-JavaScript and are not interchangeable with TypeScript line numbers.
+Frame times are aggregated self samples across recursive paths. Runtime line
+numbers refer to installed JavaScript, not the linked TypeScript source.
 
-## Regression coverage and next fix
+## Regression coverage
 
-The tests count regex calls and input exposure for both readers at all four
-depths. Their ceiling is the recorded count plus 5%, rejecting larger
-regressions. A drop below half the baseline also requires review and re-recording
-to distinguish a large improvement from instrumentation that stopped observing
-work. Sticky-regex calls are rejected because instrumenting regex-based split
-can expand one operation into per-position calls. These fixtures contain none. They also compare instrumented and ordinary parse
-trees and check that instrumentation restores \`RegExp.prototype.exec\` after an
-exception. The ceiling records current behavior; it does not certify linearity or cover prefix work implemented without regexes.
+The simple depth fixtures retain reviewed regex ceilings with 5% headroom.
+A drop below half the recorded baseline requires review to distinguish an
+improvement from instrumentation that stopped observing work. JavaScript also
+checks call growth across depths 64, 128 and 192. These guards cover selected
+regex work, not every operation in the parser.
 
-The first optimization target is to reuse the nested paragraph-state result or
-carry a shared prefix description into recursive parsing, rather than walking
-the remaining markers again at every level. The JS quote tracker is the first
-candidate, followed by list prefix walks and the corresponding specification
-helpers. Any change needs lazy-continuation, table, fence, definition and mixed
-container tests, because those states are why the trackers exist.
+The [expanded container suite](container-regressions.json) adds 112 distinct cases across
+lazy lines, tables, fences, definitions, tabs, Unicode, comments and headings.
+It checks quote, list and mixed wrappers through depth 16, exact terminal source
+coordinates, full-AST and HTML fingerprints, preserved unwrapped payload structure and
+reference destinations, and identical trees with and without
+instrumentation. The [scoped contracts](comparison-contracts.json) separately
+check wrapping, closed-block append behavior, references and nested payloads.
 
 ## Method and reproduction
 
 ${data.metadata.method}
-Timing and CPU/heap sampling run before regex instrumentation, so patching the
-regex method cannot change optimization behavior during those measurements.
-The AST is parsed before render-only measurement, and profiler setup is excluded
-from the uninstrumented timings. Inspector self-time remains visible in profiles.
 
-Node ${data.metadata.node}, ${data.metadata.cpu}, ${data.metadata.logicalCpus} logical CPUs;
-load averages at completion: ${data.metadata.loadEnd.map(fixed).join(', ')}.
-The host is shared. Timings and sampled allocations are evidence for this input
-family, not a whole-parser complexity bound. Deterministic regex ceilings run
-in CI; sampling and timings are explicit local commands.
+Node ${data.metadata.node}; ${data.metadata.cpu}; ${data.metadata.logicalCpus} logical CPUs.
+Host load at completion: ${data.metadata.loadEnd.join(', ')}.
+Timing and sampling run before regex instrumentation. Patching regex execution
+can disable V8 fast paths, so instrumented call counts do not measure native
+instruction cost. Full inspector call trees are not retained.
 
 \`\`\`sh
-npm run profile:nesting -- reports/nesting-profile.json
+npm run profile:nesting
 npm run report:profiling
-node --test tests/profiling.test.mjs
+npm run check:containers -- --check reports/container-regressions.json
+node --test tests/profiling.test.mjs tests/comparison-contracts.test.mjs
 \`\`\`
-
-[Profile summaries, counters and measurements](nesting-profile.json).
-CPU and heap frames are recorded with their weights; full inspector call trees
-and chronological sample streams are not retained.
 `
 writeFileSync(new URL('../../reports/nesting-profile.md', import.meta.url), text)

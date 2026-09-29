@@ -19,7 +19,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
     load = metadata.get('loadStart', metadata.get('loadAverage'))
     if load:
         note += f" Recorded host load: {load}; logical CPUs: {metadata.get('logicalCpus', 'not recorded')}."
-    depth = 'nested' in family or dataset == 'profile'
+    depth = 'nested' in family or dataset in ['profile', 'prefix-change']
     cached_points = [dict(reader=reader, **r) for reader, rows in series.items() for r in rows]
     record = dict(id=slug, dataset=dataset, family=family, phase=phase, metric=metric, unit=unit, xUnit='depth' if depth else 'bytes', points=cached_points, metadata=metadata, note=note)
     cached = OUT / f'{slug}.json'
@@ -35,7 +35,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
             ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
             ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
-    depth = 'nested' in family or dataset == 'profile'
+    depth = 'nested' in family or dataset in ['profile', 'prefix-change']
     ax.set(xlabel='Nesting depth' if depth else 'Input bytes', ylabel=unit, title=f'{family} · {phase} · {metric}')
     ax.set_ylim(bottom=0)
     ax.grid(alpha=.18)
@@ -110,5 +110,28 @@ for family in sorted({g['family'] for g in data['groups']}):
                 series.setdefault(group['reader'], []).append(dict(x=group['size'], value=value, low=value, high=value, status='ok'))
             if series:
                 export('profile', family, phase, metric, unit, series, data['metadata'], 'Instrumentation covers selected operations. Input exposure is not characters examined. Heap sampling estimates allocation churn, not retained memory. Reader counters have different scopes. These measurements do not prove asymptotic complexity.')
+before = json.loads((ROOT / 'reports/history/pre-prefix-refresh/nesting-profile.json').read_text())
+after = json.loads((ROOT / 'reports/nesting-profile.json').read_text())
+for family in ['quotes', 'lists']:
+    for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Input characters supplied to regular expressions'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
+        series = {}
+        for label, report in [('before', before), ('after', after)]:
+            pin = report['metadata']['engine'].split('#')[-1][:10]
+            rows = []
+            for group in report['groups']:
+                if group['reader'] != 'js' or group['phase'] != 'parse' or group['family'] != family:
+                    continue
+                if metric == 'regex-calls':
+                    samples = [sum(p['calls'] for p in group['patterns'])]
+                elif metric == 'regex-input':
+                    samples = [sum(p['inputChars'] for p in group['patterns'])]
+                elif metric == 'sampled-allocation':
+                    samples = [group['sampledAllocationBytes'] / group['heapIterations']]
+                else:
+                    samples = [s['wallMs'] for s in group['samples']]
+                rows.append(observation(group, samples, True))
+            series[f'{label} / {pin}'] = rows
+        metadata = dict(generatedAt=after['metadata']['generatedAt'], before=before['metadata'], after=after['metadata'])
+        export('prefix-change', family, 'parse', metric, unit, series, metadata, 'Different pinned reader revisions and historical runs. Regex calls use the same instrumentation; timing and allocation are affected by host load and sampling. These observations do not isolate a single commit or prove a complexity bound.')
 (OUT / 'index.json').write_text(json.dumps(charts))
 print(f'Exported {len(charts)} charts as SVG, PNG, CSV and JSON')

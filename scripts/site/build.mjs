@@ -5,7 +5,7 @@ import { finding } from '../ownership/findings.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = async path => JSON.parse(await readFile(new URL(path, root), 'utf8'));
-const names = ['ownership-results', 'ownership-reductions', 'comparison-results', 'property-results', 'djot-v-results', 'djot-differential', 'djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs', 'comparison-timings', 'djot-v-timings', 'nesting-profile', 'scaling-results', 'scaling-confirmation'];
+const names = ['ownership-results', 'ownership-reductions', 'comparison-results', 'comparison-contracts', 'container-regressions', 'property-results', 'djot-v-results', 'djot-differential', 'djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs', 'comparison-timings', 'djot-v-timings', 'nesting-profile', 'scaling-results', 'scaling-confirmation'];
 const reports = Object.fromEntries(await Promise.all(names.map(async name => [name, await read(`reports/${name}.json`)])));
 const previous = await read('site/history/ownership-before-fence-fix.json');
 const current = reports['ownership-results'];
@@ -19,7 +19,18 @@ const theorems = validateProofSource(proofSource).map(name => ({ name, line: pro
 const checks = generateChecks(proofSource);
 const layoutExamples = Object.fromEntries(['table', 'trace', 'prefix'].map(kind => [kind, [...checks.matchAll(new RegExp(`^Example ${kind}_`, 'gm'))].length]));
 const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
-const data = { revision, reports, theorems, layoutExamples, history: { sourceCommit: '3496c574f1b40b27dc102aef0327a9eb1dcc6abd', previousPins: previous.pins, before: previous.rows.filter(r => r.groups.length > 1).length, after: current.rows.filter(r => r.groups.length > 1).length, total: current.rows.length, changes } };
+const previousComparison = await read('reports/history/pre-prefix-refresh/comparison-results.json');
+const previousProfile = await read('reports/history/pre-prefix-refresh/nesting-profile.json');
+const currentComparison = reports['comparison-results'];
+const comparisonHistory = {
+  sourceCommit: '940125c470e39b126a90a7cede7c24b7ce77e356',
+  beforeEngine: previousComparison.metadata.engine,
+  afterEngine: currentComparison.metadata.engine,
+  unchanged: currentComparison.rows.filter(row => previousComparison.rows.some(old => JSON.stringify(old) === JSON.stringify(row))).length,
+  total: currentComparison.rows.length,
+  work: ['quotes', 'lists'].map(family => ({ family, counts: [previousProfile, reports['nesting-profile']].map(report => report.groups.find(g => g.reader === 'js' && g.phase === 'parse' && g.family === family && g.size === 192).patterns.reduce((sum, pattern) => sum + pattern.calls, 0)) })),
+};
+const data = { revision, reports, theorems, layoutExamples, comparisonHistory, history: { sourceCommit: '3496c574f1b40b27dc102aef0327a9eb1dcc6abd', previousPins: previous.pins, before: previous.rows.filter(r => r.groups.length > 1).length, after: current.rows.filter(r => r.groups.length > 1).length, total: current.rows.length, changes } };
 await mkdir(new URL('_site/data/', root), { recursive: true });
 for (const file of ['index.html', 'app.js', 'style.css']) await cp(new URL(`site/${file}`, root), new URL(`_site/${file}`, root));
 await cp(new URL('reports/', root), new URL('_site/reports/', root), { recursive: true });

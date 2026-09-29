@@ -83,11 +83,18 @@ function ownership() {
 function behavior() {
   heading('How edits change a document', 'Compare Carve, Djot and CommonMark, a specific Markdown dialect. Each edit is checked against the same reader before and after. A changed output can be an intended language rule.');
   main.append(el('p', 'Projections remove positions and normalize selected text and wrappers. Bold and emphasis spellings are adapted by language. The source and projected trees below show what each observation actually compares.', 'note'));
-  const dataset = select('Dataset', [['comparison-results', 'Carve / Djot / CommonMark'], ['djot-v-results', 'Djot verified parser: kernel / document'], ['property-results', 'Carve property observations'], ['djot-differential', 'Djot implementation differences']]);
+  const dataset = select('Dataset', [['comparison-results', 'Carve / Djot / CommonMark'], ['comparison-contracts', 'Scoped behavioral contracts'], ['container-regressions', 'Carve container regressions'], ['djot-v-results', 'Djot verified parser: kernel / document'], ['property-results', 'Carve property observations'], ['djot-differential', 'Djot implementation differences']]);
   const controls = el('div', undefined, 'controls'); controls.append(dataset.label); const content = el('div'); main.append(controls, content);
   const renderDataset = () => {
     content.replaceChildren(); const name = dataset.input.value, report = data.reports[name];
     content.append(link('Source JSON ↓', `reports/${name}.json`), details('Pins and projection metadata', report.metadata));
+    if (name === 'comparison-contracts') content.append(details('Contract hypotheses and scope', report.contracts));
+    if (name === 'container-regressions') {
+      content.append(el('p', `${report.rows.length} cases preserve full-AST and HTML fingerprints, including source positions. Coordinates use codepoints. Instrumented and ordinary parses must agree.`));
+      const choice = select('Container case', report.rows.map((r, i) => [String(i), r.id])); const witness = el('div'); content.append(choice.label, witness);
+      const show = () => { const row = report.rows[Number(choice.input.value)]; witness.replaceChildren(pre(row.source), details('Recorded fingerprints and work counts', row)); };
+      choice.input.onchange = show; show(); return;
+    }
     if (name === 'djot-differential') {
       content.append(el('p', `${report.counts.inputs} generated inputs; ${report.counts.currentDifferences} differences against current Djot JavaScript, ${report.counts.releasedDifferences} against the release. Multiple cases can share a cause.`));
       const choice = select('Reproducer', report.reproducers.map((r, i) => [String(i), r.id])); const witness = el('div'); content.append(choice.label, witness);
@@ -114,7 +121,7 @@ function behavior() {
 function scaling() {
   heading('Scaling, time and allocation', 'Historical measurements from the committed runs. Select a dataset, input family and API phase. Native and JavaScript runs remain separate.');
   main.append(el('p', 'These are exploratory runs on a shared host. Carve, Djot and CommonMark expose different API features and source positions. Parse, render and HTML phases were measured independently, so their times must not be added. Unusual curves need an isolated repeat.', 'note'));
-  const dataset = select('Dataset', [['javascript', 'JavaScript readers'], ['native', 'Djot native / OCaml'], ['profile', 'Carve instrumented operations'], ['scaling', 'Original scaling run'], ['confirmation', 'Scaling confirmation']]);
+  const dataset = select('Dataset', [['javascript', 'JavaScript readers'], ['native', 'Djot native / OCaml'], ['profile', 'Carve instrumented operations'], ['prefix-change', 'Before / after prefix reuse'], ['scaling', 'Original scaling run'], ['confirmation', 'Scaling confirmation']]);
   const family = select('Input family', []), phase = select('API phase', []), metric = select('Metric', []);
   const controls = el('div', undefined, 'controls'); controls.append(dataset.label, family.label, phase.label, metric.label); const panel = el('div'); main.append(controls, panel);
   function options(input, values) { const old = input.value; input.replaceChildren(...values.map(v => { const option = el('option', v); option.value = v; return option; })); if (values.includes(old)) input.value = old; }
@@ -140,15 +147,20 @@ function proofs() {
   main.append(el('h2', 'Layout theorem inventory'), table(['Theorem', 'Statement and proof'], data.theorems.map(t => [t.name, link('Source ↗', `${repo}/blob/${data.revision}/proofs/layout/Ownership.v#L${t.line}`)])));
   main.append(el('h2', 'Djot evidence'));
   for (const name of ['djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs']) { const report = data.reports[name]; const c = el('article', undefined, 'card'); c.append(el('h3', name), el('p', `${report.closedUnderGlobalContext} recorded statements closed under the global context.`), link('Recorded proof evidence', `reports/${name}.json`), details('Toolchain, assumptions and transcript', report)); if (name === 'djot-v-proofs') c.append(el('p', `This upstream check is a recorded local run, not a CI gate. Extension and differential proofs are rerun in CI. Extraction matches the checked-in runtime: ${report.extractionMatches ? 'yes' : 'no'}. The upstream consistency command recorded status ${report.upstreamConsistency.status}. These limits prevent treating the measured runtime as a fully verified parser.`, 'note'), link('Extraction diff', 'reports/djot-v-extraction.diff')); main.append(c); }
+  main.append(el('h2', 'Executable behavioral contracts'), el('p', `${data.reports['comparison-contracts'].rows.length} scoped observations and ${data.reports['container-regressions'].rows.length} container regression cases exercise the refreshed JavaScript reader. These are empirical checks, not additional Rocq theorems.`), link('Explore contract cases', '#behavior'));
   main.append(el('h2', 'No measured complexity theorem'), el('p', 'Timing slopes, regular expression call counts and sampled allocations are empirical observations. None of the listed layout theorems establishes a runtime or memory bound for the production readers.'));
 }
 function history() {
   const h = data.history;
-  heading('What changed after the fix', 'The fence ownership fix was followed by refreshed reader pins and a rerun of the same generated suite. This comparison preserves the earlier evidence.');
+  heading('Recorded changes', 'Compare preserved evidence across reader revisions. Ownership and parser work use separate suites and pins.');
+  main.append(el('h2', 'Fence ownership fix'));
   main.append(el('div', `${h.before} → ${h.after}`, 'history-count'), el('p', `Disagreeing cases out of ${h.total}. ${h.changes.length} reader partitions changed.`), link('Earlier evidence commit', `${repo}/blob/${h.sourceCommit}/reports/ownership-results.json`), details('Before reader pins', h.previousPins), details('After reader pins', data.reports['ownership-results'].pins));
   const bar = el('div', undefined, 'bar'); const agreeing = el('span'); agreeing.style.width = `${100 * (h.total - h.after) / h.total}%`; const different = el('span', undefined, 'difference'); different.style.flex = '1'; bar.append(agreeing, different); main.append(bar, el('p', `${h.total - h.after} agree; ${h.after} disagree.`));
   const panel = el('div'); main.append(table(['Case', 'Before reader groups', 'After reader groups'], h.changes.map(c => [button(c.after.id, () => { panel.replaceChildren(el('h2', 'Before')); outputs(c.before, panel); panel.append(el('h2', 'After')); outputs(c.after, panel); panel.scrollIntoView({ block: 'start' }); }), c.before.groups.map(g => g.join(' + ')).join(' | '), c.after.groups.map(g => g.join(' + ')).join(' | ')])), panel);
-  main.append(el('p', 'This is one measured transition, not a long-term trend. Further entries need preserved source artifacts and comparable suite identities.'));
+  main.append(el('p', 'This ownership comparison is one measured transition, not a long-term trend.'));
+  const comparison = data.comparisonHistory;
+  main.append(el('h2', 'Comparison reader refresh'), el('p', `${comparison.unchanged} of ${comparison.total} comparison observations match the preserved baseline. Prefix-state reuse had already landed in the refreshed reader.`), details('Comparison reader pins', { before: comparison.beforeEngine, after: comparison.afterEngine }), table(['Depth 192', 'Earlier regex calls', 'Refreshed regex calls'], comparison.work.map(row => [row.family, ...row.counts])), link('Preserved comparison artifacts', `${repo}/tree/${data.revision}/reports/history/pre-prefix-refresh`), el('p', 'Regex input exposure still grows roughly fourfold when depth doubles on these fixtures. Call reduction does not establish a complexity bound.'), link('Quote prefix comparison chart', 'charts/prefix-change-quotes-parse-regex-calls.svg'));
+
 }
 const routes = { overview, ownership, behavior, scaling, proofs, history };
 function route() { const key = location.hash.slice(1) || 'overview'; main.replaceChildren(); for (const a of document.querySelectorAll('nav a')) { if (a.hash === `#${key}`) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); } (routes[key] || overview)(); document.title = `${main.querySelector('h1').textContent} | Carve evidence`; }

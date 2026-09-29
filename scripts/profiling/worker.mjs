@@ -1,12 +1,12 @@
 import { Session } from 'node:inspector'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath } from 'node:url'
-import { parse, renderHtml } from '@markup-carve/carve'
+import { parse, renderHtml } from 'carve-comparison'
 import { parse as parseSpec, layoutWork, resetLayoutWork } from '../../spec/scripts/spec/layout.mjs'
 import { renderDoc } from '../../spec/scripts/spec/html.mjs'
 import { regexWork } from './instrument.mjs'
 import { aggregateFrames } from './summary.mjs'
-const { layoutWork: jsWork } = await import(new URL('./parse.js', import.meta.resolve('@markup-carve/carve')))
+const { layoutWork: jsWork } = await import(new URL('./parse.js', import.meta.resolve('carve-comparison')))
 const [reader, phase, family, sizeText] = process.argv.slice(2), size = Number(sizeText)
 if (!['js', 'spec'].includes(reader) || !['parse', 'render'].includes(phase) || !['quotes', 'lists'].includes(family) || ![32, 64, 128, 192].includes(size)) throw new Error('Invalid profile task')
 const source = (family === 'quotes' ? '> ' : '- ').repeat(size) + 'end\n'

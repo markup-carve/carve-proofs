@@ -7,6 +7,12 @@ const data = read('comparison-results.json'), timing = read('comparison-timings.
 assert.deepEqual(data.metadata, { ...current, suiteSha256: digest(comparisonFiles) })
 assert.deepEqual(timing.metadata.parsers, current.parsers)
 assert.equal(timing.metadata.runnerSha256, digest(['scripts/comparison/bench.mjs', 'scripts/comparison/worker.mjs', 'scripts/comparison/adapters.mjs', 'scripts/comparison/environment.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/properties/benchmark-results.mjs']))
+const contractData = read('comparison-contracts.json'), containers = read('container-regressions.json')
+const historical = read('history/pre-prefix-refresh/comparison-results.json')
+const historicalRows = new Map(historical.rows.map(row => [`${row.reader}/${row.family}/${row.id}`, row]))
+const changedObservations = data.rows.filter(row => JSON.stringify(row) !== JSON.stringify(historicalRows.get(`${row.reader}/${row.family}/${row.id}`))).length
+const removedObservations = historical.rows.filter(row => !data.rows.some(now => now.reader === row.reader && now.family === row.family && now.id === row.id)).length
+assert.ok(contractData.rows.every(r => r.expected === r.outcome))
 const readers = ['carve', 'djot', 'commonmark'], families = Object.keys(scalingCases)
 assert.deepEqual(timing.groups.map(g => `${g.reader}/${g.mode}/${g.family}`).sort(), readers.flatMap(r => ['parse', 'render', 'html'].flatMap(m => families.map(f => `${r}/${m}/${f}`))).sort())
 assert.ok(timing.groups.every(g => g.completed && g.rows.every(r => r.status === 'ok')))
@@ -35,6 +41,14 @@ const text = `# Carve, Djot and CommonMark comparison
 This run compares the pinned Carve JS engine with @djot/djot ${current.parsers['@djot/djot'].version}
 and commonmark ${current.parsers.commonmark.version}. Carve uses commit
 \`${current.engine.split('#')[1]}\`. The lockfile records package sources and integrity hashes.
+
+The previous [report](history/pre-prefix-refresh/comparison.md),
+[observations](history/pre-prefix-refresh/comparison-results.json) and
+[timings](history/pre-prefix-refresh/comparison-timings.json) are preserved.
+${data.rows.length - changedObservations} observations are unchanged from that baseline;
+${changedObservations} are changed or added and ${removedObservations} are removed.
+The comparison reader is installed separately as \`carve-comparison\`; the checked
+layout model retains its original engine and specification pins.
 
 ## Behavior
 
@@ -81,6 +95,34 @@ The tested implementation here is djot.js, not djot.v.
 [CommonMark rules](https://spec.commonmark.org/0.31.2/) and the
 [djot.js API](https://github.com/jgm/djot.js) define the other reader interfaces.
 
+## Scoped contracts and expanded cases
+
+${contractData.rows.length} [contract observations](comparison-contracts.json) check
+eligible prose wrapping, append stability after an explicit heading boundary,
+reference classification and nested container payloads. These are executable
+contracts over the authored cases, not universal proofs.
+
+- Wrapping excludes code bytes, escapes, hard breaks, structural line starts and destination bytes.
+- Append stability compares original block content after a boundary; it excludes document-level section growth and generated IDs.
+- Reference classification omits resolved destinations and titles. CommonMark has two expected classification changes when a definition turns text into a link. Separate controls assert the rendered destination. Inline links and code spans are recorded as nonreference controls.
+- Container tests use quote, list and alternating wrappers at depths 2, 4 and 8. They do not establish arbitrary definition scoping.
+
+${containers.rows.length} additional [Carve container regressions](container-regressions.json)
+cover lazy continuation, tables, fences, definitions, tabs, Unicode, comments
+and headings in quote, list and mixed wrappers through depth 16. They preserve
+full-AST fingerprints including positions, HTML fingerprints and measured regex
+work. Unwrapping must reproduce the depth-0 payload structure, including tables,
+fences and lazy continuations. Reference definitions are excluded from that
+payload projection and their rendered destinations are checked separately.
+Terminal leaf positions must select their exact original source text;
+offsets and columns are counted in codepoints. Instrumented and ordinary
+parses must produce identical full trees.
+
+The nested-prefix optimization already landed before this refresh. The
+[updated profile](nesting-profile.md) records its effect against the preserved
+baseline. Repeated prefix classification is now reused by the pinned JavaScript
+reader. The specification profile remains at its separately recorded older pin.
+
 ## Timings
 
 The seven families use identical source bytes across readers. Emphasis adaptation
@@ -122,6 +164,8 @@ runs in ordinary CI. The Carve nesting costs are investigated in the
 
 \`\`\`sh
 npm run check:comparison -- --check reports/comparison-results.json
+npm run check:contracts -- --check reports/comparison-contracts.json
+npm run check:containers -- --check reports/container-regressions.json
 npm run bench:comparison -- reports/comparison-timings.json
 npm run report:comparison
 \`\`\`

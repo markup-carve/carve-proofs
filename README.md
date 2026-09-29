@@ -16,6 +16,19 @@ It remains a partial model, not a verified implementation of the full parser.
 
 Explore the [evidence site](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
 
+## Comparison contracts
+
+The [refreshed comparison](reports/comparison.md) uses the post-fix JavaScript
+reader through a separate pinned dependency. The checked model retains its
+original specification and engine pins. The [nesting profile](reports/nesting-profile.md)
+compares the existing prefix-state optimization with the preserved earlier run.
+
+Run `npm run check:contracts -- --check reports/comparison-contracts.json` for
+525 scoped observations, and `npm run check:containers -- --check reports/container-regressions.json`
+for 112 distinct container cases with source-position checks and AST/HTML fingerprints.
+The site exposes both suites under Language behavior and the before/after
+measurements under Scaling & allocation.
+
 ## Setup
 
 Use Node 24 or newer, Git, Rocq core 9.2.0 and standard library 9.1.0.

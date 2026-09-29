@@ -6,7 +6,7 @@ test('all views load without browser errors', async ({ page }) => {
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   for (const view of ['overview', 'ownership', 'behavior', 'scaling', 'proofs', 'history']) {
-    await page.goto(`/#${view}`); await expect(page.locator('h1')).toBeVisible();
+    await page.goto(`/#${view}`); await expect(page.locator('nav a[aria-current=page]')).toHaveAttribute('href', `#${view}`); await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('h1')).not.toHaveText('Evidence unavailable');
   }
   expect(errors).toEqual([]);
@@ -59,10 +59,10 @@ test('exported chart values preserve source medians and missing observations', (
 test('mobile layout fits the viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const view of ['overview', 'ownership', 'scaling', 'proofs']) {
-    await page.goto(`/#${view}`); await expect(page.locator('h1')).toBeVisible();
+    await page.goto(`/#${view}`); await expect(page.locator('nav a[aria-current=page]')).toHaveAttribute('href', `#${view}`); await expect(page.locator('h1')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   }
-  await page.screenshot({ path: '/tmp/carve-evidence-mobile.png', fullPage: true });
+  await page.screenshot({ path: '/tmp/carve-evidence-mobile.png', fullPage: false });
 });
 test('fixture HTML cannot execute scripts or load external images', async ({ page }) => {
   const poisoned = structuredClone(evidence);
@@ -75,4 +75,18 @@ test('fixture HTML cannot execute scripts or load external images', async ({ pag
   await expect(page.locator('iframe').first()).toBeVisible();
   expect(await page.locator('body').getAttribute('data-injected')).toBeNull();
   await expect.poll(() => failures.some(error => /csp/i.test(error))).toBeTruthy();
+});
+test('refreshed contracts and prefix comparisons expose their scope', async ({ page }) => {
+  await page.goto('/#behavior');
+  await page.getByLabel('Dataset').selectOption('comparison-contracts');
+  await expect(page.getByText('Contract hypotheses and scope')).toBeVisible();
+  await page.getByLabel('Edit family', { exact: true }).selectOption('nested-container-payload');
+  await expect(page.locator('.outputs article')).toHaveCount(3);
+  await page.getByLabel('Dataset').selectOption('container-regressions');
+  await page.getByLabel('Container case').selectOption({ label: 'unicode/mixed/16' });
+  await expect(page.locator('pre:visible').first()).toContainText('日本語');
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset').selectOption('prefix-change');
+  await expect(page.locator('tbody')).toContainText('before / c5df77f658');
+  await expect(page.locator('tbody')).toContainText('after / 9f3d058708');
 });
