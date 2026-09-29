@@ -100,6 +100,22 @@ for dataset, file in [('javascript', 'comparison-timings'), ('native', 'djot-v-t
                         note += ' The specification parse API builds blocks only. Missing or refused observations remain in the data table.'
                     export(dataset, family, phase, metric, unit, series, data['metadata'], note)
 
+runtime = json.loads((ROOT / 'reports' / 'runtime-timings.json').read_text())
+for reader, dataset, label in [('rs', 'rust', 'Carve Rust'), ('php', 'php', 'Carve PHP')]:
+    metrics = [('wall', 'samplesMs', 'Wall milliseconds / operation'), ('cpu', 'samplesCpuMs', 'CPU milliseconds / operation')]
+    if reader == 'rs':
+        metrics += [('allocated-bytes', 'samplesAllocatedBytes', 'Requested allocation bytes / operation'), ('allocation-calls', 'samplesAllocationCalls', 'Allocation requests / operation')]
+    else:
+        metrics += [('peak-managed-growth', 'samplesPeakManagedBytes', 'Peak managed-memory growth (bytes / call)')]
+    for group in runtime['groups']:
+        if group['reader'] != reader:
+            continue
+        for metric, field, unit in metrics:
+            points = [observation(row, row.get(field, []), 'nested' in group['family']) for row in group['rows']]
+            memory_note = 'Rust counts requested allocation bytes, including full new realloc sizes, and allocation calls.' if reader == 'rs' else 'PHP measures peak managed-memory growth above the pre-call baseline, including the live result. This does not measure allocation churn. PHP ran without opcache or JIT.'
+            note = 'Five warmed samples; bands show minimum and maximum, not confidence intervals. Render reuses a parsed AST; combined HTML may use fast paths. Memory is measured separately from timing. ' + memory_note + ' Memory metrics differ between runtimes and must not be compared as the same quantity. Historical runs do not establish a speed ranking or complexity bound.'
+            export(dataset, group['family'], group['mode'], metric, unit, {label: points}, runtime['metadata'], note)
+
 data = json.loads((ROOT / 'reports' / 'nesting-profile.json').read_text())
 for family in sorted({g['family'] for g in data['groups']}):
     for phase in ['parse', 'render']:

@@ -5,7 +5,7 @@ import { finding } from '../ownership/findings.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = async path => JSON.parse(await readFile(new URL(path, root), 'utf8'));
-const names = ['ownership-results', 'ownership-reductions', 'comparison-results', 'comparison-contracts', 'container-regressions', 'property-results', 'djot-v-results', 'djot-differential', 'djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs', 'comparison-timings', 'djot-v-timings', 'nesting-profile', 'scaling-results', 'scaling-confirmation'];
+const names = ['ownership-results', 'ownership-reductions', 'comparison-results', 'comparison-contracts', 'container-regressions', 'property-results', 'djot-v-results', 'djot-differential', 'djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs', 'comparison-timings', 'djot-v-timings', 'nesting-profile', 'scaling-results', 'scaling-confirmation', 'runtime-timings'];
 const reports = Object.fromEntries(await Promise.all(names.map(async name => [name, await read(`reports/${name}.json`)])));
 const previous = await read('site/history/ownership-before-container-fixes.json');
 const current = reports['ownership-results'];

@@ -40,7 +40,9 @@
     "check:containers": "node scripts/comparison/check-containers.mjs",
     "check:container-tails": "node scripts/profiling/container-tails.mjs --check reports/container-tail-work.json",
     "profile:costs": "node scripts/profiling/current-costs.mjs",
-    "report:costs": "node scripts/profiling/cost-report.mjs"
+    "report:costs": "node scripts/profiling/cost-report.mjs",
+    "build:runtime": "node scripts/runtime/build.mjs",
+    "bench:runtime": "node scripts/runtime/bench.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",

@@ -149,3 +149,44 @@ test('position-cost charts retain variants and expose run provenance', async ({ 
   await expect(page.locator('main')).toContainText(chart.metadata.generatedAt);
   await expect(page.locator('.chart')).toHaveAttribute('src', /current-costs-long-line-parse-wall.svg/);
 });
+
+test('Rust and PHP scaling expose their own memory metrics and exports', async ({ page }) => {
+  await page.goto('/#scaling');
+  for (const [dataset, metric, unit] of [['rust', 'allocated-bytes', 'Requested allocation bytes / operation'], ['php', 'peak-managed-growth', 'Peak managed-memory growth (bytes / call)']]) {
+    await page.getByLabel('Dataset', { exact: true }).selectOption(dataset);
+    await page.getByLabel('Input family', { exact: true }).selectOption('nested-quotes');
+    await page.getByLabel('API phase', { exact: true }).selectOption('parse');
+    await page.getByLabel('Metric', { exact: true }).selectOption(metric);
+    await expect(page.locator('.chart')).toHaveAttribute('src', `charts/${dataset}-nested-quotes-parse-${metric}.svg`);
+    await expect(page.getByRole('columnheader', { name: unit, exact: true })).toBeVisible();
+    await expect(page.getByText('Memory metrics differ between runtimes', { exact: false })).toBeVisible();
+    const download = await page.getByRole('link', { name: 'Download JSON', exact: true }).getAttribute('href');
+    const response = await page.request.get(download);
+    expect(response.ok()).toBeTruthy();
+    const data = await response.json();
+    expect(data.points).toHaveLength(6);
+    expect(data.points.every(p => p.status === 'ok' && p.value >= 0)).toBeTruthy();
+    expect(data.metadata.pins[dataset === 'rust' ? 'rs' : 'php'].commit).toMatch(/^[0-9a-f]{40}$/);
+  }
+});
+
+test('all runtime chart points preserve measured samples and units', () => {
+  const report = evidence.reports['runtime-timings'];
+  const fields = { wall: 'samplesMs', cpu: 'samplesCpuMs', 'allocated-bytes': 'samplesAllocatedBytes', 'allocation-calls': 'samplesAllocationCalls', 'peak-managed-growth': 'samplesPeakManagedBytes' };
+  for (const [dataset, reader, count] of [['rust', 'rs', 84], ['php', 'php', 63]]) {
+    const selected = charts.filter(c => c.dataset === dataset);
+    expect(selected).toHaveLength(count);
+    for (const chart of selected) {
+      const group = report.groups.find(g => g.reader === reader && g.family === chart.family && g.mode === chart.phase);
+      expect(chart.points).toHaveLength(group.rows.length);
+      for (const [index, point] of chart.points.entries()) {
+        const row = group.rows[index];
+        const samples = [...row[fields[chart.metric]]].sort((a, b) => a - b);
+        expect(point.value).toBe(samples[2]);
+        expect(point.low).toBe(samples[0]);
+        expect(point.high).toBe(samples[4]);
+        expect(point.x).toBe(chart.xUnit === 'depth' ? row.size : row.bytes);
+      }
+    }
+  }
+});

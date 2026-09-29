@@ -138,6 +138,35 @@ jobs:
           path: .cache/ownership/build.json
           include-hidden-files: true
 
+  runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      CARGO_TARGET_DIR: .cache/runtime/target
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install PHP
+        run: sudo apt-get update && sudo apt-get install -y php-cli php-mbstring
+      - uses: actions/cache@v4
+        with:
+          path: .cache/runtime/target
+          key: runtime-rust-${{ runner.os }}-${{ hashFiles('scripts/runtime/rust/Cargo.lock', 'scripts/runtime/rust/Cargo.toml', 'scripts/ownership/pins.json') }}
+      - run: npm run build:runtime
+      - run: node --test tests/runtime-scaling.test.mjs
+      - name: Measure Rust and PHP scaling
+        if: github.event_name == 'workflow_dispatch' && inputs.benchmark
+        run: npm run bench:runtime -- reports/runtime-ci.json
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.benchmark
+        with:
+          name: runtime-measurements
+          path: reports/runtime-ci.json*
+          if-no-files-found: error
+
   site:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -172,7 +201,7 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: [layout, ownership, site]
+    needs: [layout, ownership, runtime, site]
     runs-on: ubuntu-24.04
     permissions:
       pages: write

@@ -128,3 +128,31 @@ versions of the executable specification, JavaScript, PHP and Rust. It records
 zero structural disagreements. Run `npm run build:ownership`, then
 `npm run check:ownership -- --check reports/ownership-results.json`.
 The matrix uses separate pins and does not extend the layout proofs.
+
+## Rust and PHP scaling
+
+The [runtime measurements](reports/runtime-timings.json) cover Carve Rust and
+PHP on the same seven input families as the JavaScript scaling runs. Select
+**Carve Rust** or **Carve PHP** under Scaling & allocation on the evidence site.
+Each dataset includes parse, render and combined HTML timings, with CPU time
+and memory measurements. These runs reuse the ownership suite's engine pins.
+
+Run `npm run build:runtime`, then `npm run bench:runtime` to reproduce the
+measurements. Building requires Git, Cargo and a Rust toolchain; running also
+requires Unix and PHP 8.2 or newer with mbstring and ctype. The Rust driver uses
+a locked dependency graph and a release build. PHP runs with a clean INI,
+without opcache, JIT or profiling extensions. Run
+`node --test tests/runtime-scaling.test.mjs` after building to exercise both
+workers, including their nesting-depth checks.
+
+Each size runs in a fresh process with a 60-second deadline. Timing excludes
+process startup and fixture validation. Render reuses a parsed
+AST; combined HTML uses each engine's default API, including eligible fast
+paths. Five timed batches follow warmup at each size. Memory measurements use
+five separate warmed calls. Rust counts successful allocator requests and their
+requested bytes, including the full new size of reallocations. PHP measures
+peak managed-memory growth above the pre-call baseline, including the result.
+PHP's metric does not count allocation churn. The charts keep runtime datasets
+separate and include pins, toolchains, host load and measurement definitions in
+the downloadable JSON. Historical runs do not establish a speed ranking or a
+complexity bound.
