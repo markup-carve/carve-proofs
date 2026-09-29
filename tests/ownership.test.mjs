@@ -26,6 +26,7 @@ test('matrix covers both issue seeds and has unique case identifiers', () => {
 
 test('recorded matrix includes all generated sources and valid reader partitions', () => {
   const result = JSON.parse(readFileSync(new URL('../reports/ownership-results.json', import.meta.url)))
+  assert.deepEqual(result.pins, JSON.parse(readFileSync(new URL('../scripts/ownership/pins.json', import.meta.url))))
   assert.deepEqual(result.rows.map(({ family, id, source, parameters }) => ({ family, id, source, parameters })), cases())
   for (const row of result.rows) {
     assert.deepEqual(Object.keys(row.outputs), ['spec', 'js', 'php', 'rs'])
@@ -109,4 +110,18 @@ test('triage preserves block recognition and nested owner direction', async () =
 test('projection ignores block-edge formatting while preserving inline word separation', () => {
   assert.deepEqual(project('<li>intro\n  tail\n</li>'), project('<li>intro tail</li>'))
   assert.notDeepEqual(project('<p>a <em>b</em></p>'), project('<p>a<em>b</em></p>'))
+})
+
+test('footnote fences and control hosts keep their block interpretation', () => {
+  const { rows } = JSON.parse(readFileSync(new URL('../reports/ownership-results.json', import.meta.url)))
+  const fences = rows.filter(row => row.family === 'fences')
+  assert.equal(fences.length, 42)
+  for (const row of fences) {
+    assert.deepEqual(row.groups, [['spec', 'js', 'php', 'rs']], row.id)
+    const expected = row.parameters.fence === 'code'
+      ? '<pre><code class="language-js">c\n</code></pre>' : '<b>c</b>'
+    for (const [reader, html] of Object.entries(row.outputs)) {
+      assert.ok(html.includes(expected), `${row.id}/${reader}: expected rendered block payload`)
+    }
+  }
 })
