@@ -101,3 +101,23 @@ test('nesting charts distinguish matched spans and suffix exposure', async ({ pa
   await page.getByLabel('Metric', { exact: true }).selectOption('suffix-input');
   await expect(page.locator('main')).toContainText('Suffix argument lengths');
 });
+
+test('remaining container tail charts expose baseline and candidate work', async ({ page }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset').selectOption('container-tails');
+  await page.getByLabel('Input family', { exact: true }).selectOption('ordered');
+  await page.getByLabel('Metric', { exact: true }).selectOption('regex-matched');
+  await expect(page.locator('tbody')).toContainText('baseline /');
+  await expect(page.locator('tbody')).toContainText('candidate /');
+  await expect(page.locator('tbody')).toContainText('177723');
+  await expect(page.locator('tbody')).toContainText('5115');
+  await page.getByLabel('Input family', { exact: true }).selectOption('attributes');
+  await page.getByLabel('Metric', { exact: true }).selectOption('suffix-input');
+  await expect(page.locator('tbody')).toContainText('49152');
+  await page.getByLabel('Metric', { exact: true }).selectOption('regex-input');
+  const counts = charts.find(c => c.id === 'container-tails-attributes-parse-regex-input');
+  for (const point of counts.points) await expect(page.locator('tbody')).toContainText(String(point.value));
+  await page.getByLabel('Input family', { exact: true }).selectOption('long-attributes-task');
+  await expect(page.locator('main')).toContainText('Candidate only.');
+  await expect(page.locator('tbody')).toContainText('101281');
+});
