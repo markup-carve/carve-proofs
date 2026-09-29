@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { parse, renderHtml } from 'carve-comparison'
 import { parse as parseSpec, layoutWork, resetLayoutWork } from '../../spec/scripts/spec/layout.mjs'
 import { renderDoc } from '../../spec/scripts/spec/html.mjs'
-import { regexWork } from './instrument.mjs'
+import { regexWork, suffixWork } from './instrument.mjs'
 import { aggregateFrames } from './summary.mjs'
 const { layoutWork: jsWork } = await import(new URL('./parse.js', import.meta.resolve('carve-comparison')))
 const [reader, phase, family, sizeText] = process.argv.slice(2), size = Number(sizeText)
@@ -41,6 +41,7 @@ for (let i = 0; i < heapIterations; i++) run()
 const { profile: heap } = await post('HeapProfiler.stopSampling')
 await post('HeapProfiler.disable'); session.disconnect()
 const patterns = regexWork(run)
+const suffixes = suffixWork(run)
 let layout
 if (reader === 'js') { jsWork.reset(); jsWork.on = true; try { run(); layout = { gate: jsWork.gate, strip: jsWork.strip, seam: jsWork.seam, total: jsWork.total } } finally { jsWork.on = false } }
 else { resetLayoutWork(); run(); layout = { ...layoutWork } }
@@ -52,6 +53,6 @@ const cpuSamples = aggregateFrames(profile.nodes.map(n => ({ ...frame(n.callFram
 const heapFrames = []
 function walk(n) { if (n.selfSize) heapFrames.push({ ...frame(n.callFrame), sampledBytes: n.selfSize }); for (const c of n.children) walk(c) }
 walk(heap.head); const heapNodes = aggregateFrames(heapFrames, 'sampledBytes')
-console.log(JSON.stringify({ reader, phase, family, size, bytes: Buffer.byteLength(source), samples, patterns, layout,
+console.log(JSON.stringify({ reader, phase, family, size, bytes: Buffer.byteLength(source), samples, patterns, suffixes, layout,
   cpuIterations, cpuDurationUs: profile.endTime - profile.startTime, cpuSamples, heapIterations,
   sampledAllocationBytes: heapNodes.reduce((sum, n) => sum+n.sampledBytes, 0), heapNodes, sink }))

@@ -19,7 +19,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
     load = metadata.get('loadStart', metadata.get('loadAverage'))
     if load:
         note += f" Recorded host load: {load}; logical CPUs: {metadata.get('logicalCpus', 'not recorded')}."
-    depth = 'nested' in family or dataset in ['profile', 'prefix-change']
+    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change']
     cached_points = [dict(reader=reader, **r) for reader, rows in series.items() for r in rows]
     record = dict(id=slug, dataset=dataset, family=family, phase=phase, metric=metric, unit=unit, xUnit='depth' if depth else 'bytes', points=cached_points, metadata=metadata, note=note)
     cached = OUT / f'{slug}.json'
@@ -35,7 +35,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
             ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=COLORS[index % len(COLORS)], linewidth=1.8, markersize=4)
             ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=COLORS[index % len(COLORS)], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
-    depth = 'nested' in family or dataset in ['profile', 'prefix-change']
+    depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change']
     ax.set(xlabel='Nesting depth' if depth else 'Input bytes', ylabel=unit, title=f'{family} · {phase} · {metric}')
     ax.set_ylim(bottom=0)
     ax.grid(alpha=.18)
@@ -94,44 +94,53 @@ for dataset, file in [('javascript', 'comparison-timings'), ('native', 'djot-v-t
 data = json.loads((ROOT / 'reports' / 'nesting-profile.json').read_text())
 for family in sorted({g['family'] for g in data['groups']}):
     for phase in ['parse', 'render']:
-        for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Input characters supplied to regular expressions'), ('layout', 'Instrumented layout operations'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
+        for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Regex input exposure (UTF-16 units)'), ('regex-matched', 'Successful regex match lengths (UTF-16 units)'), ('regex-advance', 'Global regex forward progress (UTF-16 units)'), ('suffix-input', 'Suffix argument lengths (UTF-16 units)'), ('layout', 'Instrumented layout operations'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
             series = {}
             for group in data['groups']:
                 if group['family'] != family or group['phase'] != phase:
                     continue
+                assert all('y' not in p['pattern'].rsplit('/', 1)[-1] for p in group['patterns']), 'Review sticky regex instrumentation'
                 if metric == 'regex-calls':
                     value = sum(p['calls'] for p in group['patterns'])
                 elif metric == 'regex-input':
                     value = sum(p['inputChars'] for p in group['patterns'])
+                elif metric == 'regex-matched':
+                    value = sum(p['matchedChars'] for p in group['patterns'])
+                elif metric == 'regex-advance':
+                    value = sum(p['globalAdvance'] for p in group['patterns'])
+                elif metric == 'suffix-input':
+                    value = group['suffixes']['suffixChars']
                 elif metric == 'layout':
                     value = group['layout'].get('total', sum(group['layout'].values()))
                 else:
                     value = group['sampledAllocationBytes'] / group['heapIterations']
                 series.setdefault(group['reader'], []).append(dict(x=group['size'], value=value, low=value, high=value, status='ok'))
             if series:
-                export('profile', family, phase, metric, unit, series, data['metadata'], 'Instrumentation covers selected operations. Input exposure is not characters examined. Heap sampling estimates allocation churn, not retained memory. Reader counters have different scopes. These measurements do not prove asymptotic complexity.')
-before = json.loads((ROOT / 'reports/history/pre-prefix-refresh/nesting-profile.json').read_text())
-after = json.loads((ROOT / 'reports/nesting-profile.json').read_text())
-for family in ['quotes', 'lists']:
-    for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Input characters supplied to regular expressions'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
-        series = {}
-        for label, report in [('before', before), ('after', after)]:
-            pin = report['metadata']['engine'].split('#')[-1][:10]
-            rows = []
-            for group in report['groups']:
-                if group['reader'] != 'js' or group['phase'] != 'parse' or group['family'] != family:
-                    continue
-                if metric == 'regex-calls':
-                    samples = [sum(p['calls'] for p in group['patterns'])]
-                elif metric == 'regex-input':
-                    samples = [sum(p['inputChars'] for p in group['patterns'])]
-                elif metric == 'sampled-allocation':
-                    samples = [group['sampledAllocationBytes'] / group['heapIterations']]
-                else:
-                    samples = [s['wallMs'] for s in group['samples']]
-                rows.append(observation(group, samples, True))
-            series[f'{label} / {pin}'] = rows
-        metadata = dict(generatedAt=after['metadata']['generatedAt'], before=before['metadata'], after=after['metadata'])
-        export('prefix-change', family, 'parse', metric, unit, series, metadata, 'Different pinned reader revisions and historical runs. Regex calls use the same instrumentation; timing and allocation are affected by host load and sampling. These observations do not isolate a single commit or prove a complexity bound.')
+                export('profile', family, phase, metric, unit, series, data['metadata'], 'Instrumentation covers selected operations. Input exposure, successful match lengths, global progress and suffix argument lengths do not count engine steps. Heap sampling estimates allocation churn, not retained memory. Reader counters have different scopes. These measurements do not prove asymptotic complexity.')
+                export('profile-js', family, phase, metric, unit, {'js': series['js']}, data['metadata'], 'JavaScript reader only. Input exposure, successful match lengths, global progress and suffix argument lengths do not count engine steps. Failed non-global scans and non-regex operations are outside the match-length counter. These measurements do not prove asymptotic complexity.')
+for dataset, history in [('prefix-change', 'pre-prefix-refresh'), ('tail-change', 'pre-tail-refresh')]:
+    before = json.loads((ROOT / 'reports/history' / history / 'nesting-profile.json').read_text())
+    after = json.loads((ROOT / 'reports/nesting-profile.json').read_text())
+    for family in ['quotes', 'lists']:
+        for metric, unit in [('regex-calls', 'Instrumented regular expression calls'), ('regex-input', 'Regex input exposure (UTF-16 units)'), ('sampled-allocation', 'Sampled allocation bytes / operation')]:
+            series = {}
+            for label, report in [('before', before), ('after', after)]:
+                pin = report['metadata']['engine'].split('#')[-1][:10]
+                rows = []
+                for group in report['groups']:
+                    if group['reader'] != 'js' or group['phase'] != 'parse' or group['family'] != family:
+                        continue
+                    if metric == 'regex-calls':
+                        samples = [sum(p['calls'] for p in group['patterns'])]
+                    elif metric == 'regex-input':
+                        samples = [sum(p['inputChars'] for p in group['patterns'])]
+                    elif metric == 'sampled-allocation':
+                        samples = [group['sampledAllocationBytes'] / group['heapIterations']]
+                    else:
+                        samples = [s['wallMs'] for s in group['samples']]
+                    rows.append(observation(group, samples, True))
+                series[f'{label} / {pin}'] = rows
+            metadata = dict(generatedAt=after['metadata']['generatedAt'], before=before['metadata'], after=after['metadata'])
+            export(dataset, family, 'parse', metric, unit, series, metadata, 'Different pinned reader revisions and historical runs. Regex calls use the same instrumentation; timing and allocation are affected by host load and sampling. These observations do not isolate a single commit or prove a complexity bound.')
 (OUT / 'index.json').write_text(json.dumps(charts))
 print(f'Exported {len(charts)} charts as SVG, PNG, CSV and JSON')

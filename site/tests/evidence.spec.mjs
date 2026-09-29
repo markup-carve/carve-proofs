@@ -88,5 +88,16 @@ test('refreshed contracts and prefix comparisons expose their scope', async ({ p
   await page.goto('/#scaling');
   await page.getByLabel('Dataset').selectOption('prefix-change');
   await expect(page.locator('tbody')).toContainText('before / c5df77f658');
-  await expect(page.locator('tbody')).toContainText('after / 9f3d058708');
+  await expect(page.locator('tbody')).toContainText(`after / ${evidence.reports['nesting-profile'].metadata.engine.split('#')[1].slice(0, 10)}`);
+});
+
+test('nesting charts distinguish matched spans and suffix exposure', async ({ page }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset').selectOption('profile-js');
+  await page.getByLabel('Input family', { exact: true }).selectOption('quotes');
+  await page.getByLabel('API phase', { exact: true }).selectOption('parse');
+  await page.getByLabel('Metric', { exact: true }).selectOption('regex-matched');
+  await expect(page.locator('main')).toContainText('Successful regex match lengths');
+  await page.getByLabel('Metric', { exact: true }).selectOption('suffix-input');
+  await expect(page.locator('main')).toContainText('Suffix argument lengths');
 });

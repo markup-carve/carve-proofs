@@ -49,3 +49,45 @@ test('post-fix JavaScript keeps simple nesting regex-call growth near doubling',
     assert.ok(counts[2] <= counts[1] * 1.6, `${family}: depth growth repeats excess regex work`)
   }
 })
+
+test('global progression and matched spans do not charge the entire input per call', () => {
+  const [row] = regexWork(() => [...'a a '.matchAll(/a/g)])
+  assert.equal(row.calls, 3)
+  assert.equal(row.inputChars, 12)
+  assert.equal(row.successes, 2)
+  assert.equal(row.matchedChars, 2)
+  assert.equal(row.globalAdvance, 4)
+})
+
+test('suffix instrumentation restores the method on exceptions', async () => {
+  const { suffixWork } = await import('../scripts/profiling/instrument.mjs')
+  const original = String.prototype.endsWith
+  assert.deepEqual(suffixWork(() => { 'abcd'.endsWith('cd'); 'abcd'.endsWith('x') }),
+    { calls: 2, suffixChars: 3, successes: 1 })
+  assert.throws(() => suffixWork(() => { throw Error('fixture') }), /fixture/)
+  assert.equal(String.prototype.endsWith, original)
+})
+
+test('non-string exec inputs keep native coercion and exceptions', () => {
+  let conversions = 0
+  regexWork(() => {
+    assert.equal(/a/.exec({ toString() { conversions++; return 'a' } })[0], 'a')
+    assert.throws(() => /a/.exec(Symbol('a')), TypeError)
+  })
+  assert.equal(conversions, 1)
+})
+
+test('simple nesting keeps successful spans near doubling without suffix comparisons', async () => {
+  const { suffixWork } = await import('../scripts/profiling/instrument.mjs')
+  for (const marker of ['> ', '- ', '> - ', '- > ']) {
+    const spans = [32, 64].map(depth => {
+      const source = marker.repeat(depth) + 'end\n'
+      assert.equal(suffixWork(() => parse(source)).suffixChars, 0)
+      const patterns = regexWork(() => parse(source))
+      const scan = patterns.find(row => row.pattern === String.raw`/[\n\r\u2028\u2029]/`)
+      assert.ok(scan && scan.inputChars <= source.length * 3, 'Terminator checks repeat full tails')
+      return patterns.reduce((sum, row) => sum + row.matchedChars, 0)
+    })
+    assert.ok(spans[1] <= spans[0] * 2.1, `${marker}: successful spans repeat tail work`)
+  }
+})
