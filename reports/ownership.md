@@ -53,9 +53,9 @@ and [§24 C3 list ownership](https://github.com/markup-carve/carve/blob/c48e4778
 | `footnote-fence-base` | 12 | JS alone produces inline code. | Apply P0-004's authored block base, as above. |
 | `opener-after-content-comment` | 9 | JS/PHP recognize a block; spec/Rust retain marker text. | Apply P0-004 after paragraph closure too. Pin heading, quote and matched fence at a column beyond the item's minimum. |
 | `marker-below-content` | 4 | Spec retains marker text; engines open a sublist. | C3 requires a child to reach the content column. Reject below-column child creation; explicitly settle retained text versus reclassification in the surviving context after the comment. |
-| `quote-lazy-interruption` | 3 | Rust opens a block outside the quote; others retain quoted text. | Pin the coordinate system in which interruption eligibility is tested before a missing quote prefix is supplied by a claim. Preserve this as an open selection question until that fixture is normative. |
+| `quote-lazy-interruption` | 3 | For heading/fence followers, Rust opens an outer block. For a quote follower, Rust consumes the marker; the others keep it as text. | Pin both interruption coordinates and whether a below-item-column quote marker can satisfy the nested quote prefix. Keep these as open selection questions until the fixtures are normative. |
 | `quote-comment-opener` | 3 | Rust retains opener text; others recognize a block in the outer item. | Close the quote paragraph at the comment and apply P0-004 in the surviving item. Pin the enclosing stack explicitly. |
-| `nested-lazy-code` | 2 | PHP moves code payload outside the nested lists. | A below-column line admitted as lazy text must remain in its paragraph's container (C3). Pin the full multiline code span and its payload owner. |
+| `nested-lazy-code` | 2 | PHP moves code payload outside the nested lists. | A below-column line admitted as lazy text or retained after a low comment must remain in its paragraph's container (C3). Pin the full multiline code span and its payload owner. |
 | `nested-comment-outer-opener` | 4 | At column 2, Rust keeps the follower in the inner item; others select the outer item or its child block. | Select ownership and interruption per frame after a below-column comment. Retention must not substitute for opener classification. |
 | `nested-comment-inner-opener` | 4 | At column 4, Rust selects the outer item; others put the new block in the inner item. | State which inner frame survives the comment. If it survives, P0-004 assigns the reached opener to that innermost frame. |
 | `nested-content-comment-opener` | 3 | All recognize the block. Spec/Rust put it in the inner item; JS/PHP select the outer item. | Settle the surviving stack when the comment reaches the outer content column but misses the inner one. Block recognition is agreed; ownership remains open. |
@@ -98,7 +98,10 @@ a common cause; interpretation still requires the original case and controls.
 
 Use Node 24+, PHP 8.2+ with mbstring and a Rust toolchain compatible with the pinned lockfile.
 The build fetches public pinned source into ignored `.cache/ownership/`, installs
-locked JS dependencies and builds the Rust CLI. PHP uses a local PSR-4 loader
+locked JS dependencies and builds the Rust CLI. Cargo uses `CARGO_TARGET_DIR`
+when set, otherwise a shared `cargo-shared/carve-proofs` directory under the
+system temporary directory. The build copies the CLI into the evidence cache
+and hashes that copy. PHP uses a local PSR-4 loader
 for the pinned source, which has no required Composer libraries. Readers run
 with their default rendering configuration; each PHP and Rust observation uses
 a fresh process. The spec and JS APIs share a process across the matrix.

@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, copyFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { tmpdir } from 'node:os'
+import { resolve } from 'node:path'
 import { createHash } from 'node:crypto'
 
 export const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -35,11 +37,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   run('npm', ['ci', '--ignore-scripts', '--no-audit', '--no-fund'], cache + 'js')
   run('npm', ['run', 'build'], cache + 'js')
-  run('cargo', ['build', '--locked', '--bin', 'carve', '--target-dir', cache + 'target'], cache + 'rs')
+  const targetDir = resolve(process.env.CARGO_TARGET_DIR ?? tmpdir() + '/cargo-shared/carve-proofs')
+  run('cargo', ['build', '--locked', '--bin', 'carve', '--target-dir', targetDir], cache + 'rs')
+  copyFileSync(targetDir + '/debug/carve', cache + 'carve-rs')
   writeFileSync(cache + 'build.json', JSON.stringify({ pins,
     node: process.version, php: output('php', ['-r', 'echo PHP_VERSION;']),
     rustc: output('rustc', ['--version']),
-    rustBinarySha256: hash(cache + 'target/debug/carve'),
+    rustBinarySha256: hash(cache + 'carve-rs'),
     jsModulesSha256: jsDigest(),
   }, null, 2) + '\n')
 }

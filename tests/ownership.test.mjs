@@ -92,6 +92,11 @@ test('triage preserves block recognition and nested owner direction', async () =
     if (!tag) continue
     for (const reader of ['spec', 'js', 'php', 'rs']) {
       let expected
+      if (group === 'quote-lazy-interruption') {
+        if (row.parameters.follower === 'quote') {
+          assert.equal(row.outputs[reader].includes('&gt; tail'), reader !== 'rs', `${row.id}/${reader} literal marker`)
+        } else expected = reader === 'rs' ? [1] : []
+      }
       if (group === 'opener-after-content-comment') expected = ['js', 'php'].includes(reader) ? [1] : []
       if (group === 'nested-content-comment-opener') expected = ['spec', 'rs'].includes(reader) ? [2] : [1]
       if (group === 'nested-comment-outer-opener') expected = reader === 'rs' ? [] : [1]
