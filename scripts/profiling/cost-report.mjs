@@ -53,6 +53,7 @@ export function validateCostData(data) {
 }
 
 export function costReport(data) {
+  const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-latest-main/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
   validateCostData(data)
   const fixed = number => number.toFixed(3)
   const sample = (g, field) => g.rounds.map(r => `${fixed(median(r.samples.map(s => s[field])))} (${fixed(Math.min(...r.samples.map(s => s[field])))}–${fixed(Math.max(...r.samples.map(s => s[field])))})`).join(' / ')
@@ -114,24 +115,21 @@ ${hot}
 
 ## Next implementation work
 
-1. Remove per-character suffix slices from the direct HTML eligibility scan
-   and inspect its delimiter scan, including rejected attempts before AST
-   fallback. Use the per-operation CPU and allocation
-   frames above to select the next target. Inspect newline indexing, trailing
-   whitespace handling, codepoint detection and the direct HTML text path.
-   Preserve exact Unicode offsets and authored code bytes in regression checks.
-2. Reduce definition-prepass work and per-line allocations on documents without
-   definitions. First check which state the prepass supplies to later parsing;
-   bypassing it based only on a missing marker could change ownership.
-3. Allocate container maps, sets and buffers only when their features need them.
-   The nesting fixes removed selected repeated scans, but each level still builds
-   lexer and list state. Preserve independent mutable state between containers.
+1. Select the remaining CPU and allocation targets from the recorded frames
+   above. Recheck the direct HTML eligibility scan and rejected attempts before
+   AST fallback using the current reader, rather than the older hotspot list.
+2. Separate position construction, node allocation, and rendering work with
+   focused inputs. The position variants here remove fields after parsing;
+   they do not measure a parser that avoids constructing source positions.
+3. Measure container state and buffer allocation at each nesting depth while
+   preserving independent mutable state between containers.
 
-The profiles identify candidates for changes, not measured speedups from changes
-that have not been implemented. No parser performance fix is claimed by this refresh.
-The ownership refresh is tracked separately in
-[PR #6](https://github.com/markup-carve/carve-proofs/pull/6). Ownership and
-performance snapshots use separate reader pins.
+This reader includes parser allocation changes since the preceding reader
+commit \`${previousReader}\`.
+The current profile records their resulting costs, but the shared host does
+not establish a controlled speed improvement. Ownership and performance now
+use the same JavaScript commit, with their different test scopes recorded
+separately. The original model and historical baselines retain their pins.
 
 ## Method and limits
 

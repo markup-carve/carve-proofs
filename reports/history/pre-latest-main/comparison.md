@@ -2,11 +2,11 @@
 
 This run compares the pinned Carve JS engine with @djot/djot 0.3.2
 and commonmark 0.31.2. Carve uses commit
-`45bbec34edd9d446ba9e78e8031e33c916473923`. The lockfile records package sources and integrity hashes.
+`7b6e57b69dced437822647682838688100ca65c6`. The lockfile records package sources and integrity hashes.
 
-This reader snapshot was recorded at 2026-09-29T23:10:22.009Z.
-The [preceding comparison](history/pre-latest-main/comparison.md) and
-[timings](history/pre-latest-main/comparison-timings.json) remain available.
+This reader snapshot was recorded at 2026-09-29T13:53:04.415Z.
+The [preceding comparison](history/pre-current-refresh/comparison.md) and
+[timings](history/pre-current-refresh/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
@@ -106,37 +106,37 @@ milliseconds per call. CPU includes all process threads.
 
 | Family | Bytes | Carve | Djot | CommonMark |
 |---|---:|---:|---:|---:|
-| long-line | 40964 | 0.286 / 0.359 | 0.161 / 0.225 | 0.033 / 0.035 |
-| unmatched-brackets | 1028 | 0.916 / 1.761 | 0.142 / 0.353 | 0.105 / 0.115 |
-| unmatched-closers | 8196 | 0.166 / 0.184 | 0.689 / 1.353 | 0.676 / 0.741 |
-| unclosed-code | 40965 | 0.949 / 0.971 | 0.143 / 0.231 | 0.055 / 0.060 |
-| many-paragraphs | 12288 | 1.846 / 2.689 | 3.247 / 6.717 | 0.581 / 0.619 |
-| nested-quotes | 388 | 1.295 / 5.354 | 0.133 / 0.391 | 0.046 / 0.050 |
-| nested-lists | 388 | 2.046 / 5.055 | 0.847 / 2.795 | 0.332 / 0.353 |
+| long-line | 40964 | 2.486 / 3.519 | 0.163 / 0.234 | 0.038 / 0.041 |
+| unmatched-brackets | 1028 | 1.893 / 2.550 | 0.145 / 0.300 | 0.213 / 0.249 |
+| unmatched-closers | 8196 | 0.472 / 0.775 | 0.752 / 1.377 | 1.125 / 1.254 |
+| unclosed-code | 40965 | 2.533 / 3.103 | 0.187 / 0.289 | 0.071 / 0.085 |
+| many-paragraphs | 12288 | 1.960 / 3.878 | 3.900 / 7.472 | 0.851 / 0.901 |
+| nested-quotes | 388 | 2.157 / 6.268 | 0.204 / 0.828 | 0.058 / 0.072 |
+| nested-lists | 388 | 2.945 / 6.665 | 1.271 / 3.838 | 0.536 / 0.566 |
 
 Nested inputs at depth 192, median wall milliseconds:
 
 | Reader | Family | Parse | Render prebuilt AST | Full HTML |
 |---|---|---:|---:|---:|
-| carve | nested-quotes | 2.853 | 0.216 | 1.295 |
-| carve | nested-lists | 3.398 | 0.706 | 2.046 |
-| djot | nested-quotes | 0.118 | 0.010 | 0.133 |
-| djot | nested-lists | 1.406 | 0.029 | 0.847 |
-| commonmark | nested-quotes | 0.031 | 0.020 | 0.046 |
-| commonmark | nested-lists | 0.267 | 0.044 | 0.332 |
+| carve | nested-quotes | 0.866 | 0.126 | 2.157 |
+| carve | nested-lists | 1.806 | 0.576 | 2.945 |
+| djot | nested-quotes | 0.152 | 0.013 | 0.204 |
+| djot | nested-lists | 0.911 | 0.034 | 1.271 |
+| commonmark | nested-quotes | 0.035 | 0.023 | 0.058 |
+| commonmark | nested-lists | 0.303 | 0.084 | 0.536 |
 
 The stages are measured independently. Full HTML can use fast paths and includes
 resolution work not covered by render-only, so its time need not equal the sum.
 Carve's public parse includes positions; Djot uses its default without source
 positions; CommonMark records block positions. These are default API costs, not
 identical feature configurations or a ranking of all implementations.
-Large gaps between independently measured parse-only and full-pipeline
-timings, including Carve's and Djot's, need isolated repeat measurements before drawing
+Djot's two paths use the same parser. A large gap between its parse-only and
+full-pipeline timings needs isolated repeat measurements before drawing
 relative-speed conclusions; it is not evidence that rendering removes parse work.
 
 Serial workers, 60s group deadline including startup, at least 200ms warmup per size, five batches of at least 20ms with 16-call time checks and no iteration cap, GC before batches. Render reuses a prebuilt AST. CPU includes all process threads. RSS is cumulative peak.
 Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs.
-The host is shared; load averages at the end were 12.19, 13.91, 10.97.
+The host is shared; load averages at the end were 7.67, 10.21, 16.42.
 Tiny samples, runtime warmup and scheduling affect ratios. No timing threshold
 runs in ordinary CI. The Carve nesting costs are investigated in the
 [nesting profile](nesting-profile.md). The [current cost investigation](current-costs.md)

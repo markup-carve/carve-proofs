@@ -16,6 +16,24 @@ It remains a partial model, not a verified implementation of the full parser.
 
 Explore the [evidence site](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
 
+## Development snapshot
+
+The development-reader checks were refreshed on 2026-09-30. The ownership
+matrix uses these source commits:
+
+| Reader | Commit |
+|---|---|
+| Specification | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
+| JavaScript | `45bbec34edd9d446ba9e78e8031e33c916473923` |
+| PHP | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
+| Rust | `9f3f334c7d5c91c57e4e6269b32599af1062fdde` |
+
+The JS comparison uses the same JS commit; runtime scaling uses the same PHP
+and Rust commits. Raw reports record reader provenance and host load. The
+original layout model and historical baselines retain their own pins.
+The [previous runtime measurements](reports/history/pre-latest-main/runtime-timings.json)
+remain available alongside the archived comparison and profiles.
+
 ## Comparison contracts
 
 The [refreshed comparison](reports/comparison.md) uses the post-fix JavaScript

@@ -43,8 +43,8 @@ and commonmark ${current.parsers.commonmark.version}. Carve uses commit
 \`${current.engine.split('#')[1]}\`. The lockfile records package sources and integrity hashes.
 
 This reader snapshot was recorded at ${timing.metadata.generatedAt}.
-The [preceding comparison](history/pre-current-refresh/comparison.md) and
-[timings](history/pre-current-refresh/comparison-timings.json) remain available.
+The [preceding comparison](history/pre-latest-main/comparison.md) and
+[timings](history/pre-latest-main/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
@@ -154,8 +154,8 @@ resolution work not covered by render-only, so its time need not equal the sum.
 Carve's public parse includes positions; Djot uses its default without source
 positions; CommonMark records block positions. These are default API costs, not
 identical feature configurations or a ranking of all implementations.
-Djot's two paths use the same parser. A large gap between its parse-only and
-full-pipeline timings needs isolated repeat measurements before drawing
+Large gaps between independently measured parse-only and full-pipeline
+timings, including Carve's and Djot's, need isolated repeat measurements before drawing
 relative-speed conclusions; it is not evidence that rendering removes parse work.
 
 ${timing.metadata.method}
