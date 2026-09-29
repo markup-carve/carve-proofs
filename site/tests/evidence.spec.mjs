@@ -201,7 +201,7 @@ test('paired JavaScript controls expose both rounds and exact exports', async ({
   const chart = charts.find(c => c.id === 'javascript-long-unicode-parse-wall');
   expect(chart.points).toHaveLength(24);
   expect(new Set(chart.points.map(p => p.reader)).size).toBe(6);
-  expect(chart.metadata.execution.controlled).toBe(true);
+  expect(chart.metadata.execution).toEqual(evidence.reports['comparison-timings'].metadata.execution);
   await expect(page.locator('a[download$=".csv"]')).toHaveAttribute('href', /javascript-long-unicode-parse-wall.csv$/);
   await page.getByLabel('Dataset', { exact: true }).selectOption('current-costs');
   await page.getByLabel('Input family', { exact: true }).selectOption('inline-links');

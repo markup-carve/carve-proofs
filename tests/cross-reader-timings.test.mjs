@@ -18,6 +18,10 @@ test('paired timing evidence rejects missing rounds, corrupted input and inconsi
     d => { d.groups[0].rounds[1].rows[0].sourceSha256 = '0'.repeat(64) },
     d => { d.groups[0].rounds[1].rows[0].medianMs += 1 },
     d => d.groups.pop(),
+    d => d.groups[0].rounds[0].order.reverse(),
+    d => d.metadata.controls.pop(),
+    d => { delete d.metadata.execution },
+    d => { d.metadata.execution.controlled = false },
   ]) {
     const altered = structuredClone(data); alter(altered)
     assert.throws(() => validateTimings(altered))

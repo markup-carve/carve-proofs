@@ -22,6 +22,8 @@ for (const family of families) for (const mode of ['parse', 'render', 'html']) {
     const observation = { round, order, loadStart, loadEnd: checkHostLoad(), completed, workerError, exitCode: result.status, signal: result.signal, rows }
     rounds.get(reader).push(observation)
     console.log(`${reader}/${mode}/${family}/round-${round}: ${completed ? 'recorded' : workerError ?? 'failed'}`)
+    const pending = readers.filter(name => rounds.get(name).length).map(name => ({ reader: name, mode, family, completed: rounds.get(name).length === 2 && rounds.get(name).every(r => r.completed), rounds: rounds.get(name), rows: rounds.get(name)[0].rows }))
+    writeFileSync(output + '.partial', JSON.stringify({ metadata: { ...metadata, loadEnd: loadavg() }, groups: [...groups, ...pending] }, null, 2) + '\n')
     assert.ok(completed, JSON.stringify(observation))
   }
   for (const reader of readers) {

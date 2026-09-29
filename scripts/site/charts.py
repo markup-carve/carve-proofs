@@ -37,7 +37,7 @@ def export(dataset, family, phase, metric, unit, series, metadata, note):
                 point = valid[0]
                 ax.barh(reader, point['value'], xerr=[[point['value'] - point['low']], [point['high'] - point['value']]], color=variant_colors[reader.split(' / round ')[0]], capsize=3)
             else:
-                ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o-', label=reader, color=variant_colors[reader.split(' / round ')[0]], linestyle='--' if reader.endswith(' / round 2') else '-', linewidth=1.8, markersize=4)
+                ax.plot([r['x'] for r in valid], [r['value'] for r in valid], 'o', label=reader, color=variant_colors[reader.split(' / round ')[0]], linestyle='--' if reader.endswith(' / round 2') else '-', linewidth=1.8, markersize=4)
                 ax.fill_between([r['x'] for r in valid], [r['low'] for r in valid], [r['high'] for r in valid], color=variant_colors[reader.split(' / round ')[0]], alpha=.10)
         points.extend(dict(reader=reader, **r) for r in rows)
     depth = 'nested' in family or dataset in ['profile', 'profile-js', 'prefix-change', 'tail-change', 'container-tails']

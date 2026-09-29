@@ -3,7 +3,9 @@ import { createHash } from 'node:crypto'
 import { comparisonEnvironment, comparisonTimingFiles, digest } from './environment.mjs'
 import { scalingCases as comparisonScalingCases } from './scaling-cases.mjs'
 import { checkControls } from './controls.mjs'
+import { validateExecution } from './validate-execution.mjs'
 export function validateTimings(data) {
+  validateExecution(data.metadata.execution)
   const environment = comparisonEnvironment()
   assert.equal(data.metadata.engine, environment.engine)
   assert.deepEqual(data.metadata.parsers, environment.parsers)
@@ -28,6 +30,7 @@ export function validateTimings(data) {
         assert.equal(row.status,'ok')
         assert.equal(row.samplesMs.length,5); assert.equal(row.samplesCpuMs.length,5)
         assert.equal(row.batchIterations.length,5)
+        assert.ok(row.batchIterations.every(n => Number.isInteger(n) && n > 0))
         assert.ok(row.samplesMs.every(x => Number.isFinite(x) && x > 0))
         assert.ok(row.samplesCpuMs.every(x => Number.isFinite(x) && x >= 0))
         const median = values => [...values].sort((a,b) => a-b)[2]

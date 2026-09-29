@@ -21,8 +21,12 @@ for (const family of costFamilies) for (const phase of ['parse', 'html', 'direct
     checkHostLoad()
     const result = spawnSync(process.execPath, ['--expose-gc', fileURLToPath(new URL('./cost-worker.mjs', import.meta.url)), variant, family, phase], { encoding: 'utf8', timeout: 60_000, maxBuffer: 4_000_000 })
     checkHostLoad()
-    assert.equal(result.status, 0, result.error?.message ?? result.stderr)
-    rounds.get(variant).push({ round, ...JSON.parse(result.stdout) })
+    if (result.status !== 0) {
+      writeFileSync(output + '.partial', JSON.stringify({ metadata: { ...metadata, loadEnd: loadavg() }, groups, pendingRounds: Object.fromEntries(rounds), failedWorker: { variant, family, phase, round, order, exitCode: result.status, signal: result.signal, error: result.error?.message, stdout: result.stdout, stderr: result.stderr } }, null, 2) + '\n')
+      assert.equal(result.status, 0, result.error?.message ?? result.stderr)
+    }
+    rounds.get(variant).push({ round, order, ...JSON.parse(result.stdout) })
+    writeFileSync(output + '.partial', JSON.stringify({ metadata: { ...metadata, loadEnd: loadavg() }, groups, pendingRounds: Object.fromEntries(rounds) }, null, 2) + '\n')
     console.log(`${family}/${phase}/${variant}/round-${round}: recorded`)
   }
   for (const variant of variants) {

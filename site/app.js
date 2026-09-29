@@ -120,7 +120,7 @@ function behavior() {
 }
 function scaling() {
   heading('Scaling, time and allocation', 'Historical measurements from the committed runs. Select a dataset, input family and API phase. Runtime datasets remain separate; memory metrics use runtime-specific definitions.');
-  main.append(el('p', 'The current JavaScript measurements use serial paired runs on a dedicated workflow runner; older datasets retain their recorded hosts. Carve, Djot and CommonMark expose different API features and source positions. Parse, render and HTML phases were measured independently, so their times must not be added. Unusual curves need an isolated repeat.', 'note'));
+  main.append(el('p', 'Run metadata identifies dedicated workflow measurements and historical shared-host runs. Carve, Djot and CommonMark expose different API features and source positions. Parse, render and HTML phases were measured independently, so their times must not be added. Unusual curves need an isolated repeat.', 'note'));
   main.append(link('Current cost investigation and next implementation work', 'reports/current-costs.md'));
   const dataset = select('Dataset', [['javascript', 'JavaScript readers'], ['rust', 'Carve Rust'], ['php', 'Carve PHP'], ['current-costs', 'Current costs and positions'], ['native', 'Historical Djot native / OCaml'], ['container-tails', 'Remaining container tails'], ['profile-js', 'Carve JS instrumented operations'], ['profile', 'Carve JS / specification operations'], ['prefix-change', 'Before / after prefix reuse'], ['tail-change', 'Before / after tail matching'], ['scaling', 'Original scaling run'], ['confirmation', 'Scaling confirmation']]);
   const family = select('Input family', []), phase = select('API phase', []), metric = select('Metric', []);

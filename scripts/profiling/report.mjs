@@ -2,8 +2,10 @@ import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
 import { median, aggregateFrames, regexTotals } from './summary.mjs'
+import { validateExecution } from '../comparison/validate-execution.mjs'
 const read = name => JSON.parse(readFileSync(new URL('../../reports/' + name, import.meta.url)))
 const data = read('nesting-profile.json'), before = read('history/pre-prefix-refresh/nesting-profile.json'), current = comparisonEnvironment()
+validateExecution(data.metadata.execution)
 assert.deepEqual(data.metadata.parsers, current.parsers)
 assert.equal(data.metadata.specCommit, current.specCommit)
 assert.equal(data.metadata.specDirty, false)
@@ -61,7 +63,7 @@ regex calls recorded by the earlier reader. The historical
 
 This reader snapshot was recorded at ${data.metadata.generatedAt}.
 The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
-and [report](history/pre-latest-main/nesting-profile.md) preserve the prior reader.
+and [report](history/pre-cross-reader-refresh/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.
 Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.

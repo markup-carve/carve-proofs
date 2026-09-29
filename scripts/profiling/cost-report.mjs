@@ -11,7 +11,9 @@ const median = values => {
 
 import { costFamilies as families, checkControls, costVariants } from '../comparison/controls.mjs'
 import { createHash } from 'node:crypto'
+import { validateExecution } from '../comparison/validate-execution.mjs'
 export function validateCostData(data) {
+  validateExecution(data.metadata.execution)
   const environment = comparisonEnvironment()
   assert.deepEqual(data.metadata.parsers, environment.parsers)
   assert.equal(data.metadata.engine, environment.engine)
@@ -26,6 +28,8 @@ export function validateCostData(data) {
     assert.equal(group.rounds.length, 2)
     assert.deepEqual(group.rounds.map(r => r.round), [0, 1])
     for (const round of group.rounds) {
+      const order = costVariants(group.phase)
+      assert.deepEqual(round.order,round.round === 0 ? order : [...order].reverse())
       for (const field of ['variant', 'phase', 'family', 'htmlPath', 'size', 'bytes']) assert.equal(round[field], group[field])
       for (const load of [round.loadStart, round.loadEnd]) {
         assert.equal(load.length, 3)
@@ -48,6 +52,10 @@ export function validateCostData(data) {
       assert.ok(Number.isInteger(sample.iterations) && sample.iterations > 0)
       assert.ok(Number.isFinite(sample.wallMs) && sample.wallMs > 0)
       assert.ok(Number.isFinite(sample.cpuMs) && sample.cpuMs >= 0)
+    }
+    if (group.phase === 'direct-html-probe') {
+      const full = data.groups.find(g => g.family === group.family && g.phase === 'html' && g.variant === 'carve')
+      assert.equal(group.htmlPath,full.htmlPath)
     }
     assert.equal(group.heapIterations, 100)
     assert.equal(group.sampledAllocationBytes, group.heapNodes.reduce((sum, frame) => sum + frame.sampledBytes, 0))
@@ -100,9 +108,8 @@ The [HTML entrypoint](${source}/index.ts) tries a direct HTML path before buildi
 an AST. Untimed probes record which path accepts each fixture and check direct
 output against the public HTML entrypoint: ${htmlPaths}. An AST fallback still
 pays for the rejected direct-path attempt. The \`direct-html-probe\` phase measures
-that attempt independently, including declines, without running the AST fallback. The unclosed-code HTML profile
-attributes substantial sampled work to that eligibility scan; choosing the AST
-path does not mean that the fast-path code did no work.
+that attempt independently, including declines, without running the AST fallback. Accepted probes include direct HTML generation. Rejected probes stop before
+the AST fallback. Choosing that fallback does not remove the earlier attempt.
 The phases must not be added or interpreted as a single pipeline breakdown.
 
 ## Sampled hotspots

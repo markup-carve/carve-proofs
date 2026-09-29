@@ -132,7 +132,7 @@ prefix strips. The specification profile remains at its separately recorded olde
 ## Timings
 
 The ${families.length} families use identical source bytes across readers.
-The 28 new shared-syntax controls check full HTML equality after trimming only
+The ${timing.metadata.controls.length} new shared-syntax controls check full HTML equality after trimming only
 outer whitespace. Tree projections also agree except for dense definitions:
 Carve resolves references while Djot keeps a reference table and CommonMark
 omits authored reference labels. Output hashes and fixture hashes are recorded. Emphasis adaptation
