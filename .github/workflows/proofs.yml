@@ -34,8 +34,24 @@ jobs:
       - uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: '4.14.2'
+      - name: Identify opam version
+        id: opam
+        run: echo "version=$(opam --version)" >> "$GITHUB_OUTPUT"
+      - name: Restore proof toolchain
+        id: proof-toolchain
+        uses: actions/cache/restore@v4
+        with:
+          path: _opam
+          # The workflow hash covers the runner image and pinned toolchain versions.
+          key: proof-toolchain-v1-${{ runner.os }}-${{ runner.arch }}-opam-${{ steps.opam.outputs.version }}-${{ hashFiles('.github/workflows/proofs.yml') }}
       - name: Install proof compiler and standard library
         run: opam install --yes rocq-core.9.2.0 rocq-stdlib.9.1.0 dune.3.23.1
+      - name: Save proof toolchain
+        if: steps.proof-toolchain.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: _opam
+          key: ${{ steps.proof-toolchain.outputs.cache-primary-key }}
       - name: Use HTTPS for Git dependencies
         run: |
           git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
