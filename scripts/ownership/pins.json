@@ -1,18 +1,18 @@
 {
   "spec": {
     "repository": "https://github.com/markup-carve/carve.git",
-    "commit": "53b5e949f55bbf4696e49e1b6fd10e439590309b"
+    "commit": "9db91206d1a4a8a8cf795c48210bca49d66f14d6"
   },
   "js": {
     "repository": "https://github.com/markup-carve/carve-js.git",
-    "commit": "393111222a45ba916f18290581e345169500b71b"
+    "commit": "45bbec34edd9d446ba9e78e8031e33c916473923"
   },
   "php": {
     "repository": "https://github.com/markup-carve/carve-php.git",
-    "commit": "78e62590d24f13da7ee4ad477d70bb317a9294a8"
+    "commit": "6d94607eaa9d51c9ed782342161beca77b05aaf9"
   },
   "rs": {
     "repository": "https://github.com/markup-carve/carve-rs.git",
-    "commit": "a2d1537672060aa27660b64b456e9aa397db0d25"
+    "commit": "9f3f334c7d5c91c57e4e6269b32599af1062fdde"
   }
 }

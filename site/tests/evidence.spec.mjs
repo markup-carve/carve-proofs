@@ -75,7 +75,6 @@ test('mobile layout fits the viewport', async ({ page }) => {
     await page.goto(`/#${view}`); await expect(page.locator('nav a[aria-current=page]')).toHaveAttribute('href', `#${view}`); await expect(page.locator('h1')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   }
-  await page.screenshot({ path: '/tmp/carve-evidence-mobile.png', fullPage: false });
 });
 test('fixture HTML cannot execute scripts or load external images', async ({ page }) => {
   const poisoned = structuredClone(evidence);
