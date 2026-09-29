@@ -10,3 +10,7 @@ reports/*.partial
 .cache/
 
 reports/*-ci.json
+_site/
+test-results/
+playwright-report/
+.venv/

@@ -1,0 +1,78 @@
+import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+const evidence = JSON.parse(readFileSync('_site/data/evidence.json'));
+const charts = JSON.parse(readFileSync('_site/charts/index.json'));
+test('all views load without browser errors', async ({ page }) => {
+  const errors = []; page.on('pageerror', e => errors.push(e.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  for (const view of ['overview', 'ownership', 'behavior', 'scaling', 'proofs', 'history']) {
+    await page.goto(`/#${view}`); await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1')).not.toHaveText('Evidence unavailable');
+  }
+  expect(errors).toEqual([]);
+});
+test('ownership filters reproduce recorded counts and render safe outputs', async ({ page }) => {
+  await page.goto('/#ownership');
+  await expect(page.locator('.result-count')).toHaveText('43 of 472 cases');
+  await page.getByLabel('Fixture family').selectOption('fences');
+  await expect(page.locator('.result-count')).toHaveText('0 of 472 cases');
+  await page.getByLabel('Result', { exact: true }).selectOption('all');
+  await expect(page.locator('.result-count')).toHaveText('42 of 472 cases');
+  await expect(page.locator('iframe').first()).toHaveAttribute('sandbox', '');
+  await page.getByLabel('Search case or source').fill('no-such-fixture');
+  await expect(page.locator('.result-count')).toHaveText('0 of 472 cases');
+});
+test('language cases retain each reader and separate native views', async ({ page }) => {
+  await page.goto('/#behavior');
+  await page.getByLabel('Edit family', { exact: true }).selectOption('wrapping');
+  await expect(page.locator('.outputs article')).toHaveCount(3);
+  await page.getByLabel('Dataset').selectOption('djot-v-results');
+  await expect(page.locator('.outputs article')).toHaveCount(2);
+  await page.getByLabel('Dataset').selectOption('djot-differential');
+  await expect(page.getByLabel('Reproducer')).toBeVisible();
+});
+test('chart exports and table match the selected dataset', async ({ page, request }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset').selectOption('native');
+  await page.getByLabel('Metric', { exact: true }).selectOption('allocation');
+  await expect(page.locator('.chart')).toHaveAttribute('src', /native-.*-allocation.svg/);
+  for (const ext of ['SVG', 'PNG', 'CSV', 'JSON']) {
+    const url = await page.getByRole('link', { name: `Download ${ext}` }).getAttribute('href');
+    const response = await request.get(`/${url}`); expect(response.ok()).toBeTruthy();
+  }
+  await expect(page.locator('tbody')).toContainText('djot.v / OCaml');
+  await expect(page.locator('tbody')).not.toContainText('commonmark');
+});
+test('history derives twelve changes from the same suite', () => {
+  expect(evidence.history.before).toBe(55); expect(evidence.history.after).toBe(43);
+  expect(evidence.history.changes).toHaveLength(12);
+  expect(evidence.history.changes.every(c => c.before.groups.length > 1 && c.after.groups.length === 1)).toBeTruthy();
+  expect(evidence.theorems).toHaveLength(26);
+});
+test('exported chart values preserve source medians and missing observations', () => {
+  const chart = charts.find(c => c.id === 'javascript-long-line-parse-wall');
+  const group = evidence.reports['comparison-timings'].groups.find(g => g.reader === 'carve' && g.family === 'long-line' && g.mode === 'parse');
+  expect(chart.points.filter(p => p.reader === 'carve').map(p => p.value)).toEqual(group.rows.map(r => r.medianMs));
+  const missing = charts.filter(c => c.dataset === 'scaling').flatMap(c => c.points).filter(p => p.status !== 'ok');
+  expect(missing.length).toBeGreaterThan(0); expect(missing.every(p => p.value === null)).toBeTruthy();
+});
+test('mobile layout fits the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const view of ['overview', 'ownership', 'scaling', 'proofs']) {
+    await page.goto(`/#${view}`); await expect(page.locator('h1')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  }
+  await page.screenshot({ path: '/tmp/carve-evidence-mobile.png', fullPage: true });
+});
+test('fixture HTML cannot execute scripts or load external images', async ({ page }) => {
+  const poisoned = structuredClone(evidence);
+  const row = poisoned.reports['ownership-results'].rows.find(r => r.groups.length > 1);
+  row.outputs.spec = '<script>parent.document.body.dataset.injected="yes"</script><img src="https://example.invalid/tracker">';
+  const failures = [];
+  page.on('requestfailed', r => { if (r.url().includes('example.invalid')) failures.push(r.failure().errorText); });
+  await page.route('**/data/evidence.json', route => route.fulfill({ json: poisoned }));
+  await page.goto('/#ownership');
+  await expect(page.locator('iframe').first()).toBeVisible();
+  expect(await page.locator('body').getAttribute('data-injected')).toBeNull();
+  await expect.poll(() => failures.some(error => /csp/i.test(error))).toBeTruthy();
+});

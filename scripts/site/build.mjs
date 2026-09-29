@@ -1,0 +1,28 @@
+import { readFile, writeFile, mkdir, cp } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { validateProofSource, generateChecks } from '../layout-proof-check.mjs';
+import { finding } from '../ownership/findings.mjs';
+
+const root = new URL('../../', import.meta.url);
+const read = async path => JSON.parse(await readFile(new URL(path, root), 'utf8'));
+const names = ['ownership-results', 'ownership-reductions', 'comparison-results', 'property-results', 'djot-v-results', 'djot-differential', 'djot-v-proofs', 'djot-extension-proofs', 'djot-differential-proofs', 'comparison-timings', 'djot-v-timings', 'nesting-profile', 'scaling-results', 'scaling-confirmation'];
+const reports = Object.fromEntries(await Promise.all(names.map(async name => [name, await read(`reports/${name}.json`)])));
+const previous = await read('site/history/ownership-before-fence-fix.json');
+const current = reports['ownership-results'];
+if (previous.suiteSha256 !== current.suiteSha256) throw new Error('History requires the same suite');
+const oldRows = new Map(previous.rows.map(row => [row.id, row]));
+if (oldRows.size !== current.rows.length || current.rows.some(row => oldRows.get(row.id)?.source !== row.source)) throw new Error('History requires identical case IDs and sources');
+const changes = current.rows.filter(row => JSON.stringify(row.groups) !== JSON.stringify(oldRows.get(row.id)?.groups)).map(row => ({ before: oldRows.get(row.id), after: row }));
+for (const row of current.rows) row.finding = finding(row);
+const proofSource = await readFile(new URL('proofs/layout/Ownership.v', root), 'utf8');
+const theorems = validateProofSource(proofSource).map(name => ({ name, line: proofSource.split('\n').findIndex(line => new RegExp(`^(?:Theorem|Lemma|Corollary|Fact|Remark|Proposition|Example)\\s+${name}(?:\\s|:)`).test(line)) + 1 }));
+const checks = generateChecks(proofSource);
+const layoutExamples = Object.fromEntries(['table', 'trace', 'prefix'].map(kind => [kind, [...checks.matchAll(new RegExp(`^Example ${kind}_`, 'gm'))].length]));
+const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+const data = { revision, reports, theorems, layoutExamples, history: { sourceCommit: '3496c574f1b40b27dc102aef0327a9eb1dcc6abd', previousPins: previous.pins, before: previous.rows.filter(r => r.groups.length > 1).length, after: current.rows.filter(r => r.groups.length > 1).length, total: current.rows.length, changes } };
+await mkdir(new URL('_site/data/', root), { recursive: true });
+for (const file of ['index.html', 'app.js', 'style.css']) await cp(new URL(`site/${file}`, root), new URL(`_site/${file}`, root));
+await cp(new URL('reports/', root), new URL('_site/reports/', root), { recursive: true });
+await writeFile(new URL('_site/data/evidence.json', root), JSON.stringify(data));
+await writeFile(new URL('_site/.nojekyll', root), '');
+console.log(`Built evidence at ${revision}: ${current.rows.length} ownership cases, ${theorems.length} model theorems`);

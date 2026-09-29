@@ -12,6 +12,10 @@ traces agree with the executable specification and pinned JavaScript engine.
 The model applies the list-specific rules in §24 C3 where they qualify Part 0.
 It remains a partial model, not a verified implementation of the full parser.
 
+## Visual evidence
+
+Explore the [evidence site](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
+
 ## Setup
 
 Use Node 24 or newer, Git, Rocq core 9.2.0 and standard library 9.1.0.
