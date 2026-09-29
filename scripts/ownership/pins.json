@@ -1,11 +1,11 @@
 {
   "spec": {
     "repository": "https://github.com/markup-carve/carve.git",
-    "commit": "041616d77e77f89296121fcb3267ec9ab64fdc52"
+    "commit": "c89cf4951387734240dcefc660fff381984cbb40"
   },
   "js": {
     "repository": "https://github.com/markup-carve/carve-js.git",
-    "commit": "502256cf16948f92c4fce409c0a44ec1ae0306a5"
+    "commit": "adb64587295cf2832eaa8a54ddb4946809a44590"
   },
   "php": {
     "repository": "https://github.com/markup-carve/carve-php.git",

@@ -16,8 +16,8 @@ the current reader changes address the other 39. There is no separately recorded
 [Reader pins](../scripts/ownership/pins.json) identify the source revisions.
 [Raw observations](ownership-results.json) preserve every source, complete HTML
 output and reader partition. The same 472-case HTML fixture is tested in the
-[checker](https://github.com/markup-carve/carve/blob/041616d77e77f89296121fcb3267ec9ab64fdc52/tests/fixtures/container-ownership.json),
-[JavaScript](https://github.com/markup-carve/carve-js/blob/502256cf16948f92c4fce409c0a44ec1ae0306a5/test/fixtures/container-ownership.json),
+[checker](https://github.com/markup-carve/carve/blob/c89cf4951387734240dcefc660fff381984cbb40/tests/fixtures/container-ownership.json),
+[JavaScript](https://github.com/markup-carve/carve-js/blob/adb64587295cf2832eaa8a54ddb4946809a44590/test/fixtures/container-ownership.json),
 [PHP](https://github.com/markup-carve/carve-php/blob/9c6821f8902cfa387111d143e425310ae8f5c38a/tests/fixtures/container-ownership.json)
 and [Rust](https://github.com/markup-carve/carve-rs/blob/a2d1537672060aa27660b64b456e9aa397db0d25/tests/fixtures/container-ownership.json).
 There are no active disagreement witnesses in
