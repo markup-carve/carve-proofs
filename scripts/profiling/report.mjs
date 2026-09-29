@@ -26,6 +26,17 @@ const growth = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family =
   if (reader === 'js') assert.ok(b.calls <= a.calls * 2.1, 'Review the near-doubling call-growth observation')
   return `| ${reader} | ${family} | ${a.calls} → ${b.calls} | ${fixed(b.calls / a.calls)}× | ${a.inputChars} → ${b.inputChars} | ${fixed(time(last))} | ${fixed(time(get(data, reader, 'render', family, 192)))} |`
 })).join('\n')
+const spanRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
+  const groups = [64, 128].map(size => get(data, reader, 'parse', family, size))
+  groups.forEach(g => regexTotals(g.patterns))
+  if (reader === 'js') {
+    const spans = groups.map(g => g.patterns.reduce((n, p) => n + p.matchedChars, 0))
+    assert.ok(spans[0] > 0 && spans[1] <= spans[0] * 2.1, 'Review successful match growth')
+    assert.ok(groups.every(g => g.suffixes.suffixChars === 0), 'Review suffix comparisons')
+  }
+  const sum = field => groups.map(g => g.patterns.reduce((n, p) => n + p[field], 0)).join(' → ')
+  return `| ${reader} | ${family} | ${sum('matchedChars')} | ${sum('globalAdvance')} | ${groups.map(g => g.suffixes.suffixChars).join(' → ')} |`
+})).join('\n')
 const allocationRows = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => `| ${reader} | ${family} | ${[64, 128, 192].map(size => fixed(allocation(get(data, reader, 'parse', family, size)))).join(' | ')} |`)).join('\n')
 const sourceUrl = file => file.startsWith('spec/') ? `https://github.com/markup-carve/carve/blob/${current.specCommit}/${file.slice(5)}` : file.startsWith('node_modules/carve-comparison/') ? `https://github.com/markup-carve/carve-js/blob/${current.engine.split('#')[1]}/${file.replace('node_modules/carve-comparison/dist/', 'src/').replace(/\.js$/, '.ts')}` : null
 const hotspots = ['js', 'spec'].flatMap(reader => ['quotes', 'lists'].map(family => {
@@ -41,6 +52,11 @@ memoization. At depth 192, both quote and list parsing use fewer than half the
 regex calls recorded by the earlier reader. The historical
 [profile](history/pre-prefix-refresh/nesting-profile.json) and
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
+
+This run evaluates the candidate implementation in
+[parser PR #2375](https://github.com/markup-carve/carve-js/pull/2375). It is not a
+merged release snapshot. The immediately preceding
+[profile](history/pre-tail-refresh/nesting-profile.json) preserves the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.
 Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.
@@ -64,8 +80,9 @@ to the prefix optimization.
 The relevant changes landed in
 [quote-state reuse](https://github.com/markup-carve/carve-js/pull/2259) and
 [prefix classification reuse](https://github.com/markup-carve/carve-js/pull/2274)
-before this refresh. This update measures and guards the existing optimization.
-It does not introduce another parser rewrite.
+before this refresh.
+The current reader also replaces repeated quote and unordered-list tail captures
+with prefix recognition and reuses recorded origins for literal prefix strips.
 
 ## Current growth and phase costs
 
@@ -73,13 +90,27 @@ It does not introduce another parser rewrite.
 |---|---|---:|---:|---:|---:|---:|
 ${growth}
 
-On these simple JavaScript nesting fixtures, regex-call growth is near doubling
-when depth doubles. Input exposure still counts every character supplied to a
-regex. Input exposure grows roughly fourfold when depth doubles on these
-fixtures, so substantial repeated input presentation remains. An anchored match
-may inspect only its first character. Exposure is not
-an executed-character count, and neither metric proves a whole-parser bound.
-The older specification reader retains its separately measured costs.
+Input exposure charges the complete input for every regex call, including failed
+anchored checks and global matches that resume at the previous match. For example,
+matching each quote marker in a 256-character prefix with a global regex makes
+129 calls, charging 33,024 input characters while advancing through 256.
+
+| Reader | Family | Successful match lengths, 64 → 128 | Global forward progress, 64 → 128 | Suffix argument lengths, 64 → 128 |
+|---|---|---:|---:|---:|
+${spanRows}
+
+Lengths use JavaScript UTF-16 code units. Successful match lengths sum complete
+matches, without adding capture groups. Global forward progress includes the
+remaining range on a failed global search; it excludes sticky regexes. Suffix
+lengths count string arguments passed to \`endsWith\` in a separate parse.
+Non-string regex inputs run unchanged and are excluded from these counters.
+None of these lengths measures engine steps or proves whole-parser complexity.
+Failed non-global scans and non-regex prefix operations are outside the matched-span
+and global-progress counters. Regression tests separately bound input supplied
+to the terminator scan.
+The simple JavaScript fixtures show near-doubling successful match lengths
+and no suffix comparisons. Input exposure still grows roughly fourfold because
+many bounded prefix checks receive each remaining line.
 
 The parse and render phases are independent runs. JavaScript parsing includes
 source positions. Specification parsing produces block layout, while its
