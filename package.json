@@ -30,12 +30,16 @@
     "build:djot-differential": "node scripts/differential/build.mjs",
     "check:djot-differential": "node scripts/differential/run.mjs",
     "proof:djot-differential": "node scripts/differential/proof.mjs",
-    "report:djot-differential": "node scripts/differential/report.mjs"
+    "report:djot-differential": "node scripts/differential/report.mjs",
+    "build:ownership": "node scripts/ownership/build.mjs",
+    "check:ownership": "node scripts/ownership/run.mjs",
+    "reduce:ownership": "node scripts/ownership/reduce.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",
     "@markup-carve/carve": "github:markup-carve/carve-js#c5df77f658c80a3a80a4d31ec1855d854e5da648",
     "commonmark": "0.31.2",
-    "ohm-js": "^17.5.0"
+    "ohm-js": "^17.5.0",
+    "parse5": "7.3.0"
   }
 }

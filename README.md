@@ -103,3 +103,12 @@ against pinned current djot.js, its npm release and djot.v. It includes a
 footnote conformance bug, an unresolved-image rendering candidate, controls
 and a portable upstream test fixture. Run `npm run build:djot-differential`
 and `npm run check:djot-differential` after building the native package.
+
+## Four-reader ownership matrix
+
+The [ownership report](reports/ownership.md) compares 472 inputs across pinned
+versions of the executable specification, JavaScript, PHP and Rust. It records
+55 structural disagreements, reduced examples and proposed specification
+decisions for nested ownership. Run `npm run build:ownership`, then
+`npm run check:ownership -- --check reports/ownership-results.json`.
+The matrix uses separate pins and does not extend the layout proofs.

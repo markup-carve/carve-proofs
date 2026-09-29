@@ -89,3 +89,31 @@ jobs:
           name: scaling-measurements
           path: reports/scaling-ci.json
           if-no-files-found: error
+
+  ownership:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install PHP
+        run: sudo apt-get update && sudo apt-get install -y php-cli php-mbstring
+      - name: Use HTTPS for Git dependencies
+        run: |
+          git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global --add url."https://github.com/".insteadOf git@github.com:
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run build:ownership
+      - run: npm run check:ownership -- --check reports/ownership-results.json
+      - run: npm run reduce:ownership -- --check reports/ownership-reductions.json
+      - run: node --test tests/ownership.test.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ownership-build
+          path: .cache/ownership/build.json
+          include-hidden-files: true

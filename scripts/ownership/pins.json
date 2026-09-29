@@ -1,0 +1,6 @@
+{
+  "spec": {"repository": "https://github.com/markup-carve/carve.git", "commit": "c48e4778f972e42495132adf76b9e371d7d4365a"},
+  "js": {"repository": "https://github.com/markup-carve/carve-js.git", "commit": "db48137e8cb919bccc5349e072acd044fcea13e0"},
+  "php": {"repository": "https://github.com/markup-carve/carve-php.git", "commit": "0618c3fe54c730f25a0d43a9468dba25a108b0ea"},
+  "rs": {"repository": "https://github.com/markup-carve/carve-rs.git", "commit": "d8e95bdef804f4a1f90f43f292a4300e314ed4f9"}
+}
