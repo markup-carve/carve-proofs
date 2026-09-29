@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { parseArgs } from 'node:util'
-import { parse as baselineParse } from 'carve-comparison'
+import { parse as baselineParse } from 'carve-tail-baseline'
 import { parse as candidateParse } from 'carve-tail-candidate'
-import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
+import { digest } from '../comparison/environment.mjs'
 import { regexWork, suffixWork } from './instrument.mjs'
 import { regexTotals } from './summary.mjs'
 const { layoutWork } = await import(new URL('./parse.js', import.meta.resolve('carve-tail-candidate')))
@@ -22,17 +22,16 @@ export const tailCases = {
   'indented-lists': depth => '- '.repeat(depth) + 'a\n' + '  '.repeat(depth) + 'end\n',
 }
 
-function candidatePin() {
+function readerPin(alias) {
   const read = file => JSON.parse(readFileSync(new URL('../../' + file, import.meta.url)))
-  const source = read('package.json').devDependencies['carve-tail-candidate']
+  const source = read('package.json').devDependencies[alias]
   assert.match(source, /^github:markup-carve\/carve-js#[0-9a-f]{40}$/)
-  const key = 'node_modules/carve-tail-candidate'
+  const key = 'node_modules/' + alias
   const locked = read('package-lock.json').packages[key]
   const installed = read('node_modules/.package-lock.json').packages[key]
   assert.ok(locked && installed)
   assert.equal(locked.name, '@markup-carve/carve')
   assert.equal(installed.name, '@markup-carve/carve')
-  assert.notEqual(source, comparisonEnvironment().engine)
   for (const field of ['version', 'resolved', 'integrity']) assert.equal(installed[field], locked[field])
   assert.ok(locked.resolved.endsWith('#' + source.split('#')[1]))
   return { source, version: locked.version, resolved: locked.resolved, integrity: locked.integrity }
@@ -76,14 +75,14 @@ function assertShape(ast, depth, source, payload = 'end', itemKind = null) {
 }
 
 export function collectTailWork() {
-  const environment = comparisonEnvironment()
   const metadata = {
-    baseline: { source: environment.engine, ...environment.parsers['@markup-carve/carve'] },
-    candidate: candidatePin(),
+    baseline: readerPin('carve-tail-baseline'),
+    candidate: readerPin('carve-tail-candidate'),
     method: 'Deterministic counters in separate parses. UTF-16 input, successful match and suffix argument lengths; global forward progress. These are not engine steps or wall times. Complete ASTs and source positions are checked.',
     copyMethod: 'Candidate layoutWork.seam, enabled around a separate parse: source normalization and attributed-tail reconstruction. Selected UTF-16 copy lengths, not total allocation. Long-payload ASTs are checked against the baseline.',
     suiteSha256: digest(['scripts/profiling/container-tails.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs']),
   }
+  assert.notEqual(metadata.baseline.source, metadata.candidate.source)
   const groups = []
   for (const [family, make] of Object.entries(tailCases)) for (const size of [32, 64, 128]) {
     const source = make(size), baseline = baselineParse(source)

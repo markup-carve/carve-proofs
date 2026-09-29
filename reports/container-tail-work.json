@@ -14,7 +14,7 @@
     },
     "method": "Deterministic counters in separate parses. UTF-16 input, successful match and suffix argument lengths; global forward progress. These are not engine steps or wall times. Complete ASTs and source positions are checked.",
     "copyMethod": "Candidate layoutWork.seam, enabled around a separate parse: source normalization and attributed-tail reconstruction. Selected UTF-16 copy lengths, not total allocation. Long-payload ASTs are checked against the baseline.",
-    "suiteSha256": "d4c4d6514ba1d5098d59ef43f227d6c31b9b6a07833cf11aefbee46b67da1c5e"
+    "suiteSha256": "28afd0300001a4c6742e1f89b35feb08519c09827b0b295d1615d2129a3b43a2"
   },
   "groups": [
     {

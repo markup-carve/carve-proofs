@@ -55,6 +55,17 @@ test('exported chart values preserve source medians and missing observations', (
   const chart = charts.find(c => c.id === 'javascript-long-line-parse-wall');
   const group = evidence.reports['comparison-timings'].groups.find(g => g.reader === 'carve' && g.family === 'long-line' && g.mode === 'parse');
   expect(chart.points.filter(p => p.reader === 'carve').map(p => p.value)).toEqual(group.rows.map(r => r.medianMs));
+  const tail = charts.filter(c => c.dataset === 'tail-change');
+  expect(tail).toHaveLength(6);
+  for (const chart of tail) expect(chart.metadata.after.engine).toBe('github:markup-carve/carve-js#8fe00fd672e1d9af43fe1f92ca1cc64387412990');
+  const costs = JSON.parse(readFileSync('reports/current-costs.json'));
+  const costChart = charts.find(c => c.id === 'current-costs-long-line-parse-wall');
+  for (const point of costChart.points) {
+    const [variant, round] = point.reader.split(' / round ');
+    const group = costs.groups.find(g => g.family === 'long-line' && g.phase === 'parse' && g.variant === variant);
+    const values = group.rounds[Number(round) - 1].samples.map(s => s.wallMs).sort((a, b) => a - b);
+    expect(point.value).toBe(values[3]);
+  }
   const missing = charts.filter(c => c.dataset === 'scaling').flatMap(c => c.points).filter(p => p.status !== 'ok');
   expect(missing.length).toBeGreaterThan(0); expect(missing.every(p => p.value === null)).toBeTruthy();
 });
@@ -123,4 +134,18 @@ test('remaining container tail charts expose baseline and candidate work', async
   await page.getByLabel('Input family', { exact: true }).selectOption('long-attributes-task');
   await expect(page.locator('main')).toContainText('Candidate only.');
   await expect(page.locator('tbody')).toContainText('101281');
+});
+
+test('position-cost charts retain variants and expose run provenance', async ({ page }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset').selectOption('current-costs');
+  await page.getByLabel('Input family', { exact: true }).selectOption('long-line');
+  await page.getByLabel('API phase', { exact: true }).selectOption('parse');
+  await page.getByLabel('Metric', { exact: true }).selectOption('wall');
+  await expect(page.locator('tbody')).toContainText('carve-no-positions');
+  await expect(page.locator('tbody')).toContainText('djot-positions');
+  await expect(page.locator('main')).toContainText('does not bypass position construction');
+  const chart = charts.find(c => c.id === 'current-costs-long-line-parse-wall');
+  await expect(page.locator('main')).toContainText(chart.metadata.generatedAt);
+  await expect(page.locator('.chart')).toHaveAttribute('src', /current-costs-long-line-parse-wall.svg/);
 });
