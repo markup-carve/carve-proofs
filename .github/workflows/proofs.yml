@@ -136,7 +136,7 @@ jobs:
         run: |
           git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
           git config --global --add url."https://github.com/".insteadOf git@github.com:
-      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - run: pip install -r site/requirements.txt
       - run: npm run build:site
       - run: npx playwright install --with-deps chromium
