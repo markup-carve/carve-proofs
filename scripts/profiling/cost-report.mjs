@@ -140,8 +140,8 @@ This reader includes parser allocation changes since the preceding reader
 commit \`${previousReader}\`.
 The current profile records their resulting costs. The preceding snapshot used
 a different host and cannot isolate a reader speed improvement.
-Ownership retains the independently pinned snapshot from #12. The comparison
-uses the reader recorded above, with its separate test scope. The original model and historical baselines retain their pins.
+Ownership uses the commits in \`scripts/ownership/pins.json\`, with its separate
+test scope. The comparison uses the reader recorded above. The original model and historical baselines retain their pins.
 
 ## Method and limits
 

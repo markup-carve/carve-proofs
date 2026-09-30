@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-09-30T01:30:07.608075+00:00",
+  "baseCommit": "0512bc6a475e9614c633b390c18ed59b3ab8e1d5",
+  "compiler": "The Rocq Prover, version 9.2\ncompiled with OCaml 4.14.2",
+  "checks": [
+    {
+      "name": "layout",
+      "command": "opam exec -- node scripts/layout-proof-check.mjs",
+      "closedTheoremsOrWitnesses": 26,
+      "exitCode": 0,
+      "transcriptSha256": "976cf22cd7d4cc1589344d51488a8742027aadf9787fab45cf525be2e2d60a89"
+    },
+    {
+      "name": "djot-assumptions",
+      "command": "opam exec -- node scripts/djot-v/proofs.mjs",
+      "closedTheoremsOrWitnesses": 8,
+      "exitCode": 1,
+      "limitation": "The eight assumption checks pass; packaged extraction remains stale, so the combined proof/extraction command exits 1."
+    },
+    {
+      "name": "footnote-witnesses",
+      "command": "opam exec -- node scripts/differential/proof.mjs --check reports/djot-differential-proofs.json",
+      "closedTheoremsOrWitnesses": 2,
+      "exitCode": 0
+    },
+    {
+      "name": "extension-witnesses",
+      "command": "opam exec -- node scripts/djot-v/extensions-proof.mjs --check reports/djot-extension-proofs.json",
+      "closedTheoremsOrWitnesses": 8,
+      "exitCode": 0
+    }
+  ],
+  "extractionMismatchUnchanged": true,
+  "ownership": {
+    "inputs": 472,
+    "disagreements": 0,
+    "outputsEqualToPrevious": true
+  },
+  "comparison": {
+    "observations": 420,
+    "outputsEqualToPrevious": true
+  },
+  "contracts": {
+    "observations": 525,
+    "outputsEqualToPrevious": true
+  },
+  "containers": {
+    "cases": 112,
+    "outputsEqualToPrevious": true
+  }
+}

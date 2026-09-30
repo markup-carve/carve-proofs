@@ -3,7 +3,7 @@
 All 472 inputs agree across the pinned specification checker, JavaScript, PHP
 and Rust readers. This evidence update goes from 43 disagreements to zero on
 unchanged inputs and an unchanged HTML projection. The 2026-09-30 development
-refresh retains zero disagreements across the latest four reader commits.
+refresh retains zero disagreements across the recorded specification and engine commits.
 Four cases were fixed by the
 [earlier marker-column changes](https://github.com/markup-carve/carve/pull/2619);
 the current reader changes address the other 39. There is no separately recorded
