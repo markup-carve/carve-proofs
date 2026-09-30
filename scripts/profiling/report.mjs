@@ -22,7 +22,7 @@ const changes = ['quotes', 'lists'].map(family => {
   assert.ok(b.calls < a.calls / 2, 'Review the recorded prefix-work improvement')
   return `| ${family} | ${a.calls} → ${b.calls} | ${fixed(100 * (1 - b.calls / a.calls))}% | ${fixed(allocation(old))} → ${fixed(allocation(now))} |`
 }).join('\n')
-const preceding = read('history/pre-cross-reader-refresh/nesting-profile.json')
+const preceding = read('history/pre-engine-performance/nesting-profile.json')
 const recentChanges = ['quotes', 'lists'].map(family => {
   const old = regexTotals(get(preceding, 'js', 'parse', family, 192).patterns).calls
   const now = regexTotals(get(data, 'js', 'parse', family, 192).patterns).calls
@@ -62,8 +62,8 @@ regex calls recorded by the earlier reader. The historical
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
 This reader snapshot was recorded at ${data.metadata.generatedAt}.
-The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
-and [report](history/pre-cross-reader-refresh/nesting-profile.md) preserve the prior reader.
+The immediately preceding [profile](history/pre-engine-performance/nesting-profile.json)
+and [report](history/pre-engine-performance/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.
 Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.

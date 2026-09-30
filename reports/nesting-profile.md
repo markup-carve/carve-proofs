@@ -7,8 +7,8 @@ regex calls recorded by the earlier reader. The historical
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
 This reader snapshot was recorded at 2026-09-30T01:58:04.788Z.
-The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
-and [report](history/pre-cross-reader-refresh/nesting-profile.md) preserve the prior reader.
+The immediately preceding [profile](history/pre-engine-performance/nesting-profile.json)
+and [report](history/pre-engine-performance/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: `6d02fa7062dd03024e7c092016459602e9a7aeec`.
 Earlier JS pin: `c5df77f658c80a3a80a4d31ec1855d854e5da648`.
