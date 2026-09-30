@@ -99,6 +99,11 @@ Run `npm run check:properties` for deterministic comparisons and
 comparisons and selected layout-work budgets. These checks do not extend the
 scope of the Rocq proofs.
 
+The [regression-limit report](reports/regression-budgets.md) records deterministic
+work guards across all 14 shared families and held-out timing/allocation observations.
+Run `npm run check:scaling-guards` to check the exact counter artifact. Timing and
+sampled-allocation limits remain observational until calibration supports enforcement.
+
 ## Reader comparison and nesting profiles
 
 The [three-reader comparison](reports/comparison.md) tests equivalent Carve,

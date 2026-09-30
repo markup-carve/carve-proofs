@@ -43,7 +43,10 @@
     "report:costs": "node scripts/profiling/cost-report.mjs",
     "build:runtime": "node scripts/runtime/build.mjs",
     "bench:runtime": "node scripts/runtime/bench.mjs",
-    "report:runtime": "node scripts/runtime/report.mjs"
+    "report:runtime": "node scripts/runtime/report.mjs",
+    "check:scaling-guards": "node scripts/scaling-guards.mjs --check reports/scaling-guards.json",
+    "report:budgets": "node scripts/budgets/report.mjs",
+    "check:budgets": "node scripts/budgets/check.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",
