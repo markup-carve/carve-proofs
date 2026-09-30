@@ -2,14 +2,14 @@
   "metadata": {
     "specCommit": "d20ebd942f91470485332cec925fa0717f20a58a",
     "specDirty": false,
-    "engine": "github:markup-carve/carve-js#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
-    "installedEngine": "git+ssh://git@github.com/markup-carve/carve-js.git#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
+    "engine": "github:markup-carve/carve-js#45bbec34edd9d446ba9e78e8031e33c916473923",
+    "installedEngine": "git+ssh://git@github.com/markup-carve/carve-js.git#45bbec34edd9d446ba9e78e8031e33c916473923",
     "proofEngine": "github:markup-carve/carve-js#c5df77f658c80a3a80a4d31ec1855d854e5da648",
     "parsers": {
       "@markup-carve/carve": {
         "version": "0.1.8",
-        "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
-        "integrity": "sha512-dsVYyunk88C2lOooUxQNIXXHxVdm0JQ0H1EqC/SOMI7p9Xt7RkYnjDevp+MTJzWSSFWAFKD+q63uK+89Lkkfsw=="
+        "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#45bbec34edd9d446ba9e78e8031e33c916473923",
+        "integrity": "sha512-9qxk3MAtLNICscOJwGwXWH04upeIJ9Fuva/E1r/yvpacWxIxmophmQtmdFcWJU/Jcq/Eng4+UbplQhA/PzceYg=="
       },
       "@djot/djot": {
         "version": "0.3.2",
@@ -22,7 +22,7 @@
         "integrity": "sha512-2fRLTyb9r/2835k5cwcAwOj0DEc44FARnMp5veGsJ+mEAZdi52sNopLu07ZyElQUz058H43whzlERDIaaSw4rg=="
       }
     },
-    "suiteSha256": "5bb80a717cb9aaa711f95ef76eefebe1b5a58eeb072abdf938e8f4c4e2a7fee6"
+    "suiteSha256": "17767703fb22f4c788f39df3130c1b1af41b67ccf3ba8bdea5697d41afcf18fa"
   },
   "contracts": {
     "eligible-prose-wrap": "Replace one ASCII word separator in the authored eligible prose fixtures with a newline. Excludes code spans, escapes, hard breaks, structural line starts and destination bytes. Compare projected block content.",

@@ -6,11 +6,11 @@ regex calls recorded by the earlier reader. The historical
 [profile](history/pre-prefix-refresh/nesting-profile.json) and
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
-This reader snapshot was recorded at 2026-09-30T00:13:29.474Z.
-The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
-and [report](history/pre-cross-reader-refresh/nesting-profile.md) preserve the prior reader.
+This reader snapshot was recorded at 2026-09-29T23:12:19.091Z.
+The immediately preceding [profile](history/pre-latest-main/nesting-profile.json)
+and [report](history/pre-latest-main/nesting-profile.md) preserve the prior reader.
 
-Current JS pin: `88754ac8cb4b2ebfdd3dfb07f1edc396db11f336`.
+Current JS pin: `45bbec34edd9d446ba9e78e8031e33c916473923`.
 Earlier JS pin: `c5df77f658c80a3a80a4d31ec1855d854e5da648`.
 The executable specification remains pinned separately to
 `d20ebd942f91470485332cec925fa0717f20a58a`; its measurements do not describe the latest specification.
@@ -21,14 +21,14 @@ the separately locked `carve-comparison` dependency.
 
 | Family | Regex calls, before → after | Call reduction | Sampled allocation KiB/call, before → after |
 |---|---:|---:|---:|
-| quotes | 118152 → 3293 | 97.21% | 7327.37 → 839.37 |
-| lists | 106927 → 9440 | 91.17% | 5840.93 → 1985.12 |
+| quotes | 118152 → 3293 | 97.21% | 7327.37 → 884.55 |
+| lists | 106927 → 9440 | 91.17% | 5840.93 → 2062.71 |
 
 Regex calls are deterministic observations under the same instrumentation.
-Allocation estimates come from separate hosts and remain subject to sampling
-variation. The current data comes from the recorded workflow runner; the
-earlier data came from a shared host. Wall times are shown only for the current
-run below. This comparison does not isolate the effect of parser changes.
+Allocation estimates come from separate runs on a shared host and remain
+subject to sampling variation. Wall times are shown only for the current run
+below; differing host load prevents attributing a before/after timing change
+to the prefix optimization.
 
 The relevant changes landed in
 [quote-state reuse](https://github.com/markup-carve/carve-js/pull/2259) and
@@ -38,17 +38,17 @@ The current reader also replaces repeated quote and unordered-list tail captures
 with prefix recognition and reuses recorded origins for literal prefix strips.
 
 Against the immediately preceding snapshot, regex calls at depth 192 changed by
-quotes: 3293 → 3293 (+0); lists: 9440 → 9440 (+0). These net changes are recorded separately from the larger
+quotes: 4295 → 3293 (-1002); lists: 11406 → 9440 (-1966). These net changes are recorded separately from the larger
 historical reduction. Operation counts do not establish a wall-time change.
 
 ## Current growth and phase costs
 
 | Reader | Family | Regex calls, depth 64 → 128 | Call growth | Regex input exposure, 64 → 128 | Parse wall ms, 192 | Render wall ms, 192 |
 |---|---|---:|---:|---:|---:|---:|
-| js | quotes | 1117 → 2205 | 1.97× | 74585 → 288345 | 0.31 | 0.07 |
-| js | lists | 3168 → 6304 | 1.99× | 211298 → 823906 | 1.06 | 0.15 |
-| spec | quotes | 8237 → 28749 | 3.49× | 389638 → 2593766 | 4.14 | 0.44 |
-| spec | lists | 12278 → 45014 | 3.67× | 568801 → 4008833 | 4.77 | 0.87 |
+| js | quotes | 1117 → 2205 | 1.97× | 74585 → 288345 | 0.38 | 0.09 |
+| js | lists | 3168 → 6304 | 1.99× | 211298 → 823906 | 1.80 | 0.22 |
+| spec | quotes | 8237 → 28749 | 3.49× | 389638 → 2593766 | 5.57 | 1.32 |
+| spec | lists | 12278 → 45014 | 3.67× | 568801 → 4008833 | 8.18 | 1.97 |
 
 Input exposure charges the complete input for every regex call, including failed
 anchored checks and global matches that resume at the previous match. For example,
@@ -86,42 +86,42 @@ does not measure retained heap or peak memory.
 
 | Reader | Family | Parse KiB/call, 64 | Parse KiB/call, 128 | Parse KiB/call, 192 |
 |---|---|---:|---:|---:|
-| js | quotes | 262.85 | 524.60 | 839.37 |
-| js | lists | 667.73 | 1329.98 | 1985.12 |
-| spec | quotes | 448.66 | 1556.58 | 3337.65 |
-| spec | lists | 1272.07 | 4667.04 | 10009.01 |
+| js | quotes | 292.47 | 599.93 | 884.55 |
+| js | lists | 677.88 | 1365.65 | 2062.71 |
+| spec | quotes | 461.67 | 1548.41 | 3345.49 |
+| spec | lists | 1291.16 | 4646.75 | 9961.30 |
 
 ### js: quotes
 
-- [`parseBlockInner`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 86.44 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:7763`.
-- [`parseBlockQuote`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 35.84 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:9390`.
-- [`attachDocumentOffsets`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 28.01 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:1064`.
+- [`parseBlockInner`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 65.17 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:7766`.
+- [`attachDocumentOffsets`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 30.45 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:1064`.
+- [`parseBlockQuote`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 28.22 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:9393`.
 
-Largest sampled allocation frames: `push` (221.88 KiB/call), `parseBlockQuote` (152.01 KiB/call), `nestedSubLexer` (77.41 KiB/call).
+Largest sampled allocation frames: `push` (231.08 KiB/call), `parseBlockQuote` (154.45 KiB/call), `attachBlockPos` (71.87 KiB/call).
 
 ### js: lists
 
-- [`parseList`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 74.32 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:9729`.
-- [`parseBlockInner`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 33.65 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:7763`.
-- [`unorderedMatch`](https://github.com/markup-carve/carve-js/blob/88754ac8cb4b2ebfdd3dfb07f1edc396db11f336/src/parse.ts): 29.62 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:3330`.
+- [`parseList`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 85.81 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:9732`.
+- [`parseBlockInner`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 33.66 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:7766`.
+- [`attachDocumentOffsets`](https://github.com/markup-carve/carve-js/blob/45bbec34edd9d446ba9e78e8031e33c916473923/src/parse.ts): 15.63 ms sampled self time at `node_modules/carve-comparison/dist/parse.js:1064`.
 
-Largest sampled allocation frames: `parseList` (527.84 KiB/call), `Map` (206.52 KiB/call), `Set` (192.62 KiB/call).
+Largest sampled allocation frames: `parseList` (506.14 KiB/call), `Map` (239.68 KiB/call), `Set` (206.12 KiB/call).
 
 ### spec: quotes
 
-- [`nestedQuoteOpensParagraph`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 273.37 ms sampled self time at `spec/scripts/spec/layout.mjs:3113`.
-- [`trackFence`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 15.82 ms sampled self time at `spec/scripts/spec/layout.mjs:3135`.
-- [`parseBlocksImpl`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 6.46 ms sampled self time at `spec/scripts/spec/layout.mjs:2073`.
+- [`nestedQuoteOpensParagraph`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 274.41 ms sampled self time at `spec/scripts/spec/layout.mjs:3113`.
+- [`trackFence`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 10.80 ms sampled self time at `spec/scripts/spec/layout.mjs:3135`.
+- [`parseBlocksImpl`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 8.59 ms sampled self time at `spec/scripts/spec/layout.mjs:2073`.
 
-Largest sampled allocation frames: `exec` (2571.43 KiB/call), `nestedQuoteOpensParagraph` (416.88 KiB/call), `parseBlocksImpl` (289.88 KiB/call).
+Largest sampled allocation frames: `exec` (2603.25 KiB/call), `nestedQuoteOpensParagraph` (399.04 KiB/call), `parseBlocksImpl` (288.83 KiB/call).
 
 ### spec: lists
 
-- [`matchMarkerAt`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 209.34 ms sampled self time at `spec/scripts/spec/layout.mjs:3827`.
-- [`opensParagraph`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 54.26 ms sampled self time at `spec/scripts/spec/layout.mjs:1302`.
-- [`collectItems`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 25.31 ms sampled self time at `spec/scripts/spec/layout.mjs:3893`.
+- [`matchMarkerAt`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 226.81 ms sampled self time at `spec/scripts/spec/layout.mjs:3827`.
+- [`opensParagraph`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 48.75 ms sampled self time at `spec/scripts/spec/layout.mjs:1302`.
+- [`collectItems`](https://github.com/markup-carve/carve/blob/d20ebd942f91470485332cec925fa0717f20a58a/scripts/spec/layout.mjs): 19.11 ms sampled self time at `spec/scripts/spec/layout.mjs:3893`.
 
-Largest sampled allocation frames: `exec` (6701.53 KiB/call), `collectItems` (1597.74 KiB/call), `opensParagraph` (1302.77 KiB/call).
+Largest sampled allocation frames: `exec` (6707.59 KiB/call), `collectItems` (1557.72 KiB/call), `opensParagraph` (1305.78 KiB/call).
 
 Frame times are aggregated self samples across recursive paths. Runtime line
 numbers refer to installed JavaScript, not the linked TypeScript source.
@@ -146,8 +146,8 @@ check wrapping, closed-block append behavior, references and nested payloads.
 
 Serial workers. At least 200ms warmup, then five uninstrumented batches of at least 20ms with 16-call time checks and no iteration cap; GC before each batch. Separate one-call regex and suffix instrumentation (UTF-16 lengths; string inputs only), 300ms CPU profile at 100us sampling, and 20-call heap sampling at 4096 bytes including collected objects. CPU and heap profiles are statistical estimates; regex input lengths are exposure counts, not engine step counts.
 
-Node v24.21.0; AMD EPYC 9V45 96-Core Processor; 4 logical CPUs.
-Host load at completion: 1.35, 1.27, 0.94.
+Node v24.19.0; AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; 16 logical CPUs.
+Host load at completion: 13.87, 13.9, 11.1.
 Timing and sampling run before regex instrumentation. Patching regex execution
 can disable V8 fast paths, so instrumented call counts do not measure native
 instruction cost. Full inspector call trees are not retained.

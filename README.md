@@ -28,8 +28,9 @@ matrix uses these source commits:
 | PHP | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
 | Rust | `9f3f334c7d5c91c57e4e6269b32599af1062fdde` |
 
-The JS comparison uses the same JS commit; runtime scaling uses the same PHP
-and Rust commits. Raw reports record reader provenance and host load. The
+The JS comparison uses `88754ac8cb4b2ebfdd3dfb07f1edc396db11f336` through
+a separate dependency. Runtime scaling retains the PHP and Rust commits above.
+Raw reports record reader provenance and host load. The
 original layout model and historical baselines retain their own pins.
 The [previous runtime measurements](reports/history/pre-latest-main/runtime-timings.json)
 remain available alongside the archived comparison and profiles.
@@ -98,8 +99,10 @@ scope of the Rocq proofs.
 
 The [three-reader comparison](reports/comparison.md) tests equivalent Carve,
 Djot and CommonMark inputs and measures their default JavaScript APIs on the
-same machine. Language differences are recorded explicitly. CI checks the
-reviewed observations; timing measurements are optional.
+same workflow runner. Each API has two rounds of fresh workers with reversed
+reader order. The charts show both rounds. Language differences are recorded
+explicitly, and 28 shared-syntax controls check rendered HTML across readers.
+CI checks the reviewed observations; timing measurements are optional.
 
 The [nesting profile](reports/nesting-profile.md) separates parsing, rendering,
 allocation and regex work. It identifies repeated prefix inspection that the
@@ -109,6 +112,19 @@ claiming a linear parser bound.
 Run `npm run check:comparison`, `npm run bench:comparison` and
 `npm run profile:nesting` to collect evidence. Regenerate the reports with
 `npm run report:comparison` and `npm run report:profiling`.
+
+For publishable measurements, run the Cross-reader evidence workflow on the
+measurement branch. It records runner provenance, checks host load around each
+worker and uploads raw data plus reports. Download its three JSON reports and
+regenerate the Markdown locally before committing. Local exploratory runs do
+not satisfy the committed evidence validators.
+
+The [cost profile](reports/current-costs.md) compares position options and
+allocation, with a separate direct-HTML probe. A rejected probe ends before
+AST fallback; its timing is not the full HTML call. The
+[previous comparison and profiles](reports/history/pre-cross-reader-refresh/README.md)
+retain the shared-host snapshot from PR #12. Comparing that host with the
+workflow runner does not isolate the effect of parser changes.
 
 ## djot.v extraction
 

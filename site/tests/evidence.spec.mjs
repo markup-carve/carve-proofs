@@ -54,7 +54,9 @@ test('history includes resolved disagreements and changed consensus outputs', ()
 test('exported chart values preserve source medians and missing observations', () => {
   const chart = charts.find(c => c.id === 'javascript-long-line-parse-wall');
   const group = evidence.reports['comparison-timings'].groups.find(g => g.reader === 'carve' && g.family === 'long-line' && g.mode === 'parse');
-  expect(chart.points.filter(p => p.reader === 'carve').map(p => p.value)).toEqual(group.rows.map(r => r.medianMs));
+  for (const round of group.rounds) {
+    expect(chart.points.filter(p => p.reader === `carve / round ${round.round + 1}`).map(p => p.value)).toEqual(round.rows.map(r => r.medianMs));
+  }
   const tail = charts.filter(c => c.dataset === 'tail-change');
   expect(tail).toHaveLength(6);
   for (const chart of tail) expect(chart.metadata.after.engine).toBe('github:markup-carve/carve-js#8fe00fd672e1d9af43fe1f92ca1cc64387412990');
@@ -188,4 +190,25 @@ test('all runtime chart points preserve measured samples and units', () => {
       }
     }
   }
+});
+
+test('paired JavaScript controls expose both rounds and exact exports', async ({ page }) => {
+  await page.goto('/#scaling');
+  await page.getByLabel('Dataset', { exact: true }).selectOption('javascript');
+  await page.getByLabel('Input family', { exact: true }).selectOption('long-unicode');
+  await page.getByLabel('API phase', { exact: true }).selectOption('parse');
+  await page.getByLabel('Metric', { exact: true }).selectOption('wall');
+  await expect(page.locator('tbody')).toContainText('carve / round 1');
+  await expect(page.locator('tbody')).toContainText('carve / round 2');
+  const chart = charts.find(c => c.id === 'javascript-long-unicode-parse-wall');
+  expect(chart.points).toHaveLength(24);
+  expect(new Set(chart.points.map(p => p.reader)).size).toBe(6);
+  expect(chart.metadata.execution).toEqual(evidence.reports['comparison-timings'].metadata.execution);
+  await expect(page.locator('a[download$=".csv"]')).toHaveAttribute('href', /javascript-long-unicode-parse-wall.csv$/);
+  await page.getByLabel('Dataset', { exact: true }).selectOption('current-costs');
+  await page.getByLabel('Input family', { exact: true }).selectOption('inline-links');
+  await page.getByLabel('API phase', { exact: true }).selectOption('direct-html-probe');
+  await page.getByLabel('Metric', { exact: true }).selectOption('wall');
+  await expect(page.locator('tbody')).toContainText('carve / round 2');
+  await expect(page.locator('.chart')).toHaveAttribute('src', /current-costs-inline-links-direct-html-probe-wall.svg$/);
 });

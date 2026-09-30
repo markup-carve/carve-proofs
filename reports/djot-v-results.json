@@ -2,14 +2,14 @@
   "metadata": {
     "specCommit": "d20ebd942f91470485332cec925fa0717f20a58a",
     "specDirty": false,
-    "engine": "github:markup-carve/carve-js#45bbec34edd9d446ba9e78e8031e33c916473923",
-    "installedEngine": "git+ssh://git@github.com/markup-carve/carve-js.git#45bbec34edd9d446ba9e78e8031e33c916473923",
+    "engine": "github:markup-carve/carve-js#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
+    "installedEngine": "git+ssh://git@github.com/markup-carve/carve-js.git#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
     "proofEngine": "github:markup-carve/carve-js#c5df77f658c80a3a80a4d31ec1855d854e5da648",
     "parsers": {
       "@markup-carve/carve": {
         "version": "0.1.8",
-        "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#45bbec34edd9d446ba9e78e8031e33c916473923",
-        "integrity": "sha512-9qxk3MAtLNICscOJwGwXWH04upeIJ9Fuva/E1r/yvpacWxIxmophmQtmdFcWJU/Jcq/Eng4+UbplQhA/PzceYg=="
+        "resolved": "git+ssh://git@github.com/markup-carve/carve-js.git#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
+        "integrity": "sha512-dsVYyunk88C2lOooUxQNIXXHxVdm0JQ0H1EqC/SOMI7p9Xt7RkYnjDevp+MTJzWSSFWAFKD+q63uK+89Lkkfsw=="
       },
       "@djot/djot": {
         "version": "0.3.2",

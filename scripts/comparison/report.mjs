@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { comparisonEnvironment, digest, comparisonFiles } from './environment.mjs'
-import { scalingCases } from '../properties/scaling-cases.mjs'
+import { scalingCases } from './scaling-cases.mjs'
+import { validateTimings } from './validate-timings.mjs'
 const read = file => JSON.parse(readFileSync(new URL('../../reports/' + file, import.meta.url)))
 const data = read('comparison-results.json'), timing = read('comparison-timings.json'), current = comparisonEnvironment()
 assert.deepEqual(data.metadata, { ...current, suiteSha256: digest(comparisonFiles) })
 assert.deepEqual(timing.metadata.parsers, current.parsers)
-assert.equal(timing.metadata.runnerSha256, digest(['scripts/comparison/bench.mjs', 'scripts/comparison/worker.mjs', 'scripts/comparison/adapters.mjs', 'scripts/comparison/environment.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/properties/benchmark-results.mjs']))
+validateTimings(timing)
 const contractData = read('comparison-contracts.json'), containers = read('container-regressions.json')
 const historical = read('history/pre-prefix-refresh/comparison-results.json')
 const historicalRows = new Map(historical.rows.map(row => [`${row.reader}/${row.family}/${row.id}`, row]))
@@ -28,11 +29,11 @@ const behavior = ['wrapping', 'containers', 'locality', 'stability'].map(f => `|
 const fixed = n => n.toFixed(3)
 const timings = families.map(f => {
   const groups = readers.map(r => timing.groups.find(g => g.reader === r && g.mode === 'html' && g.family === f)), size = groups[0].rows.at(-1).size
-  return `| ${f} | ${groups[0].rows.at(-1).bytes} | ${readers.map((_, i) => { const row = groups[i].rows.find(row => row.size === size); return `${fixed(row.medianMs)} / ${fixed(row.medianCpuMs)}` }).join(' | ')} |`
+  return `| ${f} | ${groups[0].rows.at(-1).bytes} | ${readers.map((_, i) => { return groups[i].rounds.map(round => { const row = round.rows.find(row => row.size === size); return `${fixed(row.medianMs)} / ${fixed(row.medianCpuMs)}` }).join('; ') }).join(' | ')} |`
 }).join('\n')
 const stages = readers.flatMap(r => ['nested-quotes', 'nested-lists'].map(f => {
-  const values = ['parse', 'render', 'html'].map(mode => timing.groups.find(g => g.reader === r && g.mode === mode && g.family === f).rows.find(row => row.size === 192))
-  return `| ${r} | ${f} | ${values.map(v => fixed(v.medianMs)).join(' | ')} |`
+  const values = ['parse', 'render', 'html'].map(mode => timing.groups.find(g => g.reader === r && g.mode === mode && g.family === f).rounds.map(round => round.rows.find(row => row.size === 192)))
+  return `| ${r} | ${f} | ${values.map(rounds => rounds.map(v => fixed(v.medianMs)).join('; ')).join(' | ')} |`
 })).join('\n')
 const differences = data.rows.filter(r => r.outcome === 'different' && !['resolution'].includes(r.family)).map(r => `| ${r.reader} | ${r.family} | \`${r.id}\` |`).join('\n')
 const probeOutputs = data.rows.filter(r => r.family === 'dialect-probe').map(r => `### ${r.id}: ${r.reader}\n\nSource:\n\n\`\`\`text\n${r.source}\`\`\`\n\nOutput:\n\n\`\`\`html\n${r.html.trim()}\n\`\`\``).join('\n\n')
@@ -43,8 +44,8 @@ and commonmark ${current.parsers.commonmark.version}. Carve uses commit
 \`${current.engine.split('#')[1]}\`. The lockfile records package sources and integrity hashes.
 
 This reader snapshot was recorded at ${timing.metadata.generatedAt}.
-The [preceding comparison](history/pre-latest-main/comparison.md) and
-[timings](history/pre-latest-main/comparison-timings.json) remain available.
+The [preceding comparison](history/pre-cross-reader-refresh/comparison.md) and
+[timings](history/pre-cross-reader-refresh/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
@@ -130,20 +131,24 @@ prefix strips. The specification profile remains at its separately recorded olde
 
 ## Timings
 
-The seven families use identical source bytes across readers. Emphasis adaptation
+The ${families.length} families use identical source bytes across readers.
+The ${timing.metadata.controls.length} new shared-syntax controls check full HTML equality after trimming only
+outer whitespace. Tree projections also agree except for dense definitions:
+Carve resolves references while Djot keeps a reference table and CommonMark
+omits authored reference labels. Output hashes and fixture hashes are recorded. Emphasis adaptation
 is needed only in the behavioral fixtures. The unmatched and unclosed inputs
 measure how each reader handles the same adversarial source; they may produce
 different trees. Each nested fixture is checked to contain the requested depth
 and final paragraph before measurement, through depth 192.
 
 Largest sample in each family, full HTML pipeline. Cells show median wall / CPU
-milliseconds per call. CPU includes all process threads.
+milliseconds per call for round 1; round 2. CPU includes all process threads.
 
 | Family | Bytes | Carve | Djot | CommonMark |
 |---|---:|---:|---:|---:|
 ${timings}
 
-Nested inputs at depth 192, median wall milliseconds:
+Nested inputs at depth 192, median wall milliseconds for round 1; round 2:
 
 | Reader | Family | Parse | Render prebuilt AST | Full HTML |
 |---|---|---:|---:|---:|
@@ -160,7 +165,10 @@ relative-speed conclusions; it is not evidence that rendering removes parse work
 
 ${timing.metadata.method}
 Node ${timing.metadata.node}, ${timing.metadata.cpu}, ${timing.metadata.logicalCpus} logical CPUs.
-The host is shared; load averages at the end were ${timing.metadata.loadEnd.map(n => n.toFixed(2)).join(', ')}.
+${timing.metadata.execution.controlled ? `The dedicated [workflow run](${timing.metadata.execution.runUrl}) ran workers serially and rejected load above its available CPU count.` : 'This is a shared-host run.'}
+Load averages at the end were ${timing.metadata.loadEnd.map(n => n.toFixed(2)).join(', ')}.
+Both fresh-worker rounds appear separately in the charts, tables and downloads.
+Historical laptop timings are preserved separately and cannot establish a speed change on this runner.
 Tiny samples, runtime warmup and scheduling affect ratios. No timing threshold
 runs in ordinary CI. The Carve nesting costs are investigated in the
 [nesting profile](nesting-profile.md). The [current cost investigation](current-costs.md)

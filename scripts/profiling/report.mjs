@@ -2,12 +2,14 @@ import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { comparisonEnvironment, digest } from '../comparison/environment.mjs'
 import { median, aggregateFrames, regexTotals } from './summary.mjs'
+import { validateExecution } from '../comparison/validate-execution.mjs'
 const read = name => JSON.parse(readFileSync(new URL('../../reports/' + name, import.meta.url)))
 const data = read('nesting-profile.json'), before = read('history/pre-prefix-refresh/nesting-profile.json'), current = comparisonEnvironment()
+validateExecution(data.metadata.execution)
 assert.deepEqual(data.metadata.parsers, current.parsers)
 assert.equal(data.metadata.specCommit, current.specCommit)
 assert.equal(data.metadata.specDirty, false)
-assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/run.mjs', 'scripts/profiling/worker.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs']))
+assert.equal(data.metadata.runnerSha256, digest(['scripts/profiling/run.mjs', 'scripts/profiling/worker.mjs', 'scripts/profiling/instrument.mjs', 'scripts/profiling/summary.mjs', 'scripts/comparison/measurement-host.mjs']))
 assert.deepEqual(data.groups.map(g => `${g.reader}/${g.phase}/${g.family}/${g.size}`).sort(), ['js', 'spec'].flatMap(r => ['parse', 'render'].flatMap(p => ['quotes', 'lists'].flatMap(f => [32, 64, 128, 192].map(n => `${r}/${p}/${f}/${n}`)))).sort())
 assert.ok(data.groups.every(g => !g.error))
 const get = (report, reader, phase, family, size) => report.groups.find(g => g.reader === reader && g.phase === phase && g.family === family && g.size === size)
@@ -20,7 +22,7 @@ const changes = ['quotes', 'lists'].map(family => {
   assert.ok(b.calls < a.calls / 2, 'Review the recorded prefix-work improvement')
   return `| ${family} | ${a.calls} → ${b.calls} | ${fixed(100 * (1 - b.calls / a.calls))}% | ${fixed(allocation(old))} → ${fixed(allocation(now))} |`
 }).join('\n')
-const preceding = read('history/pre-latest-main/nesting-profile.json')
+const preceding = read('history/pre-cross-reader-refresh/nesting-profile.json')
 const recentChanges = ['quotes', 'lists'].map(family => {
   const old = regexTotals(get(preceding, 'js', 'parse', family, 192).patterns).calls
   const now = regexTotals(get(data, 'js', 'parse', family, 192).patterns).calls
@@ -60,8 +62,8 @@ regex calls recorded by the earlier reader. The historical
 [report](history/pre-prefix-refresh/nesting-profile.md) remain available.
 
 This reader snapshot was recorded at ${data.metadata.generatedAt}.
-The immediately preceding [profile](history/pre-latest-main/nesting-profile.json)
-and [report](history/pre-latest-main/nesting-profile.md) preserve the prior reader.
+The immediately preceding [profile](history/pre-cross-reader-refresh/nesting-profile.json)
+and [report](history/pre-cross-reader-refresh/nesting-profile.md) preserve the prior reader.
 
 Current JS pin: \`${current.engine.split('#')[1]}\`.
 Earlier JS pin: \`${before.metadata.engine.split('#')[1]}\`.
@@ -77,10 +79,10 @@ the separately locked \`carve-comparison\` dependency.
 ${changes}
 
 Regex calls are deterministic observations under the same instrumentation.
-Allocation estimates come from separate runs on a shared host and remain
-subject to sampling variation. Wall times are shown only for the current run
-below; differing host load prevents attributing a before/after timing change
-to the prefix optimization.
+Allocation estimates come from separate hosts and remain subject to sampling
+variation. The current data comes from the recorded workflow runner; the
+earlier data came from a shared host. Wall times are shown only for the current
+run below. This comparison does not isolate the effect of parser changes.
 
 The relevant changes landed in
 [quote-state reuse](https://github.com/markup-carve/carve-js/pull/2259) and

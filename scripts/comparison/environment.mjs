@@ -23,3 +23,6 @@ export function comparisonEnvironment() {
 }
 export function digest(files) { return createHash('sha256').update(files.map(p => readFileSync(new URL('../../' + p, import.meta.url))).join('')).digest('hex') }
 export const comparisonFiles = ['scripts/comparison/adapters.mjs', 'scripts/comparison/collect.mjs', 'tests/comparison/fixtures.mjs']
+
+export const comparisonTimingFiles = ['scripts/comparison/bench.mjs', 'scripts/comparison/worker.mjs', 'scripts/comparison/adapters.mjs', 'scripts/comparison/environment.mjs', 'scripts/evidence-environment.mjs', 'scripts/spec-pins.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/comparison/scaling-cases.mjs', 'scripts/properties/benchmark-results.mjs', 'scripts/comparison/controls.mjs', 'scripts/comparison/measurement-host.mjs']
+export const costFiles = ['scripts/profiling/current-costs.mjs', 'scripts/profiling/cost-worker.mjs', 'scripts/profiling/summary.mjs', 'scripts/properties/scaling-cases.mjs', 'scripts/comparison/scaling-cases.mjs', 'scripts/comparison/environment.mjs', 'scripts/evidence-environment.mjs', 'scripts/spec-pins.mjs', 'scripts/comparison/controls.mjs', 'scripts/comparison/measurement-host.mjs']
