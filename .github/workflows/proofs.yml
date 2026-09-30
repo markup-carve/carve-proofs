@@ -58,6 +58,10 @@ jobs:
           git config --global --add url."https://github.com/".insteadOf git@github.com:
       - run: npm ci --no-audit --no-fund
       - run: npm test
+      - name: Check deterministic scaling work
+        run: |
+          npm run check:scaling-guards
+          npm run check:budgets
       - name: Record property observations
         run: npm run check:properties -- --check-artifact reports/property-results.json --output reports/property-ci.json
       - name: Check three-reader comparison
@@ -83,7 +87,8 @@ jobs:
         run: |
           npm run report:comparison
           npm run report:profiling
-          git diff --exit-code -- reports/comparison.md reports/nesting-profile.md
+          npm run report:budgets
+          git diff --exit-code -- reports/comparison.md reports/nesting-profile.md reports/regression-budgets.md reports/regression-budgets.csv
       - name: Check committed report
         run: |
           npm run report:properties
