@@ -8,6 +8,7 @@ const data = JSON.parse(readFileSync(new URL('../../reports/runtime-timings.json
 assert.deepEqual(data.metadata.pins, pins)
 assert.equal(data.metadata.build.runnerSha256, runnerDigest())
 assert.equal(data.groups.length, 42)
+for (const reader of ['rs', 'php']) assert.equal(typeof data.metadata.memory[reader], 'string')
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b)
   return sorted[Math.floor(sorted.length / 2)]
@@ -54,7 +55,12 @@ allocation KiB per call, including reallocations; PHP reports peak managed
 growth KiB above its pre-call baseline. Neither is retained memory or RSS,
 and the columns cannot be compared as allocation totals.
 
-| Reader | Family | Phase | Size range | First / last wall ms | Last CPU ms | Observed exponent | Last HTML KiB | Last memory KiB |
+Definitions recorded by the measurement runner:
+
+- Rust: ${data.metadata.memory.rs}
+- PHP: ${data.metadata.memory.php}
+
+| Reader | Family | Phase | Repeat count / depth | First / last wall ms | Last CPU ms | Observed exponent | Last HTML KiB | Last memory KiB |
 |---|---|---|---|---:|---:|---:|---:|---:|
 ${rows.join('\n')}
 
@@ -64,7 +70,7 @@ ${data.metadata.method}
 
 Host load was ${data.metadata.loadStart.join(', ')} at the start and
 ${data.metadata.loadEnd.join(', ')} at the end on ${data.metadata.logicalCpus}
-logical CPUs. This is a local shared-host run. Compare candidate changes with
+logical CPUs. Compare candidate changes with
 alternating baseline runs before making a speed claim.
 
 Reproduce with \`npm run build:runtime\`, \`npm run bench:runtime\` and

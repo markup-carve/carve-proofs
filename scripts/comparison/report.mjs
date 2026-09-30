@@ -41,7 +41,8 @@ const text = `# Carve, Djot and CommonMark comparison
 
 This run compares the pinned Carve JS engine with @djot/djot ${current.parsers['@djot/djot'].version}
 and commonmark ${current.parsers.commonmark.version}. Carve uses commit
-\`${current.engine.split('#')[1]}\`. The lockfile records package sources and integrity hashes.
+\`${current.engine.split('#')[1]}\`. The lockfile records package sources.
+Git readers use immutable commit pins; registry packages include integrity hashes.
 
 This reader snapshot was recorded at ${timing.metadata.generatedAt}.
 The [preceding comparison](history/pre-cross-reader-refresh/comparison.md) and

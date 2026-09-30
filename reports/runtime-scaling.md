@@ -23,7 +23,12 @@ allocation KiB per call, including reallocations; PHP reports peak managed
 growth KiB above its pre-call baseline. Neither is retained memory or RSS,
 and the columns cannot be compared as allocation totals.
 
-| Reader | Family | Phase | Size range | First / last wall ms | Last CPU ms | Observed exponent | Last HTML KiB | Last memory KiB |
+Definitions recorded by the measurement runner:
+
+- Rust: Successful global allocator requests, counting the full new size on realloc; includes result disposal, excludes fixture setup, prebuilt render AST and reporting. Atomic counters enabled only during memory calls; the allocator flag check remains in timed calls. Requested bytes are allocation churn, not peak or retained memory.
+- PHP: Peak managed bytes above the pre-call memory_get_usage(false) baseline after cycle collection and memory_reset_peak_usage. Includes the live result; excludes prebuilt render AST, input and reporting. This is peak growth, not total allocated bytes or RSS. Clean INI disables opcache/JIT and profiling extensions.
+
+| Reader | Family | Phase | Repeat count / depth | First / last wall ms | Last CPU ms | Observed exponent | Last HTML KiB | Last memory KiB |
 |---|---|---|---|---:|---:|---:|---:|---:|
 | rs | long-line | parse | 1024 to 8192 | 0.013 / 0.096 | 0.096 | 0.955 | 40.0 | 203.3 |
 | rs | long-line | render | 1024 to 8192 | 0.005 / 0.041 | 0.041 | 0.975 | 40.0 | 100.9 |
@@ -74,7 +79,7 @@ Serial release Rust and clean-INI PHP workers; One fresh process per size, with 
 
 Host load was 4.59, 11.8, 12.73 at the start and
 5.87, 10.7, 12.28 at the end on 16
-logical CPUs. This is a local shared-host run. Compare candidate changes with
+logical CPUs. Compare candidate changes with
 alternating baseline runs before making a speed claim.
 
 Reproduce with `npm run build:runtime`, `npm run bench:runtime` and

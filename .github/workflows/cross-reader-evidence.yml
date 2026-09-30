@@ -18,6 +18,7 @@ on:
       - 'scripts/comparison/controls.mjs'
       - 'scripts/comparison/scaling-cases.mjs'
       - 'scripts/comparison/measurement-host.mjs'
+      - 'scripts/comparison/settle-host.mjs'
       - 'scripts/profiling/current-costs.mjs'
       - 'scripts/profiling/cost-worker.mjs'
       - 'scripts/profiling/run.mjs'
