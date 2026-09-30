@@ -77,7 +77,7 @@ Definitions recorded by the measurement runner:
 
 Serial release Rust and clean-INI PHP workers; One fresh process per size, with a 60s deadline including startup. Per size: 200ms warmup, five batches of at least 20ms, checked after every call. Timings exclude startup, input decoding, depth and output checks. Render reuses a parsed AST. Combined HTML uses the default API, including eligible fast paths. Rust drops each result within timing; PHP includes automatic cycle collection and collects cycles before batches. Memory is measured in five separate warmed calls, outside timing. These runs do not establish a cross-runtime ranking.
 
-Host load was 4.59, 11.8, 12.73 at the start and
+This is a local shared-host run. Host load was 4.59, 11.8, 12.73 at the start and
 5.87, 10.7, 12.28 at the end on 16
 logical CPUs. Compare candidate changes with
 alternating baseline runs before making a speed claim.

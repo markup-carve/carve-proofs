@@ -64,7 +64,7 @@ export function validateCostData(data) {
 }
 
 export function costReport(data) {
-  const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-cross-reader-refresh/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
+  const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-engine-performance/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
   validateCostData(data)
   const fixed = number => number > 0 && number < 0.0005 ? number.toExponential(2) : number.toFixed(3)
   const sample = (g, field) => g.rounds.map(r => `${fixed(median(r.samples.map(s => s[field])))} (${fixed(Math.min(...r.samples.map(s => s[field])))}–${fixed(Math.max(...r.samples.map(s => s[field])))})`).join(' / ')

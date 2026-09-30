@@ -6,8 +6,8 @@ and commonmark 0.31.2. Carve uses commit
 Git readers use immutable commit pins; registry packages include integrity hashes.
 
 This reader snapshot was recorded at 2026-09-30T01:42:42.287Z.
-The [preceding comparison](history/pre-cross-reader-refresh/comparison.md) and
-[timings](history/pre-cross-reader-refresh/comparison-timings.json) remain available.
+The [preceding comparison](history/pre-engine-performance/comparison.md) and
+[timings](history/pre-engine-performance/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and

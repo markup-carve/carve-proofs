@@ -22,6 +22,10 @@ or proven linear runtime bound in this repository.
 
 ## PHP
 
+The local phase run had load averages of 4.59, 11.80 and 12.73 at the start,
+and 5.87, 10.70 and 12.28 at the end on 16 logical CPUs. Shared-host activity
+affects these PHP and Rust timings; the figures identify experiments to run.
+
 The [phase measurements](runtime-scaling.md) use PHP commit
 `7033d04b1d942263508eadf9b699a77ee656bfda`, after the bracket index,
 paragraph materialization and HTML padding changes.
@@ -57,7 +61,7 @@ indentation, but its gain has not been measured here.
 The refreshed comparison and CPU/allocation profiles use commit
 `6d02fa7062dd03024e7c092016459602e9a7aeec`. Use the
 [current cost report](current-costs.md) to choose targets by fixture and phase.
-The nested-list profiles point to `parseList` and its `Map`/`Set` allocations.
+The nested-list profiles point to `parseList`, with large `Map`/`Set` allocations.
 Sparse and dense definitions spend CPU and allocate in `collectLinkDefs`;
 inline links allocate bracket maps, and Unicode positions spend time in the
 position walk. Measure those paths separately from rendering and document-wide

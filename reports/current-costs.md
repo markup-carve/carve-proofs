@@ -201,7 +201,7 @@ refer to installed JavaScript, not the linked TypeScript.
    preserving independent mutable state between containers.
 
 This reader includes parser allocation changes since the preceding reader
-commit `45bbec34edd9d446ba9e78e8031e33c916473923`.
+commit `88754ac8cb4b2ebfdd3dfb07f1edc396db11f336`.
 The current profile records their resulting costs. The preceding snapshot used
 a different host and cannot isolate a reader speed improvement.
 Ownership uses the commits in `scripts/ownership/pins.json`, with its separate

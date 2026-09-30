@@ -68,7 +68,7 @@ ${rows.join('\n')}
 
 ${data.metadata.method}
 
-Host load was ${data.metadata.loadStart.join(', ')} at the start and
+This is a local shared-host run. Host load was ${data.metadata.loadStart.join(', ')} at the start and
 ${data.metadata.loadEnd.join(', ')} at the end on ${data.metadata.logicalCpus}
 logical CPUs. Compare candidate changes with
 alternating baseline runs before making a speed claim.

@@ -33,7 +33,7 @@ a separate dependency. Runtime scaling retains the PHP and Rust commits above.
 The [phase scaling report](reports/runtime-scaling.md) separates parsing, rendering
 and conversion. Raw reports record reader provenance and host load. The
 original layout model and historical baselines retain their own pins.
-The [previous runtime measurements](reports/history/pre-latest-main/runtime-timings.json)
+The [previous runtime measurements](reports/history/pre-engine-performance/runtime-timings.json)
 remain available alongside the archived comparison and profiles.
 
 The [proof recheck and remaining costs](reports/performance-refresh.md) records
@@ -126,9 +126,9 @@ not satisfy the committed evidence validators.
 The [cost profile](reports/current-costs.md) compares position options and
 allocation, with a separate direct-HTML probe. A rejected probe ends before
 AST fallback; its timing is not the full HTML call. The
-[previous comparison and profiles](reports/history/pre-cross-reader-refresh/README.md)
-retain the shared-host snapshot from PR #12. Comparing that host with the
-workflow runner does not isolate the effect of parser changes.
+[previous comparison and profiles](reports/history/pre-engine-performance/README.md)
+retain the measurements replaced by this refresh. Runs on different hosts
+do not isolate the effect of parser changes.
 
 ## djot.v extraction
 
