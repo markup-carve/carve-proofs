@@ -22,7 +22,7 @@
         "integrity": "sha512-2fRLTyb9r/2835k5cwcAwOj0DEc44FARnMp5veGsJ+mEAZdi52sNopLu07ZyElQUz058H43whzlERDIaaSw4rg=="
       }
     },
-    "suiteSha256": "8a519784fe063c60f1ecdd0b870d548dcc3c61f63d44d9280c6902f44076a158"
+    "suiteSha256": "5bb80a717cb9aaa711f95ef76eefebe1b5a58eeb072abdf938e8f4c4e2a7fee6"
   },
   "contracts": {
     "eligible-prose-wrap": "Replace one ASCII word separator in the authored eligible prose fixtures with a newline. Excludes code spans, escapes, hard breaks, structural line starts and destination bytes. Compare projected block content.",
