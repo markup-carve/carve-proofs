@@ -54,7 +54,9 @@ test('history includes resolved disagreements and changed consensus outputs', ()
 test('exported chart values preserve source medians and missing observations', () => {
   const chart = charts.find(c => c.id === 'javascript-long-line-parse-wall');
   const group = evidence.reports['comparison-timings'].groups.find(g => g.reader === 'carve' && g.family === 'long-line' && g.mode === 'parse');
-  expect(chart.points.filter(p => p.reader === 'carve').map(p => p.value)).toEqual(group.rows.map(r => r.medianMs));
+  for (const round of group.rounds) {
+    expect(chart.points.filter(p => p.reader === `carve / round ${round.round + 1}`).map(p => p.value)).toEqual(round.rows.map(r => r.medianMs));
+  }
   const tail = charts.filter(c => c.dataset === 'tail-change');
   expect(tail).toHaveLength(6);
   for (const chart of tail) expect(chart.metadata.after.engine).toBe('github:markup-carve/carve-js#8fe00fd672e1d9af43fe1f92ca1cc64387412990');

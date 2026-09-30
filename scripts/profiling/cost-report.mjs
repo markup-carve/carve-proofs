@@ -66,7 +66,7 @@ export function validateCostData(data) {
 export function costReport(data) {
   const previousReader = JSON.parse(readFileSync(new URL('../../reports/history/pre-cross-reader-refresh/comparison-results.json', import.meta.url))).metadata.engine.split('#')[1]
   validateCostData(data)
-  const fixed = number => number.toFixed(3)
+  const fixed = number => number > 0 && number < 0.0005 ? number.toExponential(2) : number.toFixed(3)
   const sample = (g, field) => g.rounds.map(r => `${fixed(median(r.samples.map(s => s[field])))} (${fixed(Math.min(...r.samples.map(s => s[field])))}–${fixed(Math.max(...r.samples.map(s => s[field])))})`).join(' / ')
   const timingRows = data.groups.map(g => `| ${g.family} | ${g.phase} | ${g.variant} | ${sample(g, 'wallMs')} | ${g.rounds.map(r => fixed(median(r.samples.map(s => s.cpuMs)))).join(' / ')} | ${(g.sampledAllocationBytes / g.heapIterations / 1024).toFixed(1)} |`).join('\n')
   const hot = data.groups.filter(g => g.variant === 'carve').map(g => {
@@ -100,7 +100,8 @@ ${timingRows}
 Carve's [positions option](${source}/source-positions.ts) removes fields from the
 finished tree. It still constructs positions during parsing and skips the final
 codepoint conversion when disabled. Treat it as an output-shape option, not a
-switch that removes all positioning work. Djot's sourcePositions option enables
+switch that removes all positioning work. Disabling positions can cost more
+than keeping them because removing fields adds work. Djot's sourcePositions option enables
 its position tracking. These variants expose costs; their position formats and
 feature sets are not identical.
 
@@ -138,7 +139,8 @@ ${hot}
 This reader includes parser allocation changes since the preceding reader
 commit \`${previousReader}\`.
 The current profile records their resulting costs. The preceding snapshot used
-a different host and cannot isolate a reader speed improvement. Ownership retains the independently pinned snapshot from #12. The comparison
+a different host and cannot isolate a reader speed improvement.
+Ownership retains the independently pinned snapshot from #12. The comparison
 uses the reader recorded above, with its separate test scope. The original model and historical baselines retain their pins.
 
 ## Method and limits

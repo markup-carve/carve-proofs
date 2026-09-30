@@ -79,10 +79,10 @@ the separately locked \`carve-comparison\` dependency.
 ${changes}
 
 Regex calls are deterministic observations under the same instrumentation.
-Allocation estimates come from separate runs on a shared host and remain
-subject to sampling variation. Wall times are shown only for the current run
-below; differing host load prevents attributing a before/after timing change
-to the prefix optimization.
+Allocation estimates come from separate hosts and remain subject to sampling
+variation. The current data comes from the recorded workflow runner; the
+earlier data came from a shared host. Wall times are shown only for the current
+run below. This comparison does not isolate the effect of parser changes.
 
 The relevant changes landed in
 [quote-state reuse](https://github.com/markup-carve/carve-js/pull/2259) and

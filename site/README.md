@@ -17,7 +17,7 @@ For browser checks, run `npx playwright install chromium` and `npm run test:site
 
 ## Evidence boundaries
 
-The build reads the committed report files without rerunning benchmarks. Each view exposes its reader pins and source data. Benchmark datasets remain separate because their API scope, instrumentation and host load differ. Bands show the observed sample range; they are not confidence intervals. Refused and skipped measurements retain their status and have no plotted value.
+The build reads the committed report files without rerunning benchmarks. Each view exposes its reader pins and source data. Benchmark datasets remain separate because their API scope, instrumentation and host load differ. Fresh-worker rounds appear as separate series in the JavaScript and cost charts. CSV exports retain their round labels, and JSON exports include workflow provenance. The direct-HTML probe records the fast path attempt, including rejected attempts that stop before AST fallback. Bands show the observed sample range; they are not confidence intervals. Refused and skipped measurements retain their status and have no plotted value.
 
 Language comparisons describe edits within each reader. A changed tree can follow the language rules. CommonMark is the Markdown dialect used here. The ownership suite instead compares four Carve readers under its recorded projection.
 
