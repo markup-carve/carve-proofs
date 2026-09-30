@@ -2,11 +2,12 @@
 
 This run compares the pinned Carve JS engine with @djot/djot 0.3.2
 and commonmark 0.31.2. Carve uses commit
-`88754ac8cb4b2ebfdd3dfb07f1edc396db11f336`. The lockfile records package sources and integrity hashes.
+`6d02fa7062dd03024e7c092016459602e9a7aeec`. The lockfile records package sources.
+Git readers use immutable commit pins; registry packages include integrity hashes.
 
-This reader snapshot was recorded at 2026-09-29T23:59:26.536Z.
-The [preceding comparison](history/pre-cross-reader-refresh/comparison.md) and
-[timings](history/pre-cross-reader-refresh/comparison-timings.json) remain available.
+This reader snapshot was recorded at 2026-09-30T01:42:42.287Z.
+The [preceding comparison](history/pre-engine-performance/comparison.md) and
+[timings](history/pre-engine-performance/comparison-timings.json) remain available.
 
 The previous [report](history/pre-prefix-refresh/comparison.md),
 [observations](history/pre-prefix-refresh/comparison-results.json) and
@@ -110,31 +111,31 @@ milliseconds per call for round 1; round 2. CPU includes all process threads.
 
 | Family | Bytes | Carve | Djot | CommonMark |
 |---|---:|---:|---:|---:|
-| long-line | 40964 | 0.148 / 0.165; 0.143 / 0.162 | 0.101 / 0.165; 0.098 / 0.161 | 0.021 / 0.023; 0.019 / 0.021 |
-| unmatched-brackets | 1028 | 0.507 / 1.518; 0.494 / 1.568 | 0.128 / 0.390; 0.130 / 0.395 | 0.056 / 0.060; 0.055 / 0.059 |
-| unmatched-closers | 8196 | 0.061 / 0.074; 0.062 / 0.075 | 0.383 / 0.649; 0.374 / 0.615 | 0.426 / 0.458; 0.418 / 0.446 |
-| unclosed-code | 40965 | 0.281 / 0.358; 0.287 / 0.381 | 0.109 / 0.181; 0.105 / 0.175 | 0.030 / 0.032; 0.030 / 0.032 |
-| many-paragraphs | 12288 | 0.542 / 0.760; 0.559 / 0.792 | 2.453 / 5.953; 2.421 / 5.631 | 0.353 / 0.374; 0.362 / 0.384 |
-| nested-quotes | 388 | 0.749 / 2.399; 0.670 / 2.194 | 0.213 / 0.790; 0.186 / 0.647 | 0.031 / 0.034; 0.032 / 0.035 |
-| nested-lists | 388 | 1.546 / 4.120; 1.582 / 5.118 | 1.334 / 4.948; 1.301 / 4.430 | 0.179 / 0.191; 0.189 / 0.200 |
-| interior-whitespace | 16387 | 0.055 / 0.066; 0.055 / 0.067 | 0.064 / 0.182; 0.067 / 0.197 | 0.010 / 0.011; 0.014 / 0.015 |
-| literal-brackets | 12289 | 5.476 / 9.975; 3.059 / 5.420 | 2.414 / 5.911; 2.633 / 6.445 | 0.379 / 0.404; 0.610 / 0.702 |
-| inline-links | 22528 | 1.669 / 2.644; 1.644 / 2.598 | 4.026 / 8.976; 4.167 / 9.457 | 1.084 / 1.128; 1.094 / 1.135 |
-| sparse-definitions | 12302 | 0.708 / 1.107; 0.652 / 0.946 | 2.547 / 5.846; 2.651 / 5.927 | 0.381 / 0.404; 0.376 / 0.396 |
-| dense-definitions | 7461 | 3.861 / 7.196; 3.878 / 7.812 | 2.392 / 6.804; 2.429 / 7.105 | 0.446 / 0.472; 0.456 / 0.481 |
-| long-unicode | 90113 | 0.547 / 0.654; 0.572 / 0.683 | 0.201 / 0.310; 0.196 / 0.304 | 0.186 / 0.196; 0.178 / 0.188 |
-| unicode-paragraphs | 12288 | 3.579 / 6.599; 3.427 / 5.898 | 2.529 / 6.196; 2.432 / 5.955 | 0.506 / 0.536; 0.405 / 0.427 |
+| long-line | 40964 | 0.258 / 0.281; 0.257 / 0.277 | 0.210 / 0.303; 0.210 / 0.304 | 0.040 / 0.043; 0.040 / 0.043 |
+| unmatched-brackets | 1028 | 0.824 / 1.677; 0.940 / 2.135 | 0.213 / 0.502; 0.189 / 0.434 | 0.101 / 0.111; 0.101 / 0.111 |
+| unmatched-closers | 8196 | 0.105 / 0.138; 0.105 / 0.137 | 0.854 / 1.518; 0.900 / 1.564 | 0.786 / 0.851; 0.783 / 0.853 |
+| unclosed-code | 40965 | 0.582 / 0.628; 0.582 / 0.640 | 0.202 / 0.306; 0.197 / 0.282 | 0.067 / 0.072; 0.066 / 0.072 |
+| many-paragraphs | 12288 | 1.406 / 2.073; 1.329 / 1.996 | 4.287 / 8.743; 4.388 / 9.044 | 0.734 / 0.787; 0.740 / 0.800 |
+| nested-quotes | 388 | 1.814 / 6.144; 1.673 / 5.875 | 0.442 / 1.424; 0.281 / 0.835 | 0.060 / 0.066; 0.056 / 0.061 |
+| nested-lists | 388 | 2.778 / 7.219; 2.727 / 6.641 | 2.111 / 7.002; 2.056 / 6.472 | 0.393 / 0.421; 0.392 / 0.418 |
+| interior-whitespace | 16387 | 0.108 / 0.140; 0.108 / 0.141 | 0.107 / 0.195; 0.106 / 0.195 | 0.020 / 0.021; 0.020 / 0.021 |
+| literal-brackets | 12289 | 5.715 / 10.010; 5.628 / 9.121 | 4.120 / 8.961; 4.324 / 9.378 | 0.719 / 0.780; 0.727 / 0.786 |
+| inline-links | 22528 | 2.903 / 4.142; 3.126 / 4.889 | 6.827 / 14.564; 7.117 / 14.569 | 1.988 / 2.134; 2.132 / 2.281 |
+| sparse-definitions | 12302 | 1.399 / 2.121; 1.356 / 2.024 | 4.206 / 8.400; 4.830 / 9.816 | 0.704 / 0.765; 0.731 / 0.790 |
+| dense-definitions | 7461 | 6.726 / 10.807; 7.220 / 11.408 | 3.592 / 7.627; 3.836 / 10.147 | 0.841 / 0.906; 0.853 / 0.916 |
+| long-unicode | 90113 | 1.022 / 1.077; 1.023 / 1.078 | 0.360 / 0.502; 0.383 / 0.516 | 0.279 / 0.301; 0.283 / 0.306 |
+| unicode-paragraphs | 12288 | 6.778 / 11.464; 6.409 / 10.468 | 4.253 / 9.194; 4.310 / 8.938 | 0.802 / 0.860; 0.806 / 0.863 |
 
 Nested inputs at depth 192, median wall milliseconds for round 1; round 2:
 
 | Reader | Family | Parse | Render prebuilt AST | Full HTML |
 |---|---|---:|---:|---:|
-| carve | nested-quotes | 0.420; 0.446 | 0.074; 0.075 | 0.749; 0.670 |
-| carve | nested-lists | 0.614; 1.026 | 0.161; 0.151 | 1.546; 1.582 |
-| djot | nested-quotes | 0.182; 0.117 | 0.009; 0.008 | 0.213; 0.186 |
-| djot | nested-lists | 0.638; 0.903 | 0.021; 0.021 | 1.334; 1.301 |
-| commonmark | nested-quotes | 0.018; 0.018 | 0.013; 0.013 | 0.031; 0.032 |
-| commonmark | nested-lists | 0.152; 0.151 | 0.029; 0.028 | 0.179; 0.189 |
+| carve | nested-quotes | 1.254; 0.853 | 0.162; 0.163 | 1.814; 1.673 |
+| carve | nested-lists | 1.917; 2.009 | 0.301; 0.293 | 2.778; 2.727 |
+| djot | nested-quotes | 0.315; 0.266 | 0.013; 0.013 | 0.442; 0.281 |
+| djot | nested-lists | 1.833; 1.860 | 0.038; 0.039 | 2.111; 2.056 |
+| commonmark | nested-quotes | 0.035; 0.032 | 0.026; 0.024 | 0.060; 0.056 |
+| commonmark | nested-lists | 0.363; 0.352 | 0.052; 0.056 | 0.393; 0.392 |
 
 The stages are measured independently. Full HTML can use fast paths and includes
 resolution work not covered by render-only, so its time need not equal the sum.
@@ -146,9 +147,9 @@ timings, including Carve's and Djot's, need isolated repeat measurements before 
 relative-speed conclusions; it is not evidence that rendering removes parse work.
 
 Two fresh-worker rounds per family and API, Carve-Djot-CommonMark then CommonMark-Djot-Carve. Serial workers; 60s group deadline including startup; 200ms warmup per size, five batches of at least 20ms with 16-call time checks, GC before batches. Each round remains in the raw data. Render reuses a prebuilt AST. CPU includes all process threads. RSS is cumulative peak.
-Node v24.21.0, AMD EPYC 9V45 96-Core Processor, 4 logical CPUs.
-The dedicated [workflow run](https://github.com/markup-carve/carve-proofs/actions/runs/36647882125) ran workers serially and rejected load above its available CPU count.
-Load averages at the end were 1.61, 1.32, 0.70.
+Node v24.21.0, AMD EPYC 7763 64-Core Processor, 4 logical CPUs.
+The dedicated [workflow run](https://github.com/markup-carve/carve-proofs/actions/runs/36656234254) ran workers serially and rejected load above its available CPU count.
+Load averages at the end were 1.38, 1.36, 0.80.
 Both fresh-worker rounds appear separately in the charts, tables and downloads.
 Historical laptop timings are preserved separately and cannot establish a speed change on this runner.
 Tiny samples, runtime warmup and scheduling affect ratios. No timing threshold

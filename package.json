@@ -42,13 +42,14 @@
     "profile:costs": "node scripts/profiling/current-costs.mjs",
     "report:costs": "node scripts/profiling/cost-report.mjs",
     "build:runtime": "node scripts/runtime/build.mjs",
-    "bench:runtime": "node scripts/runtime/bench.mjs"
+    "bench:runtime": "node scripts/runtime/bench.mjs",
+    "report:runtime": "node scripts/runtime/report.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",
     "@markup-carve/carve": "github:markup-carve/carve-js#c5df77f658c80a3a80a4d31ec1855d854e5da648",
     "@playwright/test": "1.63.0",
-    "carve-comparison": "github:markup-carve/carve-js#88754ac8cb4b2ebfdd3dfb07f1edc396db11f336",
+    "carve-comparison": "github:markup-carve/carve-js#6d02fa7062dd03024e7c092016459602e9a7aeec",
     "carve-tail-baseline": "github:markup-carve/carve-js#8fe00fd672e1d9af43fe1f92ca1cc64387412990",
     "carve-tail-candidate": "github:markup-carve/carve-js#5001ebb049eda7b68e1905aa96ccf47aa92b1109",
     "commonmark": "0.31.2",

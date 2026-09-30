@@ -24,16 +24,20 @@ matrix uses these source commits:
 | Reader | Commit |
 |---|---|
 | Specification | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
-| JavaScript | `45bbec34edd9d446ba9e78e8031e33c916473923` |
-| PHP | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
+| JavaScript | `6d02fa7062dd03024e7c092016459602e9a7aeec` |
+| PHP | `7033d04b1d942263508eadf9b699a77ee656bfda` |
 | Rust | `9f3f334c7d5c91c57e4e6269b32599af1062fdde` |
 
-The JS comparison uses `88754ac8cb4b2ebfdd3dfb07f1edc396db11f336` through
+The JS comparison uses `6d02fa7062dd03024e7c092016459602e9a7aeec` through
 a separate dependency. Runtime scaling retains the PHP and Rust commits above.
-Raw reports record reader provenance and host load. The
+The [phase scaling report](reports/runtime-scaling.md) separates parsing, rendering
+and conversion. Raw reports record reader provenance and host load. The
 original layout model and historical baselines retain their own pins.
-The [previous runtime measurements](reports/history/pre-latest-main/runtime-timings.json)
+The [previous runtime measurements](reports/history/pre-engine-performance/runtime-timings.json)
 remain available alongside the archived comparison and profiles.
+
+The [proof recheck and remaining costs](reports/performance-refresh.md) records
+the formal checks, the unchanged extraction mismatch and the next engine targets.
 
 ## Comparison contracts
 
@@ -122,9 +126,9 @@ not satisfy the committed evidence validators.
 The [cost profile](reports/current-costs.md) compares position options and
 allocation, with a separate direct-HTML probe. A rejected probe ends before
 AST fallback; its timing is not the full HTML call. The
-[previous comparison and profiles](reports/history/pre-cross-reader-refresh/README.md)
-retain the shared-host snapshot from PR #12. Comparing that host with the
-workflow runner does not isolate the effect of parser changes.
+[previous comparison and profiles](reports/history/pre-engine-performance/README.md)
+retain the measurements replaced by this refresh. Runs on different hosts
+do not isolate the effect of parser changes.
 
 ## djot.v extraction
 

@@ -18,6 +18,7 @@ on:
       - 'scripts/comparison/controls.mjs'
       - 'scripts/comparison/scaling-cases.mjs'
       - 'scripts/comparison/measurement-host.mjs'
+      - 'scripts/comparison/settle-host.mjs'
       - 'scripts/profiling/current-costs.mjs'
       - 'scripts/profiling/cost-worker.mjs'
       - 'scripts/profiling/run.mjs'
@@ -51,6 +52,8 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: Check shared-syntax controls
         run: node --input-type=module -e "import {checkControls} from './scripts/comparison/controls.mjs'; console.log(checkControls().length + ' controls passed')"
+      - name: Wait for dependency installation load to settle
+        run: node scripts/comparison/settle-host.mjs
       - name: Measure paired cross-reader scaling
         run: npm run bench:comparison
       - name: Measure positions, allocation and direct-HTML attempts
