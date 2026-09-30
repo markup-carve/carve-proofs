@@ -36,6 +36,9 @@ original layout model and historical baselines retain their own pins.
 The [previous runtime measurements](reports/history/pre-latest-main/runtime-timings.json)
 remain available alongside the archived comparison and profiles.
 
+The [proof recheck and remaining costs](reports/performance-refresh.md) records
+the formal checks, the unchanged extraction mismatch and the next engine targets.
+
 ## Comparison contracts
 
 The [refreshed comparison](reports/comparison.md) uses the post-fix JavaScript
