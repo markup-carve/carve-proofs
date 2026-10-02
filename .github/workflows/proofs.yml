@@ -19,6 +19,9 @@ concurrency:
   group: proofs-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Jobs carry an explicit timeout-minutes: without one GitHub applies a
+# 360-minute default, long enough for a stalled job to go unnoticed.
+
 jobs:
   layout:
     runs-on: ubuntu-24.04
@@ -219,6 +222,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: [layout, ownership, runtime, site]
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     permissions:
       pages: write
       id-token: write
