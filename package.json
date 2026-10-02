@@ -50,7 +50,8 @@
     "build:ownership:current": "node scripts/ownership/current.mjs build",
     "check:ownership:current": "node scripts/ownership/current.mjs check --check reports/ownership-current-results.json",
     "check:ownership:contracts": "node scripts/ownership/current.mjs contracts --check reports/ownership-current-contracts.json",
-    "report:ownership:current": "node scripts/ownership/current-report.mjs --check"
+    "report:ownership:current": "node scripts/ownership/current-report.mjs --check",
+    "proof:stack": "node scripts/stack-proof-check.mjs"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",

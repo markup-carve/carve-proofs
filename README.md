@@ -12,6 +12,11 @@ traces agree with the executable specification and pinned JavaScript engine.
 The model applies the list-specific rules in §24 C3 where they qualify Part 0.
 It remains a partial model, not a verified implementation of the full parser.
 
+The [candidate-stack model](proofs/layout/STACK.md) adds fifteen checked theorems
+about choosing among supplied frame candidates. Its extracted OCaml helper is
+compiled and run by `npm run proof:stack`. Candidate order, local coordinates
+and classifications remain caller inputs; this does not verify a source parser.
+
 ## Visual evidence
 
 Explore the [**evidence site**](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
