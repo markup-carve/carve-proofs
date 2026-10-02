@@ -59,7 +59,7 @@ A character-deletion reducer shrinks the remaining unresolved-image family while
 ![a][g]
 ```
 
-No single-character deletion that stays in that family retains a disagreement. This is a local minimality claim, not a proof of globally shortest inputs. The former lazy-footnote reduction is no longer an active disagreement. Combined-input disagreements have not all been assigned independent root causes.
+No single-character deletion that stays in that family retains a disagreement. This is a local minimality claim, not a proof of globally shortest inputs. The former lazy-footnote reduction is no longer an active disagreement. The [complete current triage](djot-difference-triage.md) now partitions all {{currentDifferences}} current disagreements into four diagnostic families, with reductions and agreement controls for every original input. That classification distinguishes a confirmed djot.v gap, specification and renderer questions, and an intentional policy difference; it does not prove independent root causes for every possible interaction.
 
 ## Reproduce
 

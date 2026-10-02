@@ -78,6 +78,7 @@ jobs:
           npm run proof:djot-extensions -- --check reports/djot-extension-proofs.json
           npm run build:djot-differential
           npm run check:djot-differential -- --check reports/djot-differential.json --diagnostic-output reports/djot-differential-ci.json
+          npm run triage:djot-differences -- --check reports/djot-difference-triage.json
           npm run proof:djot-differential -- --check reports/djot-differential-proofs.json
           npm run report:djot-differential
           git diff --exit-code -- reports/djot-differential.md

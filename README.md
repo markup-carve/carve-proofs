@@ -12,6 +12,11 @@ traces agree with the executable specification and pinned JavaScript engine.
 The model applies the list-specific rules in §24 C3 where they qualify Part 0.
 It remains a partial model, not a verified implementation of the full parser.
 
+The [current Djot difference triage](reports/djot-difference-triage.md) classifies
+all 295 differing inputs, retains reductions and agreement controls, and adds
+separate performance fixtures. Only the escaped-reference family is a confirmed
+djot.v parser gap; the other families have distinct policy or specification status.
+
 The [candidate-stack model](proofs/layout/STACK.md) adds fifteen checked theorems
 about choosing among supplied frame candidates. Its extracted OCaml helper is
 compiled and run by `npm run proof:stack`. Candidate order, local coordinates
@@ -166,7 +171,8 @@ the pinned package.
 The [differential report](reports/djot-differential.md) compares 4,177 inputs
 against pinned current djot.js, its npm release and djot.v. It confirms the upstream
 lazy-footnote fix and records an unresolved-image rendering candidate, controls
-and a portable upstream test fixture. Run `npm run build:djot-differential`
+and a portable upstream test fixture. The [complete triage](reports/djot-difference-triage.md)
+classifies every current disagreement and records reduced cases and performance fixtures. Run `npm run build:djot-differential`
 and `npm run check:djot-differential` after building the native package.
 
 ## Four-reader ownership matrix
