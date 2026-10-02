@@ -1,6 +1,6 @@
 # Differential comparison after the lazy-footnote fix
 
-The packaged `djot.v` parser now keeps lazy continuation lines inside a footnote. Both former failing examples and their controls agree with djot.js. The remaining exact HTML differences include intentional behavior and candidates that still need triage.
+The packaged `djot.v` parser now keeps lazy continuation lines inside a footnote. Both former failing examples and their controls agree with djot.js. The remaining exact HTML differences are classified in the [complete current triage](djot-difference-triage.md), which separates confirmed gaps from intentional behavior and specification questions.
 
 Tested pins:
 
