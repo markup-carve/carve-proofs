@@ -6,7 +6,7 @@
     },
     "native": {
       "repository": "https://github.com/hon-gyu/djot.v.git",
-      "commit": "3279f362fbbcc6d33c3a2795252f903ab0a7288f"
+      "commit": "f38c92d585b914d673e35d0fca23cf5cad0a6b56"
     },
     "released": {
       "version": "0.3.2",
@@ -15,24 +15,24 @@
     },
     "typescript": "4.9.4",
     "ocaml": "4.14.2",
-    "suiteSha256": "e2e59ef420eaaa6fba917e0d5613fcac404398cc5c0cfb58385232e1a6eca37a",
+    "suiteSha256": "accc7ce269dc2f01c802c6b4f85d27e6fdec9b25233272f28801a04592a92a0b",
     "specification": "https://github.com/jgm/djot/blob/d77f8a0cbea6785c42b3e2b03463195b5ca6f7c7/doc/syntax.md"
   },
   "counts": {
     "inputs": 4177,
-    "currentDifferences": 323,
-    "releasedDifferences": 498,
+    "currentDifferences": 295,
+    "releasedDifferences": 470,
     "releaseDrift": 198
   },
   "reproducers": [
     {
       "id": "footnote-lazy",
       "source": "[^n]: a\nb\n\n[^n]\n",
-      "expectedAgreement": false,
-      "classification": "djot-v-conformance-bug",
+      "expectedAgreement": true,
+      "classification": "fixed-in-djot-v",
       "jsCurrent": "<p><a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>a\nb<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
       "jsReleased": "<p><a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>a\nb<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b</p>\n<p><a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
+      "ocaml": "<p><a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>a\nb<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
     },
     {
       "id": "footnote-indented-control",
@@ -55,11 +55,11 @@
     {
       "id": "footnote-unreferenced",
       "source": "[^n]: a\nb\n",
-      "expectedAgreement": false,
-      "classification": "djot-v-conformance-bug",
+      "expectedAgreement": true,
+      "classification": "fixed-in-djot-v",
       "jsCurrent": "",
       "jsReleased": "",
-      "ocaml": "<p>b</p>\n"
+      "ocaml": ""
     },
     {
       "id": "image-unresolved",
@@ -135,16 +135,6 @@
     }
   ],
   "reductions": [
-    {
-      "id": "footnote-lazy",
-      "original": "[^note]: alpha\nbeta\n",
-      "source": "[^e]: a\na",
-      "deletions": 11,
-      "attempts": 86,
-      "minimality": "No single-character deletion preserving the selected input family retains a disagreement.",
-      "jsCurrent": "",
-      "ocaml": "<p>a</p>\n"
-    },
     {
       "id": "image-unresolved",
       "original": "![alpha][missing]\n",
@@ -1306,104 +1296,6 @@
       "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
     },
     {
-      "id": "expanded/14/5/0",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/1",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n[r]: /one\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/2",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n[R]: /two\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/3",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n[x]: /x\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/4",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n[a b]: /space\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a href=\"/space\">x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a href=\"/space\">x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/5",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n[^n]: note\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/14/5/6",
-      "source": "[^n]: [x][a\nb]\n\nx[^n]\n\n{#id}\n# x\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a><a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>b]</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>[x][a<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/0",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/1",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n[r]: /one\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/2",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n[R]: /two\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/3",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n[x]: /x\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/4",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n[a b]: /space\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/5",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n[^n]: note\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/17/5/6",
-      "source": "[^n]: x\\\ny\n\nx[^n]\n\n{#id}\n# x\n",
-      "jsCurrent": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "jsReleased": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\ny<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n",
-      "ocaml": "<p>y</p>\n<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>x<br>\n<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
       "id": "expanded/20/0/0",
       "source": "[x][a\\]b]\n",
       "jsCurrent": "<p><a>x</a></p>\n",
@@ -1691,55 +1583,6 @@
       "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p><a>x</a>b]<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
     },
     {
-      "id": "expanded/21/5/0",
-      "source": "[^n]: {#id\n\nx[^n]\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/1",
-      "source": "[^n]: {#id\n\nx[^n]\n\n[r]: /one\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/2",
-      "source": "[^n]: {#id\n\nx[^n]\n\n[R]: /two\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/3",
-      "source": "[^n]: {#id\n\nx[^n]\n\n[x]: /x\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/4",
-      "source": "[^n]: {#id\n\nx[^n]\n\n[a b]: /space\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/5",
-      "source": "[^n]: {#id\n\nx[^n]\n\n[^n]: note\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/21/5/6",
-      "source": "[^n]: {#id\n\nx[^n]\n\n{#id}\n# x\n",
-      "jsCurrent": "<section id=\"id\">\n<h1>x</h1>\n</section>\n",
-      "jsReleased": "<section id=\"id\">\n<h1>x</h1>\n</section>\n",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{#id<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
       "id": "expanded/22/1/0",
       "source": "# {a=\"x\n",
       "jsCurrent": "<section id=\"a-&quot;x\">\n<h1>{a=“x</h1>\n</section>\n",
@@ -1787,55 +1630,6 @@
       "jsCurrent": "<section id=\"a-&quot;x\">\n<h1>{a=“x</h1>\n</section>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n",
       "jsReleased": "<section id=\"a-&quot;x\">\n<h1>{a=“x</h1>\n</section>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n",
       "ocaml": "<section id=\"a-“x\">\n<h1>{a=“x</h1>\n</section>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/0",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/1",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n[r]: /one\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/2",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n[R]: /two\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/3",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n[x]: /x\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/4",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n[a b]: /space\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/5",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n[^n]: note\n",
-      "jsCurrent": "",
-      "jsReleased": "",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>note<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
-    },
-    {
-      "id": "expanded/22/5/6",
-      "source": "[^n]: {a=\"x\n\nx[^n]\n\n{#id}\n# x\n",
-      "jsCurrent": "<section id=\"id\">\n<h1>x</h1>\n</section>\n",
-      "jsReleased": "<section id=\"id\">\n<h1>x</h1>\n</section>\n",
-      "ocaml": "<p>x<a id=\"fnref1\" href=\"#fn1\" role=\"doc-noteref\"><sup>1</sup></a></p>\n<section id=\"id\">\n<h1>x</h1>\n</section>\n<section role=\"doc-endnotes\">\n<hr>\n<ol>\n<li id=\"fn1\">\n<p>{a=“x<a href=\"#fnref1\" role=\"doc-backlink\">↩︎</a></p>\n</li>\n</ol>\n</section>\n"
     },
     {
       "id": "seed414/0",

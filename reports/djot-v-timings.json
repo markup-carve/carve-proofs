@@ -2,12 +2,12 @@
   "metadata": {
     "extraction": {
       "repository": "https://github.com/hon-gyu/djot.v.git",
-      "commit": "3279f362fbbcc6d33c3a2795252f903ab0a7288f"
+      "commit": "f38c92d585b914d673e35d0fca23cf5cad0a6b56"
     },
     "build": {
-      "commit": "3279f362fbbcc6d33c3a2795252f903ab0a7288f",
+      "commit": "f38c92d585b914d673e35d0fca23cf5cad0a6b56",
       "driverSha256": "d3373637f8580f873416d5352dcfe3cf74230c2141725b48a70c17f6ca121d2c",
-      "binarySha256": "9ecba2f5b965106546bcf443bb57b75e0f6dc8712c9a170b1eb50ea7a79e2960",
+      "binarySha256": "e9878307b6092e276c2a562786a6ffd662e3a2f1826fee53c0747c77cf1114f7",
       "ocaml": "4.14.2",
       "dune": "3.23.1"
     },
@@ -17,16 +17,16 @@
     "platform": "linux",
     "arch": "x64",
     "loadStart": [
-      62.85,
-      56.3,
-      41.93
+      5.5,
+      7.27,
+      11.94
     ],
-    "generatedAt": "2026-09-28T11:53:49.705Z",
+    "generatedAt": "2026-10-02T10:35:02.056Z",
     "method": "Packaged OCaml default profile, positions off. Serial processes per size; startup and input transfer excluded. 200ms warmup, five batches of at least 20ms with 16-call time checks. Full major GC before each batch. Allocation is Gc.allocated_bytes per call. 60s worker deadline.",
     "loadEnd": [
-      59.17,
-      56.57,
-      43.21
+      5.11,
+      7.04,
+      11.72
     ]
   },
   "groups": [
@@ -41,37 +41,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.464767218,
-              "cpuMs": 0.233375,
-              "allocatedBytes": 95202.375
+              "iterations": 288,
+              "wallMs": 0.0741183758,
+              "cpuMs": 0.0741145833,
+              "allocatedBytes": 95712.5278
             },
             {
-              "iterations": 80,
-              "wallMs": 0.264275074,
-              "cpuMs": 0.261175,
-              "allocatedBytes": 95201.9
+              "iterations": 288,
+              "wallMs": 0.0706671013,
+              "cpuMs": 0.0706701389,
+              "allocatedBytes": 95712.5278
             },
             {
-              "iterations": 80,
-              "wallMs": 0.283125043,
-              "cpuMs": 0.2824125,
-              "allocatedBytes": 95201.9
+              "iterations": 288,
+              "wallMs": 0.0705627931,
+              "cpuMs": 0.0705729167,
+              "allocatedBytes": 95712.5278
             },
             {
-              "iterations": 80,
-              "wallMs": 0.293263793,
-              "cpuMs": 0.2933125,
-              "allocatedBytes": 95201.9
+              "iterations": 336,
+              "wallMs": 0.0608570519,
+              "cpuMs": 0.060860119,
+              "allocatedBytes": 95712.4524
             },
             {
-              "iterations": 80,
-              "wallMs": 0.301963091,
-              "cpuMs": 0.30195,
-              "allocatedBytes": 95201.9
+              "iterations": 288,
+              "wallMs": 0.0717739264,
+              "cpuMs": 0.0717222222,
+              "allocatedBytes": 95712.5278
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 2048,
@@ -80,34 +80,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 48,
-              "wallMs": 0.642066201,
-              "cpuMs": 0.642041667,
-              "allocatedBytes": 187363.167
+              "iterations": 144,
+              "wallMs": 0.1405908,
+              "cpuMs": 0.139805556,
+              "allocatedBytes": 187873.056
             },
             {
-              "iterations": 48,
-              "wallMs": 0.666707754,
-              "cpuMs": 0.66675,
-              "allocatedBytes": 187363.167
+              "iterations": 160,
+              "wallMs": 0.127312541,
+              "cpuMs": 0.127325,
+              "allocatedBytes": 187872.95
             },
             {
-              "iterations": 48,
-              "wallMs": 0.721042355,
-              "cpuMs": 0.670229167,
-              "allocatedBytes": 187363.167
+              "iterations": 144,
+              "wallMs": 0.157500307,
+              "cpuMs": 0.152611111,
+              "allocatedBytes": 187873.056
             },
             {
-              "iterations": 48,
-              "wallMs": 0.683873892,
-              "cpuMs": 0.6803125,
-              "allocatedBytes": 187363.167
+              "iterations": 160,
+              "wallMs": 0.132836401,
+              "cpuMs": 0.1328375,
+              "allocatedBytes": 187872.95
             },
             {
-              "iterations": 48,
-              "wallMs": 0.755017002,
-              "cpuMs": 0.682354167,
-              "allocatedBytes": 187363.167
+              "iterations": 160,
+              "wallMs": 0.131624937,
+              "cpuMs": 0.13156875,
+              "allocatedBytes": 187872.95
             }
           ],
           "sink": 1
@@ -119,37 +119,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 5.88925183,
-              "cpuMs": 2.01075,
-              "allocatedBytes": 371689.5
+              "iterations": 80,
+              "wallMs": 0.277388096,
+              "cpuMs": 0.2769875,
+              "allocatedBytes": 372193.9
             },
             {
-              "iterations": 16,
-              "wallMs": 3.77656519,
-              "cpuMs": 1.960625,
-              "allocatedBytes": 371689.5
+              "iterations": 80,
+              "wallMs": 0.261825323,
+              "cpuMs": 0.2617625,
+              "allocatedBytes": 372193.9
             },
             {
-              "iterations": 16,
-              "wallMs": 1.82318687,
-              "cpuMs": 1.8145,
-              "allocatedBytes": 371689.5
+              "iterations": 80,
+              "wallMs": 0.2579391,
+              "cpuMs": 0.25795,
+              "allocatedBytes": 372193.9
             },
             {
-              "iterations": 16,
-              "wallMs": 2.40062177,
-              "cpuMs": 1.8241875,
-              "allocatedBytes": 371689.5
+              "iterations": 80,
+              "wallMs": 0.271463394,
+              "cpuMs": 0.2709875,
+              "allocatedBytes": 372193.9
             },
             {
-              "iterations": 16,
-              "wallMs": 4.88768518,
-              "cpuMs": 1.813625,
-              "allocatedBytes": 371689.5
+              "iterations": 80,
+              "wallMs": 0.259438157,
+              "cpuMs": 0.259325,
+              "allocatedBytes": 372193.9
             }
           ],
-          "sink": 0
+          "sink": 1
         },
         {
           "size": 8192,
@@ -158,37 +158,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 13.6655569,
-              "cpuMs": 3.0411875,
-              "allocatedBytes": 740329.5
+              "iterations": 48,
+              "wallMs": 0.515227516,
+              "cpuMs": 0.514625,
+              "allocatedBytes": 740835.167
             },
             {
-              "iterations": 16,
-              "wallMs": 20.6323713,
-              "cpuMs": 3.1856875,
-              "allocatedBytes": 740329.5
+              "iterations": 48,
+              "wallMs": 0.513975819,
+              "cpuMs": 0.513354167,
+              "allocatedBytes": 740835.167
             },
             {
-              "iterations": 16,
-              "wallMs": 11.1295581,
-              "cpuMs": 3.053125,
-              "allocatedBytes": 740329.5
+              "iterations": 48,
+              "wallMs": 0.522399942,
+              "cpuMs": 0.522041667,
+              "allocatedBytes": 740835.167
             },
             {
-              "iterations": 16,
-              "wallMs": 13.2998079,
-              "cpuMs": 3.003625,
-              "allocatedBytes": 740329.5
+              "iterations": 48,
+              "wallMs": 0.558147828,
+              "cpuMs": 0.558166667,
+              "allocatedBytes": 740835.167
             },
             {
-              "iterations": 16,
-              "wallMs": 5.77299297,
-              "cpuMs": 2.8990625,
-              "allocatedBytes": 740329.5
+              "iterations": 48,
+              "wallMs": 0.527774294,
+              "cpuMs": 0.5278125,
+              "allocatedBytes": 740835.167
             }
           ],
-          "sink": 1
+          "sink": 0
         }
       ],
       "completed": true
@@ -204,37 +204,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 80,
-              "wallMs": 0.250062346,
-              "cpuMs": 0.137675,
-              "allocatedBytes": 16273.9
+              "iterations": 1072,
+              "wallMs": 0.0187349853,
+              "cpuMs": 0.0187182836,
+              "allocatedBytes": 16272.1418
             },
             {
-              "iterations": 80,
-              "wallMs": 0.292849541,
-              "cpuMs": 0.1108125,
-              "allocatedBytes": 16273.9
+              "iterations": 1040,
+              "wallMs": 0.0195588057,
+              "cpuMs": 0.0195586538,
+              "allocatedBytes": 16272.1462
             },
             {
-              "iterations": 96,
-              "wallMs": 0.225283206,
-              "cpuMs": 0.115666667,
-              "allocatedBytes": 16273.5833
+              "iterations": 1008,
+              "wallMs": 0.0200694989,
+              "cpuMs": 0.0200714286,
+              "allocatedBytes": 16272.1508
             },
             {
-              "iterations": 96,
-              "wallMs": 0.252480308,
-              "cpuMs": 0.09971875,
-              "allocatedBytes": 16273.5833
+              "iterations": 1008,
+              "wallMs": 0.0199027478,
+              "cpuMs": 0.0198710317,
+              "allocatedBytes": 16272.1508
             },
             {
-              "iterations": 80,
-              "wallMs": 0.250864029,
-              "cpuMs": 0.1008875,
-              "allocatedBytes": 16273.9
+              "iterations": 976,
+              "wallMs": 0.0205963361,
+              "cpuMs": 0.0205983607,
+              "allocatedBytes": 16272.1557
             }
           ],
-          "sink": 5131
+          "sink": 0
         },
         {
           "size": 2048,
@@ -243,34 +243,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.05071813,
-              "cpuMs": 0.22771875,
-              "allocatedBytes": 31636.75
+              "iterations": 528,
+              "wallMs": 0.0381835482,
+              "cpuMs": 0.0381704545,
+              "allocatedBytes": 31632.2879
             },
             {
-              "iterations": 16,
-              "wallMs": 1.29899383,
-              "cpuMs": 0.28575,
-              "allocatedBytes": 31641.5
+              "iterations": 592,
+              "wallMs": 0.0339142374,
+              "cpuMs": 0.0337972973,
+              "allocatedBytes": 31632.2568
             },
             {
-              "iterations": 32,
-              "wallMs": 1.49106234,
-              "cpuMs": 0.23628125,
-              "allocatedBytes": 31636.75
+              "iterations": 528,
+              "wallMs": 0.0382083835,
+              "cpuMs": 0.0379034091,
+              "allocatedBytes": 31632.2879
             },
             {
-              "iterations": 32,
-              "wallMs": 0.858716667,
-              "cpuMs": 0.21059375,
-              "allocatedBytes": 31636.75
+              "iterations": 560,
+              "wallMs": 0.0378855637,
+              "cpuMs": 0.0377946429,
+              "allocatedBytes": 31632.2714
             },
             {
-              "iterations": 16,
-              "wallMs": 1.55606866,
-              "cpuMs": 0.227125,
-              "allocatedBytes": 31641.5
+              "iterations": 544,
+              "wallMs": 0.0372314278,
+              "cpuMs": 0.0370018382,
+              "allocatedBytes": 31632.2794
             }
           ],
           "sink": 10251
@@ -282,34 +282,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 3.08594108,
-              "cpuMs": 0.6478125,
-              "allocatedBytes": 62361.5
+              "iterations": 288,
+              "wallMs": 0.0695553091,
+              "cpuMs": 0.0694479167,
+              "allocatedBytes": 62352.5278
             },
             {
-              "iterations": 16,
-              "wallMs": 1.5244931,
-              "cpuMs": 0.4623125,
-              "allocatedBytes": 62361.5
+              "iterations": 288,
+              "wallMs": 0.0730943349,
+              "cpuMs": 0.0730972222,
+              "allocatedBytes": 62352.5278
             },
             {
-              "iterations": 16,
-              "wallMs": 2.58493423,
-              "cpuMs": 0.4595625,
-              "allocatedBytes": 62361.5
+              "iterations": 304,
+              "wallMs": 0.0682896689,
+              "cpuMs": 0.0682927632,
+              "allocatedBytes": 62352.5
             },
             {
-              "iterations": 16,
-              "wallMs": 2.07224488,
-              "cpuMs": 0.446375,
-              "allocatedBytes": 62361.5
+              "iterations": 304,
+              "wallMs": 0.0682041833,
+              "cpuMs": 0.0681217105,
+              "allocatedBytes": 62352.5
             },
             {
-              "iterations": 16,
-              "wallMs": 1.3012439,
-              "cpuMs": 0.4235,
-              "allocatedBytes": 62361.5
+              "iterations": 240,
+              "wallMs": 0.0852336486,
+              "cpuMs": 0.0851958333,
+              "allocatedBytes": 62352.6333
             }
           ],
           "sink": 20491
@@ -321,37 +321,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 5.10925055,
-              "cpuMs": 1.2035,
-              "allocatedBytes": 123801.5
+              "iterations": 128,
+              "wallMs": 0.161437318,
+              "cpuMs": 0.1614375,
+              "allocatedBytes": 123793.188
             },
             {
-              "iterations": 16,
-              "wallMs": 4.65267897,
-              "cpuMs": 0.9109375,
-              "allocatedBytes": 123801.5
+              "iterations": 128,
+              "wallMs": 0.1641009,
+              "cpuMs": 0.164054687,
+              "allocatedBytes": 123793.188
             },
             {
-              "iterations": 16,
-              "wallMs": 5.80555201,
-              "cpuMs": 1.0424375,
-              "allocatedBytes": 123801.5
+              "iterations": 144,
+              "wallMs": 0.149778194,
+              "cpuMs": 0.149777778,
+              "allocatedBytes": 123793.056
             },
             {
-              "iterations": 16,
-              "wallMs": 7.60756433,
-              "cpuMs": 1.1419375,
-              "allocatedBytes": 123801.5
+              "iterations": 128,
+              "wallMs": 0.158086419,
+              "cpuMs": 0.158101563,
+              "allocatedBytes": 123793.188
             },
             {
-              "iterations": 16,
-              "wallMs": 4.27618623,
-              "cpuMs": 0.9796875,
-              "allocatedBytes": 123801.5
+              "iterations": 144,
+              "wallMs": 0.1555615,
+              "cpuMs": 0.155527778,
+              "allocatedBytes": 123793.056
             }
           ],
-          "sink": 40971
+          "sink": 0
         }
       ],
       "completed": true
@@ -367,34 +367,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.978372991,
-              "cpuMs": 0.5454375,
-              "allocatedBytes": 111476.75
+              "iterations": 256,
+              "wallMs": 0.0818474218,
+              "cpuMs": 0.0817109375,
+              "allocatedBytes": 111984.594
             },
             {
-              "iterations": 16,
-              "wallMs": 3.57499719,
-              "cpuMs": 0.672875,
-              "allocatedBytes": 111481.5
+              "iterations": 240,
+              "wallMs": 0.089820226,
+              "cpuMs": 0.0897833333,
+              "allocatedBytes": 111984.633
             },
             {
-              "iterations": 16,
-              "wallMs": 1.99437141,
-              "cpuMs": 0.400875,
-              "allocatedBytes": 111481.5
+              "iterations": 208,
+              "wallMs": 0.0965675482,
+              "cpuMs": 0.0965721154,
+              "allocatedBytes": 111984.731
             },
             {
-              "iterations": 16,
-              "wallMs": 1.2601912,
-              "cpuMs": 0.45875,
-              "allocatedBytes": 111481.5
+              "iterations": 208,
+              "wallMs": 0.0968071131,
+              "cpuMs": 0.0964375,
+              "allocatedBytes": 111984.731
             },
             {
-              "iterations": 16,
-              "wallMs": 3.40938568,
-              "cpuMs": 0.403625,
-              "allocatedBytes": 111481.5
+              "iterations": 240,
+              "wallMs": 0.0862618287,
+              "cpuMs": 0.0861166667,
+              "allocatedBytes": 111984.633
             }
           ],
           "sink": 5131
@@ -406,34 +406,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 1.75762177,
-              "cpuMs": 1.405125,
-              "allocatedBytes": 219001.5
+              "iterations": 112,
+              "wallMs": 0.188972269,
+              "cpuMs": 0.188508929,
+              "allocatedBytes": 219505.357
             },
             {
-              "iterations": 16,
-              "wallMs": 1.28011405,
-              "cpuMs": 1.28025,
-              "allocatedBytes": 219001.5
+              "iterations": 112,
+              "wallMs": 0.19736588,
+              "cpuMs": 0.197357143,
+              "allocatedBytes": 219505.357
             },
             {
-              "iterations": 16,
-              "wallMs": 1.77524984,
-              "cpuMs": 1.2858125,
-              "allocatedBytes": 219001.5
+              "iterations": 128,
+              "wallMs": 0.160109252,
+              "cpuMs": 0.160125,
+              "allocatedBytes": 219505.188
             },
             {
-              "iterations": 16,
-              "wallMs": 1.31700933,
-              "cpuMs": 1.2860625,
-              "allocatedBytes": 219001.5
+              "iterations": 128,
+              "wallMs": 0.169992447,
+              "cpuMs": 0.17,
+              "allocatedBytes": 219505.188
             },
             {
-              "iterations": 32,
-              "wallMs": 1.38708949,
-              "cpuMs": 1.2781875,
-              "allocatedBytes": 218996.75
+              "iterations": 128,
+              "wallMs": 0.167571008,
+              "cpuMs": 0.167578125,
+              "allocatedBytes": 219505.188
             }
           ],
           "sink": 10251
@@ -445,34 +445,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 6.0455054,
-              "cpuMs": 2.875625,
-              "allocatedBytes": 434041.5
+              "iterations": 64,
+              "wallMs": 0.449091196,
+              "cpuMs": 0.44390625,
+              "allocatedBytes": 434546.375
             },
             {
-              "iterations": 16,
-              "wallMs": 4.52712178,
-              "cpuMs": 1.90575,
-              "allocatedBytes": 434041.5
+              "iterations": 64,
+              "wallMs": 0.430345535,
+              "cpuMs": 0.42825,
+              "allocatedBytes": 434546.375
             },
             {
-              "iterations": 16,
-              "wallMs": 11.6659403,
-              "cpuMs": 1.9664375,
-              "allocatedBytes": 434041.5
+              "iterations": 64,
+              "wallMs": 0.414345413,
+              "cpuMs": 0.41434375,
+              "allocatedBytes": 434546.375
             },
             {
-              "iterations": 16,
-              "wallMs": 6.61206245,
-              "cpuMs": 1.8024375,
-              "allocatedBytes": 434041.5
+              "iterations": 48,
+              "wallMs": 0.489210089,
+              "cpuMs": 0.4861875,
+              "allocatedBytes": 434547.167
             },
             {
-              "iterations": 16,
-              "wallMs": 2.10681558,
-              "cpuMs": 2.048,
-              "allocatedBytes": 434041.5
+              "iterations": 48,
+              "wallMs": 0.456665953,
+              "cpuMs": 0.455833333,
+              "allocatedBytes": 434547.167
             }
           ],
           "sink": 0
@@ -484,37 +484,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 10.994494,
-              "cpuMs": 5.1546875,
-              "allocatedBytes": 864121.5
+              "iterations": 32,
+              "wallMs": 0.800713897,
+              "cpuMs": 0.79634375,
+              "allocatedBytes": 864628.75
             },
             {
-              "iterations": 16,
-              "wallMs": 22.999689,
-              "cpuMs": 5.0728125,
-              "allocatedBytes": 864121.5
+              "iterations": 32,
+              "wallMs": 0.805564225,
+              "cpuMs": 0.80034375,
+              "allocatedBytes": 864628.75
             },
             {
-              "iterations": 16,
-              "wallMs": 25.3768116,
-              "cpuMs": 4.452,
-              "allocatedBytes": 864121.5
+              "iterations": 32,
+              "wallMs": 0.860057771,
+              "cpuMs": 0.85196875,
+              "allocatedBytes": 864628.75
             },
             {
-              "iterations": 16,
-              "wallMs": 14.7677511,
-              "cpuMs": 4.8995625,
-              "allocatedBytes": 864121.5
+              "iterations": 32,
+              "wallMs": 0.852808356,
+              "cpuMs": 0.8528125,
+              "allocatedBytes": 864628.75
             },
             {
-              "iterations": 16,
-              "wallMs": 16.9975013,
-              "cpuMs": 5.3489375,
-              "allocatedBytes": 864121.5
+              "iterations": 32,
+              "wallMs": 0.762872398,
+              "cpuMs": 0.75328125,
+              "allocatedBytes": 864628.75
             }
           ],
-          "sink": 0
+          "sink": 40971
         }
       ],
       "completed": true
@@ -530,37 +530,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 272,
-              "wallMs": 0.0748459031,
-              "cpuMs": 0.0374926471,
-              "allocatedBytes": 12072.5588
+              "iterations": 7840,
+              "wallMs": 0.00255421108,
+              "cpuMs": 0.00254642857,
+              "allocatedBytes": 12584.0194
             },
             {
-              "iterations": 464,
-              "wallMs": 0.0432647508,
-              "cpuMs": 0.0213857759,
-              "allocatedBytes": 12072.3276
+              "iterations": 7568,
+              "wallMs": 0.00264509788,
+              "cpuMs": 0.00264548097,
+              "allocatedBytes": 12584.0201
             },
             {
-              "iterations": 608,
-              "wallMs": 0.0385100904,
-              "cpuMs": 0.0173667763,
-              "allocatedBytes": 12072.25
+              "iterations": 7760,
+              "wallMs": 0.00257937564,
+              "cpuMs": 0.00257951031,
+              "allocatedBytes": 12584.0196
             },
             {
-              "iterations": 496,
-              "wallMs": 0.0503894783,
-              "cpuMs": 0.0192298387,
-              "allocatedBytes": 12072.3065
+              "iterations": 7568,
+              "wallMs": 0.00264601148,
+              "cpuMs": 0.00264614165,
+              "allocatedBytes": 12584.0201
             },
             {
-              "iterations": 208,
-              "wallMs": 0.120514861,
-              "cpuMs": 0.0342307692,
-              "allocatedBytes": 12072.7308
+              "iterations": 8384,
+              "wallMs": 0.00238882108,
+              "cpuMs": 0.00238907443,
+              "allocatedBytes": 12584.0181
             }
           ],
-          "sink": 0
+          "sink": 1
         },
         {
           "size": 32,
@@ -569,34 +569,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 80,
-              "wallMs": 0.250563025,
-              "cpuMs": 0.031625,
-              "allocatedBytes": 21241.9
+              "iterations": 4816,
+              "wallMs": 0.00416113689,
+              "cpuMs": 0.00415053987,
+              "allocatedBytes": 21752.0316
             },
             {
-              "iterations": 176,
-              "wallMs": 0.20223856,
-              "cpuMs": 0.0311704545,
-              "allocatedBytes": 21240.8636
+              "iterations": 5152,
+              "wallMs": 0.00388823126,
+              "cpuMs": 0.00388839286,
+              "allocatedBytes": 21752.0295
             },
             {
-              "iterations": 176,
-              "wallMs": 0.220613046,
-              "cpuMs": 0.0312784091,
-              "allocatedBytes": 21240.8636
+              "iterations": 5184,
+              "wallMs": 0.00385995264,
+              "cpuMs": 0.00386053241,
+              "allocatedBytes": 21752.0293
             },
             {
-              "iterations": 112,
-              "wallMs": 0.180561628,
-              "cpuMs": 0.0285892857,
-              "allocatedBytes": 21241.3571
+              "iterations": 5632,
+              "wallMs": 0.0035545196,
+              "cpuMs": 0.00355450994,
+              "allocatedBytes": 21752.027
             },
             {
-              "iterations": 192,
-              "wallMs": 0.139947981,
-              "cpuMs": 0.0338697917,
-              "allocatedBytes": 21240.7917
+              "iterations": 5712,
+              "wallMs": 0.00350945303,
+              "cpuMs": 0.00350980392,
+              "allocatedBytes": 21752.0266
             }
           ],
           "sink": 1
@@ -608,37 +608,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 192,
-              "wallMs": 0.134516507,
-              "cpuMs": 0.0531302083,
-              "allocatedBytes": 40344.7917
+              "iterations": 2704,
+              "wallMs": 0.00740199752,
+              "cpuMs": 0.00740162722,
+              "allocatedBytes": 40856.0562
             },
             {
-              "iterations": 128,
-              "wallMs": 0.161647797,
-              "cpuMs": 0.0537421875,
-              "allocatedBytes": 40345.1875
+              "iterations": 2816,
+              "wallMs": 0.00713604756,
+              "cpuMs": 0.00713671875,
+              "allocatedBytes": 40856.054
             },
             {
-              "iterations": 432,
-              "wallMs": 0.0463679985,
-              "cpuMs": 0.0440162037,
-              "allocatedBytes": 40344.3519
+              "iterations": 2688,
+              "wallMs": 0.00747027142,
+              "cpuMs": 0.00747061012,
+              "allocatedBytes": 40856.0565
             },
             {
-              "iterations": 448,
-              "wallMs": 0.0461292054,
-              "cpuMs": 0.044375,
-              "allocatedBytes": 40344.3393
+              "iterations": 3152,
+              "wallMs": 0.00637467137,
+              "cpuMs": 0.006375,
+              "allocatedBytes": 40856.0482
             },
             {
-              "iterations": 448,
-              "wallMs": 0.0453681818,
-              "cpuMs": 0.0451138393,
-              "allocatedBytes": 40344.3393
+              "iterations": 2976,
+              "wallMs": 0.00673989134,
+              "cpuMs": 0.00674025538,
+              "allocatedBytes": 40856.0511
             }
           ],
-          "sink": 0
+          "sink": 1
         },
         {
           "size": 128,
@@ -647,37 +647,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.626388937,
-              "cpuMs": 0.095140625,
-              "allocatedBytes": 81626.375
+              "iterations": 1600,
+              "wallMs": 0.0125919282,
+              "cpuMs": 0.012591875,
+              "allocatedBytes": 82136.095
             },
             {
-              "iterations": 32,
-              "wallMs": 0.847376883,
-              "cpuMs": 0.11940625,
-              "allocatedBytes": 81628.75
+              "iterations": 1600,
+              "wallMs": 0.0125093758,
+              "cpuMs": 0.012509375,
+              "allocatedBytes": 82136.095
             },
             {
-              "iterations": 64,
-              "wallMs": 0.439953059,
-              "cpuMs": 0.127125,
-              "allocatedBytes": 81626.375
+              "iterations": 1728,
+              "wallMs": 0.0116193184,
+              "cpuMs": 0.0116209491,
+              "allocatedBytes": 82136.088
             },
             {
-              "iterations": 48,
-              "wallMs": 0.56485335,
-              "cpuMs": 0.125125,
-              "allocatedBytes": 81627.1667
+              "iterations": 1664,
+              "wallMs": 0.0121063338,
+              "cpuMs": 0.0121009615,
+              "allocatedBytes": 82136.0913
             },
             {
-              "iterations": 48,
-              "wallMs": 0.645771623,
-              "cpuMs": 0.129645833,
-              "allocatedBytes": 81627.1667
+              "iterations": 1680,
+              "wallMs": 0.0119738636,
+              "cpuMs": 0.011975,
+              "allocatedBytes": 82136.0905
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 256,
@@ -686,34 +686,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 48,
-              "wallMs": 0.63174963,
-              "cpuMs": 0.392645833,
-              "allocatedBytes": 176475.167
+              "iterations": 528,
+              "wallMs": 0.0383844881,
+              "cpuMs": 0.0383768939,
+              "allocatedBytes": 176984.288
             },
             {
-              "iterations": 112,
-              "wallMs": 0.19778737,
-              "cpuMs": 0.189428571,
-              "allocatedBytes": 176473.357
+              "iterations": 512,
+              "wallMs": 0.0397167169,
+              "cpuMs": 0.03971875,
+              "allocatedBytes": 176984.297
             },
             {
-              "iterations": 112,
-              "wallMs": 0.19733182,
-              "cpuMs": 0.184544643,
-              "allocatedBytes": 176473.357
+              "iterations": 528,
+              "wallMs": 0.0382214785,
+              "cpuMs": 0.0382234848,
+              "allocatedBytes": 176984.288
             },
             {
-              "iterations": 112,
-              "wallMs": 0.217222742,
-              "cpuMs": 0.216473214,
-              "allocatedBytes": 176473.357
+              "iterations": 672,
+              "wallMs": 0.0303093167,
+              "cpuMs": 0.0303110119,
+              "allocatedBytes": 176984.226
             },
             {
-              "iterations": 96,
-              "wallMs": 0.23196886,
-              "cpuMs": 0.214291667,
-              "allocatedBytes": 176473.583
+              "iterations": 608,
+              "wallMs": 0.0337366211,
+              "cpuMs": 0.0335526316,
+              "allocatedBytes": 176984.25
             }
           ],
           "sink": 0
@@ -725,37 +725,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 3.69468331,
-              "cpuMs": 1.498875,
-              "allocatedBytes": 1089633.5
+              "iterations": 128,
+              "wallMs": 0.163773075,
+              "cpuMs": 0.163765625,
+              "allocatedBytes": 1090137.19
             },
             {
-              "iterations": 16,
-              "wallMs": 5.0907582,
-              "cpuMs": 1.6213125,
-              "allocatedBytes": 1089633.5
+              "iterations": 144,
+              "wallMs": 0.147402287,
+              "cpuMs": 0.147402778,
+              "allocatedBytes": 1090137.06
             },
             {
-              "iterations": 16,
-              "wallMs": 5.35707176,
-              "cpuMs": 1.6384375,
-              "allocatedBytes": 1089633.5
+              "iterations": 96,
+              "wallMs": 0.216687719,
+              "cpuMs": 0.216697917,
+              "allocatedBytes": 1090137.58
             },
             {
-              "iterations": 16,
-              "wallMs": 7.92011619,
-              "cpuMs": 1.468875,
-              "allocatedBytes": 1089633.5
+              "iterations": 144,
+              "wallMs": 0.151104397,
+              "cpuMs": 0.151131944,
+              "allocatedBytes": 1090137.06
             },
             {
-              "iterations": 16,
-              "wallMs": 4.05956805,
-              "cpuMs": 1.4134375,
-              "allocatedBytes": 1089633.5
+              "iterations": 144,
+              "wallMs": 0.146769815,
+              "cpuMs": 0.146784722,
+              "allocatedBytes": 1090137.06
             }
           ],
-          "sink": 1
+          "sink": 0
         }
       ],
       "completed": true
@@ -771,34 +771,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 12160,
-              "wallMs": 0.00164522544,
-              "cpuMs": 0.00162203947,
-              "allocatedBytes": 960.0125
+              "iterations": 78576,
+              "wallMs": 0.000254557711,
+              "cpuMs": 0.000254085217,
+              "allocatedBytes": 960.001934
             },
             {
-              "iterations": 12480,
-              "wallMs": 0.00160263899,
-              "cpuMs": 0.00158421474,
-              "allocatedBytes": 960.012179
+              "iterations": 70896,
+              "wallMs": 0.000282143449,
+              "cpuMs": 0.000281934101,
+              "allocatedBytes": 960.002144
             },
             {
-              "iterations": 10240,
-              "wallMs": 0.00195419416,
-              "cpuMs": 0.00162558594,
-              "allocatedBytes": 960.014844
+              "iterations": 87680,
+              "wallMs": 0.000228112849,
+              "cpuMs": 0.000228010949,
+              "allocatedBytes": 960.001734
             },
             {
-              "iterations": 13024,
-              "wallMs": 0.00153714448,
-              "cpuMs": 0.00150998157,
-              "allocatedBytes": 960.011671
+              "iterations": 93040,
+              "wallMs": 0.000214981602,
+              "cpuMs": 0.000215004299,
+              "allocatedBytes": 960.001634
             },
             {
-              "iterations": 12512,
-              "wallMs": 0.00159974065,
-              "cpuMs": 0.00155874361,
-              "allocatedBytes": 960.012148
+              "iterations": 93760,
+              "wallMs": 0.000213353605,
+              "cpuMs": 0.000213363908,
+              "allocatedBytes": 960.001621
             }
           ],
           "sink": 0
@@ -810,37 +810,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 3056,
-              "wallMs": 0.00697124691,
-              "cpuMs": 0.00241950262,
-              "allocatedBytes": 1008.04974
+              "iterations": 71648,
+              "wallMs": 0.000279172157,
+              "cpuMs": 0.000279170389,
+              "allocatedBytes": 1008.00212
             },
             {
-              "iterations": 2976,
-              "wallMs": 0.00810647203,
-              "cpuMs": 0.00207325269,
-              "allocatedBytes": 1008.05108
+              "iterations": 72048,
+              "wallMs": 0.000277605688,
+              "cpuMs": 0.000277620475,
+              "allocatedBytes": 1008.00211
             },
             {
-              "iterations": 6512,
-              "wallMs": 0.00352996427,
-              "cpuMs": 0.00195531327,
-              "allocatedBytes": 1008.02334
+              "iterations": 71728,
+              "wallMs": 0.000278857465,
+              "cpuMs": 0.000278872965,
+              "allocatedBytes": 1008.00212
             },
             {
-              "iterations": 4112,
-              "wallMs": 0.00498371365,
-              "cpuMs": 0.00214980545,
-              "allocatedBytes": 1008.03696
+              "iterations": 72768,
+              "wallMs": 0.000274875312,
+              "cpuMs": 0.000274901055,
+              "allocatedBytes": 1008.00209
             },
             {
-              "iterations": 7552,
-              "wallMs": 0.00265000735,
-              "cpuMs": 0.00202740996,
-              "allocatedBytes": 1008.02013
+              "iterations": 71456,
+              "wallMs": 0.000279962323,
+              "cpuMs": 0.000280074451,
+              "allocatedBytes": 1008.00213
             }
           ],
-          "sink": 43
+          "sink": 0
         },
         {
           "size": 64,
@@ -849,34 +849,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 592,
-              "wallMs": 0.0370048188,
-              "cpuMs": 0.00307601351,
-              "allocatedBytes": 1104.25676
+              "iterations": 57264,
+              "wallMs": 0.000349330016,
+              "cpuMs": 0.000349329422,
+              "allocatedBytes": 1104.00265
             },
             {
-              "iterations": 528,
-              "wallMs": 0.0401915926,
-              "cpuMs": 0.00372348485,
-              "allocatedBytes": 1104.28788
+              "iterations": 57968,
+              "wallMs": 0.000345034064,
+              "cpuMs": 0.000345052443,
+              "allocatedBytes": 1104.00262
             },
             {
-              "iterations": 1424,
-              "wallMs": 0.0272106923,
-              "cpuMs": 0.00331460674,
-              "allocatedBytes": 1104.10674
+              "iterations": 56512,
+              "wallMs": 0.000353961643,
+              "cpuMs": 0.000354066393,
+              "allocatedBytes": 1104.00269
             },
             {
-              "iterations": 736,
-              "wallMs": 0.0274456714,
-              "cpuMs": 0.00298233696,
-              "allocatedBytes": 1104.20652
+              "iterations": 59680,
+              "wallMs": 0.000335136304,
+              "cpuMs": 0.000335170912,
+              "allocatedBytes": 1104.00255
             },
             {
-              "iterations": 944,
-              "wallMs": 0.0212275881,
-              "cpuMs": 0.00424788136,
-              "allocatedBytes": 1104.16102
+              "iterations": 59616,
+              "wallMs": 0.000335532078,
+              "cpuMs": 0.000335564278,
+              "allocatedBytes": 1104.00255
             }
           ],
           "sink": 75
@@ -888,34 +888,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 2240,
-              "wallMs": 0.0089513404,
-              "cpuMs": 0.00431875,
-              "allocatedBytes": 1296.06786
+              "iterations": 40560,
+              "wallMs": 0.000493172593,
+              "cpuMs": 0.000492233728,
+              "allocatedBytes": 1296.00375
             },
             {
-              "iterations": 2640,
-              "wallMs": 0.00759010965,
-              "cpuMs": 0.00442462121,
-              "allocatedBytes": 1296.05758
+              "iterations": 41568,
+              "wallMs": 0.000481213442,
+              "cpuMs": 0.000481259623,
+              "allocatedBytes": 1296.00366
             },
             {
-              "iterations": 1040,
-              "wallMs": 0.0482144264,
-              "cpuMs": 0.00512307692,
-              "allocatedBytes": 1296.14615
+              "iterations": 41584,
+              "wallMs": 0.000481125757,
+              "cpuMs": 0.000481170643,
+              "allocatedBytes": 1296.00366
             },
             {
-              "iterations": 304,
-              "wallMs": 0.0658984247,
-              "cpuMs": 0.00596710526,
-              "allocatedBytes": 1296.5
+              "iterations": 27728,
+              "wallMs": 0.000721326262,
+              "cpuMs": 0.000577178304,
+              "allocatedBytes": 1296.00548
             },
             {
-              "iterations": 1216,
-              "wallMs": 0.0164475488,
-              "cpuMs": 0.00454440789,
-              "allocatedBytes": 1296.125
+              "iterations": 36496,
+              "wallMs": 0.000548226851,
+              "cpuMs": 0.000547676458,
+              "allocatedBytes": 1296.00416
             }
           ],
           "sink": 139
@@ -927,34 +927,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 2736,
-              "wallMs": 0.00734862528,
-              "cpuMs": 0.00722843567,
-              "allocatedBytes": 1680.05556
+              "iterations": 23440,
+              "wallMs": 0.000853495793,
+              "cpuMs": 0.000853455631,
+              "allocatedBytes": 1680.00648
             },
             {
-              "iterations": 2704,
-              "wallMs": 0.00744264507,
-              "cpuMs": 0.00732914201,
-              "allocatedBytes": 1680.05621
+              "iterations": 23472,
+              "wallMs": 0.000852504878,
+              "cpuMs": 0.000852547716,
+              "allocatedBytes": 1680.00648
             },
             {
-              "iterations": 2672,
-              "wallMs": 0.00750144085,
-              "cpuMs": 0.00713547904,
-              "allocatedBytes": 1680.05689
+              "iterations": 23760,
+              "wallMs": 0.000841790177,
+              "cpuMs": 0.000841540404,
+              "allocatedBytes": 1680.0064
             },
             {
-              "iterations": 2848,
-              "wallMs": 0.00704213809,
-              "cpuMs": 0.0069375,
-              "allocatedBytes": 1680.05337
+              "iterations": 25328,
+              "wallMs": 0.00079007218,
+              "cpuMs": 0.000790113708,
+              "allocatedBytes": 1680.006
             },
             {
-              "iterations": 2976,
-              "wallMs": 0.0067402118,
-              "cpuMs": 0.0065436828,
-              "allocatedBytes": 1680.05108
+              "iterations": 23904,
+              "wallMs": 0.000837098164,
+              "cpuMs": 0.000836387216,
+              "allocatedBytes": 1680.00636
             }
           ],
           "sink": 267
@@ -966,37 +966,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 208,
-              "wallMs": 0.151042755,
-              "cpuMs": 0.0247788462,
-              "allocatedBytes": 3984.73077
+              "iterations": 4352,
+              "wallMs": 0.00460363705,
+              "cpuMs": 0.0044832261,
+              "allocatedBytes": 3984.03493
             },
             {
-              "iterations": 368,
-              "wallMs": 0.0554290803,
-              "cpuMs": 0.0248125,
-              "allocatedBytes": 3984.41304
+              "iterations": 4608,
+              "wallMs": 0.00434767248,
+              "cpuMs": 0.00426584201,
+              "allocatedBytes": 3984.03299
             },
             {
-              "iterations": 224,
-              "wallMs": 0.109495861,
-              "cpuMs": 0.0240357143,
-              "allocatedBytes": 3984.67857
+              "iterations": 5712,
+              "wallMs": 0.00350177288,
+              "cpuMs": 0.00349387255,
+              "allocatedBytes": 3984.02661
             },
             {
-              "iterations": 320,
-              "wallMs": 0.0839404762,
-              "cpuMs": 0.024125,
-              "allocatedBytes": 3984.475
+              "iterations": 6960,
+              "wallMs": 0.00287856179,
+              "cpuMs": 0.00287887931,
+              "allocatedBytes": 3984.02184
             },
             {
-              "iterations": 352,
-              "wallMs": 0.0747611577,
-              "cpuMs": 0.0236448864,
-              "allocatedBytes": 3984.43182
+              "iterations": 6160,
+              "wallMs": 0.00325193653,
+              "cpuMs": 0.00319935065,
+              "allocatedBytes": 3984.02468
             }
           ],
-          "sink": 1035
+          "sink": 0
         }
       ],
       "completed": true
@@ -1012,37 +1012,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 320,
-              "wallMs": 0.0689409673,
-              "cpuMs": 0.0221125,
-              "allocatedBytes": 13032.475
+              "iterations": 9024,
+              "wallMs": 0.00221953324,
+              "cpuMs": 0.00221930408,
+              "allocatedBytes": 13544.0168
             },
             {
-              "iterations": 336,
-              "wallMs": 0.0598544166,
-              "cpuMs": 0.0210863095,
-              "allocatedBytes": 13032.4524
+              "iterations": 8864,
+              "wallMs": 0.00225924735,
+              "cpuMs": 0.0022592509,
+              "allocatedBytes": 13544.0171
             },
             {
-              "iterations": 480,
-              "wallMs": 0.0421961149,
-              "cpuMs": 0.0231166667,
-              "allocatedBytes": 13032.3167
+              "iterations": 9136,
+              "wallMs": 0.00219297597,
+              "cpuMs": 0.00219308231,
+              "allocatedBytes": 13544.0166
             },
             {
-              "iterations": 224,
-              "wallMs": 0.0985083835,
-              "cpuMs": 0.0426964286,
-              "allocatedBytes": 13032.6786
+              "iterations": 8848,
+              "wallMs": 0.00226096154,
+              "cpuMs": 0.00226107595,
+              "allocatedBytes": 13544.0172
             },
             {
-              "iterations": 368,
-              "wallMs": 0.0736739324,
-              "cpuMs": 0.0235543478,
-              "allocatedBytes": 13032.413
+              "iterations": 8864,
+              "wallMs": 0.00225677279,
+              "cpuMs": 0.00225676895,
+              "allocatedBytes": 13544.0171
             }
           ],
-          "sink": 27
+          "sink": 0
         },
         {
           "size": 32,
@@ -1051,37 +1051,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 176,
-              "wallMs": 0.114164569,
-              "cpuMs": 0.0345852273,
-              "allocatedBytes": 22248.8636
+              "iterations": 5552,
+              "wallMs": 0.00360483567,
+              "cpuMs": 0.00360446686,
+              "allocatedBytes": 22760.0274
             },
             {
-              "iterations": 256,
-              "wallMs": 0.101867132,
-              "cpuMs": 0.0311953125,
-              "allocatedBytes": 22248.5938
+              "iterations": 5472,
+              "wallMs": 0.00366394283,
+              "cpuMs": 0.00366410819,
+              "allocatedBytes": 22760.0278
             },
             {
-              "iterations": 176,
-              "wallMs": 0.115840272,
-              "cpuMs": 0.0306534091,
-              "allocatedBytes": 22248.8636
+              "iterations": 5136,
+              "wallMs": 0.00390266518,
+              "cpuMs": 0.00389816978,
+              "allocatedBytes": 22760.0296
             },
             {
-              "iterations": 80,
-              "wallMs": 0.266161561,
-              "cpuMs": 0.0484875,
-              "allocatedBytes": 22249.9
+              "iterations": 5632,
+              "wallMs": 0.00355202197,
+              "cpuMs": 0.00355131392,
+              "allocatedBytes": 22760.027
             },
             {
-              "iterations": 96,
-              "wallMs": 0.237333278,
-              "cpuMs": 0.0342708333,
-              "allocatedBytes": 22249.5833
+              "iterations": 5520,
+              "wallMs": 0.00363100266,
+              "cpuMs": 0.00363115942,
+              "allocatedBytes": 22760.0275
             }
           ],
-          "sink": 43
+          "sink": 0
         },
         {
           "size": 64,
@@ -1090,34 +1090,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.664025545,
-              "cpuMs": 0.06871875,
-              "allocatedBytes": 41452.75
+              "iterations": 2352,
+              "wallMs": 0.00853998726,
+              "cpuMs": 0.00851955782,
+              "allocatedBytes": 41960.0646
             },
             {
-              "iterations": 96,
-              "wallMs": 0.229626894,
-              "cpuMs": 0.0700833333,
-              "allocatedBytes": 41449.5833
+              "iterations": 2512,
+              "wallMs": 0.00800277777,
+              "cpuMs": 0.00798089172,
+              "allocatedBytes": 41960.0605
             },
             {
-              "iterations": 80,
-              "wallMs": 0.254651904,
-              "cpuMs": 0.0871625,
-              "allocatedBytes": 41449.9
+              "iterations": 2688,
+              "wallMs": 0.00746459478,
+              "cpuMs": 0.00728199405,
+              "allocatedBytes": 41960.0565
             },
             {
-              "iterations": 112,
-              "wallMs": 0.213661364,
-              "cpuMs": 0.0625089286,
-              "allocatedBytes": 41449.3571
+              "iterations": 2944,
+              "wallMs": 0.00681525663,
+              "cpuMs": 0.00679891304,
+              "allocatedBytes": 41960.0516
             },
             {
-              "iterations": 112,
-              "wallMs": 0.238286597,
-              "cpuMs": 0.0605446429,
-              "allocatedBytes": 41449.3571
+              "iterations": 2896,
+              "wallMs": 0.00692994555,
+              "cpuMs": 0.00693059392,
+              "allocatedBytes": 41960.0525
             }
           ],
           "sink": 75
@@ -1129,34 +1129,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 128,
-              "wallMs": 0.194679946,
-              "cpuMs": 0.0985,
-              "allocatedBytes": 82921.1875
+              "iterations": 1680,
+              "wallMs": 0.0119969958,
+              "cpuMs": 0.0119958333,
+              "allocatedBytes": 83432.0905
             },
             {
-              "iterations": 80,
-              "wallMs": 0.310888886,
-              "cpuMs": 0.1183875,
-              "allocatedBytes": 82921.9
+              "iterations": 1696,
+              "wallMs": 0.0118566853,
+              "cpuMs": 0.0118573113,
+              "allocatedBytes": 83432.0896
             },
             {
-              "iterations": 96,
-              "wallMs": 0.251335402,
-              "cpuMs": 0.113385417,
-              "allocatedBytes": 82921.5833
+              "iterations": 1680,
+              "wallMs": 0.0119339852,
+              "cpuMs": 0.0119345238,
+              "allocatedBytes": 83432.0905
             },
             {
-              "iterations": 96,
-              "wallMs": 0.251332919,
-              "cpuMs": 0.11775,
-              "allocatedBytes": 82921.5833
+              "iterations": 1696,
+              "wallMs": 0.0118583722,
+              "cpuMs": 0.0118490566,
+              "allocatedBytes": 83432.0896
             },
             {
-              "iterations": 128,
-              "wallMs": 0.189132988,
-              "cpuMs": 0.102328125,
-              "allocatedBytes": 82921.1875
+              "iterations": 1696,
+              "wallMs": 0.0118136687,
+              "cpuMs": 0.0118148585,
+              "allocatedBytes": 83432.0896
             }
           ],
           "sink": 0
@@ -1168,37 +1168,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.07237697,
-              "cpuMs": 0.19796875,
-              "allocatedBytes": 178156.75
+              "iterations": 736,
+              "wallMs": 0.0272023937,
+              "cpuMs": 0.0271793478,
+              "allocatedBytes": 178664.207
             },
             {
-              "iterations": 48,
-              "wallMs": 0.543539723,
-              "cpuMs": 0.204333333,
-              "allocatedBytes": 178155.167
+              "iterations": 768,
+              "wallMs": 0.0264961272,
+              "cpuMs": 0.0264986979,
+              "allocatedBytes": 178664.198
             },
             {
-              "iterations": 96,
-              "wallMs": 0.22975107,
-              "cpuMs": 0.1899375,
-              "allocatedBytes": 178153.583
+              "iterations": 784,
+              "wallMs": 0.0259310615,
+              "cpuMs": 0.025932398,
+              "allocatedBytes": 178664.194
             },
             {
-              "iterations": 80,
-              "wallMs": 0.25202632,
-              "cpuMs": 0.173375,
-              "allocatedBytes": 178153.9
+              "iterations": 784,
+              "wallMs": 0.0256634488,
+              "cpuMs": 0.0256556122,
+              "allocatedBytes": 178664.194
             },
             {
-              "iterations": 128,
-              "wallMs": 0.167507678,
-              "cpuMs": 0.16275,
-              "allocatedBytes": 178153.188
+              "iterations": 800,
+              "wallMs": 0.0252574682,
+              "cpuMs": 0.02525875,
+              "allocatedBytes": 178664.19
             }
           ],
-          "sink": 0
+          "sink": 267
         },
         {
           "size": 1024,
@@ -1207,246 +1207,246 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 5.72061539,
-              "cpuMs": 1.4499375,
-              "allocatedBytes": 1093617.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 6.95288181,
-              "cpuMs": 1.4398125,
-              "allocatedBytes": 1093617.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 7.39830732,
-              "cpuMs": 1.420125,
-              "allocatedBytes": 1093617.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.94600427,
-              "cpuMs": 1.318375,
-              "allocatedBytes": 1093617.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 4.66106832,
-              "cpuMs": 1.337875,
-              "allocatedBytes": 1093617.5
-            }
-          ],
-          "sink": 1035
-        }
-      ],
-      "completed": true
-    },
-    {
-      "family": "unmatched-closers",
-      "phase": "parse",
-      "rows": [
-        {
-          "size": 1024,
-          "bytes": 1028,
-          "status": "ok",
-          "phase": "parse",
-          "samples": [
-            {
-              "iterations": 16,
-              "wallMs": 1.43612921,
-              "cpuMs": 0.6733125,
-              "allocatedBytes": 157809.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 1.68581307,
-              "cpuMs": 0.694625,
-              "allocatedBytes": 157809.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.61412561,
-              "cpuMs": 0.76025,
-              "allocatedBytes": 157809.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.95855105,
-              "cpuMs": 0.73675,
-              "allocatedBytes": 157809.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 1.99712813,
-              "cpuMs": 0.6905625,
-              "allocatedBytes": 157809.5
-            }
-          ],
-          "sink": 0
-        },
-        {
-          "size": 2048,
-          "bytes": 2052,
-          "status": "ok",
-          "phase": "parse",
-          "samples": [
-            {
-              "iterations": 16,
-              "wallMs": 2.90362537,
-              "cpuMs": 1.801875,
-              "allocatedBytes": 312433.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.19944119,
-              "cpuMs": 1.69925,
-              "allocatedBytes": 312433.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 1.7439425,
-              "cpuMs": 1.5068125,
-              "allocatedBytes": 312433.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.07963586,
-              "cpuMs": 1.5883125,
-              "allocatedBytes": 312433.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 1.51668489,
-              "cpuMs": 1.491875,
-              "allocatedBytes": 312433.5
-            }
-          ],
-          "sink": 1
-        },
-        {
-          "size": 4096,
-          "bytes": 4100,
-          "status": "ok",
-          "phase": "parse",
-          "samples": [
-            {
-              "iterations": 16,
-              "wallMs": 5.07068634,
-              "cpuMs": 2.33875,
-              "allocatedBytes": 621681.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 5.39176166,
-              "cpuMs": 2.494875,
-              "allocatedBytes": 621681.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 5.58744371,
-              "cpuMs": 2.27425,
-              "allocatedBytes": 621681.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 3.77392769,
-              "cpuMs": 2.2999375,
-              "allocatedBytes": 621681.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 2.57600844,
-              "cpuMs": 2.558375,
-              "allocatedBytes": 621681.5
-            }
-          ],
-          "sink": 1
-        },
-        {
-          "size": 8192,
-          "bytes": 8196,
-          "status": "ok",
-          "phase": "parse",
-          "samples": [
-            {
-              "iterations": 16,
-              "wallMs": 32.4923843,
-              "cpuMs": 7.1923125,
-              "allocatedBytes": 1240177.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 15.6413764,
-              "cpuMs": 5.3611875,
-              "allocatedBytes": 1240177.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 5.98905981,
-              "cpuMs": 5.3869375,
-              "allocatedBytes": 1240177.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 6.44575059,
-              "cpuMs": 6.149125,
-              "allocatedBytes": 1240177.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 5.39018214,
-              "cpuMs": 5.065875,
-              "allocatedBytes": 1240177.5
-            }
-          ],
-          "sink": 1
-        }
-      ],
-      "completed": true
-    },
-    {
-      "family": "unmatched-closers",
-      "phase": "render",
-      "rows": [
-        {
-          "size": 1024,
-          "bytes": 1028,
-          "status": "ok",
-          "phase": "render",
-          "samples": [
-            {
-              "iterations": 160,
-              "wallMs": 0.156974792,
-              "cpuMs": 0.02616875,
-              "allocatedBytes": 3984.95
+              "iterations": 192,
+              "wallMs": 0.112588207,
+              "cpuMs": 0.112432292,
+              "allocatedBytes": 1094120.79
             },
             {
               "iterations": 192,
-              "wallMs": 0.108228376,
-              "cpuMs": 0.0274791667,
-              "allocatedBytes": 3984.79167
+              "wallMs": 0.105521331,
+              "cpuMs": 0.10553125,
+              "allocatedBytes": 1094120.79
             },
             {
-              "iterations": 160,
-              "wallMs": 0.127081573,
-              "cpuMs": 0.02780625,
-              "allocatedBytes": 3984.95
+              "iterations": 192,
+              "wallMs": 0.107266009,
+              "cpuMs": 0.107234375,
+              "allocatedBytes": 1094120.79
             },
             {
               "iterations": 208,
-              "wallMs": 0.171937622,
-              "cpuMs": 0.0270144231,
-              "allocatedBytes": 3984.73077
+              "wallMs": 0.102298764,
+              "cpuMs": 0.102298077,
+              "allocatedBytes": 1094120.73
             },
             {
-              "iterations": 224,
-              "wallMs": 0.255763531,
-              "cpuMs": 0.02659375,
-              "allocatedBytes": 3984.67857
+              "iterations": 176,
+              "wallMs": 0.114342028,
+              "cpuMs": 0.114352273,
+              "allocatedBytes": 1094120.86
             }
           ],
           "sink": 1035
+        }
+      ],
+      "completed": true
+    },
+    {
+      "family": "unmatched-closers",
+      "phase": "parse",
+      "rows": [
+        {
+          "size": 1024,
+          "bytes": 1028,
+          "status": "ok",
+          "phase": "parse",
+          "samples": [
+            {
+              "iterations": 320,
+              "wallMs": 0.0629499555,
+              "cpuMs": 0.06290625,
+              "allocatedBytes": 158312.475
+            },
+            {
+              "iterations": 368,
+              "wallMs": 0.0570351663,
+              "cpuMs": 0.0569755435,
+              "allocatedBytes": 158312.413
+            },
+            {
+              "iterations": 320,
+              "wallMs": 0.0631473958,
+              "cpuMs": 0.06315,
+              "allocatedBytes": 158312.475
+            },
+            {
+              "iterations": 336,
+              "wallMs": 0.0622237012,
+              "cpuMs": 0.0622261905,
+              "allocatedBytes": 158312.452
+            },
+            {
+              "iterations": 352,
+              "wallMs": 0.0575564124,
+              "cpuMs": 0.0575454545,
+              "allocatedBytes": 158312.432
+            }
+          ],
+          "sink": 0
+        },
+        {
+          "size": 2048,
+          "bytes": 2052,
+          "status": "ok",
+          "phase": "parse",
+          "samples": [
+            {
+              "iterations": 144,
+              "wallMs": 0.143874023,
+              "cpuMs": 0.143875,
+              "allocatedBytes": 312937.056
+            },
+            {
+              "iterations": 160,
+              "wallMs": 0.135862827,
+              "cpuMs": 0.1358625,
+              "allocatedBytes": 312936.95
+            },
+            {
+              "iterations": 144,
+              "wallMs": 0.150389142,
+              "cpuMs": 0.150347222,
+              "allocatedBytes": 312937.056
+            },
+            {
+              "iterations": 144,
+              "wallMs": 0.14354123,
+              "cpuMs": 0.1435,
+              "allocatedBytes": 312937.056
+            },
+            {
+              "iterations": 144,
+              "wallMs": 0.140597423,
+              "cpuMs": 0.140597222,
+              "allocatedBytes": 312937.056
+            }
+          ],
+          "sink": 0
+        },
+        {
+          "size": 4096,
+          "bytes": 4100,
+          "status": "ok",
+          "phase": "parse",
+          "samples": [
+            {
+              "iterations": 80,
+              "wallMs": 0.282248855,
+              "cpuMs": 0.28225,
+              "allocatedBytes": 622185.9
+            },
+            {
+              "iterations": 80,
+              "wallMs": 0.286623836,
+              "cpuMs": 0.2866125,
+              "allocatedBytes": 622185.9
+            },
+            {
+              "iterations": 80,
+              "wallMs": 0.281175971,
+              "cpuMs": 0.2811875,
+              "allocatedBytes": 622185.9
+            },
+            {
+              "iterations": 80,
+              "wallMs": 0.290587544,
+              "cpuMs": 0.2905875,
+              "allocatedBytes": 622185.9
+            },
+            {
+              "iterations": 80,
+              "wallMs": 0.27127564,
+              "cpuMs": 0.2712625,
+              "allocatedBytes": 622185.9
+            }
+          ],
+          "sink": 0
+        },
+        {
+          "size": 8192,
+          "bytes": 8196,
+          "status": "ok",
+          "phase": "parse",
+          "samples": [
+            {
+              "iterations": 48,
+              "wallMs": 0.557084878,
+              "cpuMs": 0.5570625,
+              "allocatedBytes": 1240683.17
+            },
+            {
+              "iterations": 48,
+              "wallMs": 0.556647778,
+              "cpuMs": 0.556520833,
+              "allocatedBytes": 1240683.17
+            },
+            {
+              "iterations": 48,
+              "wallMs": 0.594084462,
+              "cpuMs": 0.594125,
+              "allocatedBytes": 1240683.17
+            },
+            {
+              "iterations": 48,
+              "wallMs": 0.567749143,
+              "cpuMs": 0.567729167,
+              "allocatedBytes": 1240683.17
+            },
+            {
+              "iterations": 48,
+              "wallMs": 0.554482142,
+              "cpuMs": 0.554333333,
+              "allocatedBytes": 1240683.17
+            }
+          ],
+          "sink": 0
+        }
+      ],
+      "completed": true
+    },
+    {
+      "family": "unmatched-closers",
+      "phase": "render",
+      "rows": [
+        {
+          "size": 1024,
+          "bytes": 1028,
+          "status": "ok",
+          "phase": "render",
+          "samples": [
+            {
+              "iterations": 7472,
+              "wallMs": 0.00268163467,
+              "cpuMs": 0.00268147752,
+              "allocatedBytes": 3984.02034
+            },
+            {
+              "iterations": 7664,
+              "wallMs": 0.00261507602,
+              "cpuMs": 0.00261521399,
+              "allocatedBytes": 3984.01983
+            },
+            {
+              "iterations": 7696,
+              "wallMs": 0.00260175514,
+              "cpuMs": 0.0026018711,
+              "allocatedBytes": 3984.01975
+            },
+            {
+              "iterations": 7296,
+              "wallMs": 0.00274714017,
+              "cpuMs": 0.00274725877,
+              "allocatedBytes": 3984.02083
+            },
+            {
+              "iterations": 6656,
+              "wallMs": 0.00300648837,
+              "cpuMs": 0.00300480769,
+              "allocatedBytes": 3984.02284
+            }
+          ],
+          "sink": 0
         },
         {
           "size": 2048,
@@ -1455,34 +1455,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.339295715,
-              "cpuMs": 0.050484375,
-              "allocatedBytes": 7058.375
+              "iterations": 2704,
+              "wallMs": 0.00740349645,
+              "cpuMs": 0.00739829882,
+              "allocatedBytes": 7056.05621
             },
             {
-              "iterations": 128,
-              "wallMs": 0.157061964,
-              "cpuMs": 0.0546328125,
-              "allocatedBytes": 7057.1875
+              "iterations": 3104,
+              "wallMs": 0.00645911571,
+              "cpuMs": 0.00646037371,
+              "allocatedBytes": 7056.04897
             },
             {
-              "iterations": 96,
-              "wallMs": 0.209197402,
-              "cpuMs": 0.0636979167,
-              "allocatedBytes": 7057.58333
+              "iterations": 3056,
+              "wallMs": 0.00655986564,
+              "cpuMs": 0.0065572644,
+              "allocatedBytes": 7056.04974
             },
             {
-              "iterations": 64,
-              "wallMs": 0.37034601,
-              "cpuMs": 0.073625,
-              "allocatedBytes": 7058.375
+              "iterations": 2720,
+              "wallMs": 0.00755699242,
+              "cpuMs": 0.00755698529,
+              "allocatedBytes": 7056.05588
             },
             {
-              "iterations": 96,
-              "wallMs": 0.208531817,
-              "cpuMs": 0.0520729167,
-              "allocatedBytes": 7057.58333
+              "iterations": 3152,
+              "wallMs": 0.00635886253,
+              "cpuMs": 0.00635913706,
+              "allocatedBytes": 7056.04822
             }
           ],
           "sink": 0
@@ -1494,34 +1494,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 128,
-              "wallMs": 0.160850585,
-              "cpuMs": 0.117554687,
-              "allocatedBytes": 13201.1875
+              "iterations": 1280,
+              "wallMs": 0.0158585608,
+              "cpuMs": 0.015840625,
+              "allocatedBytes": 13200.1187
             },
             {
-              "iterations": 176,
-              "wallMs": 0.116857615,
-              "cpuMs": 0.0984090909,
-              "allocatedBytes": 13200.8636
+              "iterations": 1232,
+              "wallMs": 0.0163554758,
+              "cpuMs": 0.0163563312,
+              "allocatedBytes": 13200.1234
             },
             {
-              "iterations": 192,
-              "wallMs": 0.125894944,
-              "cpuMs": 0.0980208333,
-              "allocatedBytes": 13200.7917
+              "iterations": 1536,
+              "wallMs": 0.0130371191,
+              "cpuMs": 0.0130325521,
+              "allocatedBytes": 13200.099
             },
             {
-              "iterations": 192,
-              "wallMs": 0.109286358,
-              "cpuMs": 0.09525,
-              "allocatedBytes": 13200.7917
+              "iterations": 1328,
+              "wallMs": 0.0151875148,
+              "cpuMs": 0.0151875,
+              "allocatedBytes": 13200.1145
             },
             {
-              "iterations": 144,
-              "wallMs": 0.156576435,
-              "cpuMs": 0.0913611111,
-              "allocatedBytes": 13201.0556
+              "iterations": 1248,
+              "wallMs": 0.0163486753,
+              "cpuMs": 0.0163525641,
+              "allocatedBytes": 13200.1218
             }
           ],
           "sink": 0
@@ -1533,34 +1533,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.377330929,
-              "cpuMs": 0.283234375,
-              "allocatedBytes": 25490.375
+              "iterations": 752,
+              "wallMs": 0.026979979,
+              "cpuMs": 0.0269494681,
+              "allocatedBytes": 25488.2021
             },
             {
-              "iterations": 80,
-              "wallMs": 0.289687514,
-              "cpuMs": 0.2161,
-              "allocatedBytes": 25489.9
+              "iterations": 688,
+              "wallMs": 0.0302004953,
+              "cpuMs": 0.0301613372,
+              "allocatedBytes": 25488.2209
             },
             {
-              "iterations": 32,
-              "wallMs": 0.637724996,
-              "cpuMs": 0.28290625,
-              "allocatedBytes": 25492.75
+              "iterations": 800,
+              "wallMs": 0.0253748894,
+              "cpuMs": 0.02534,
+              "allocatedBytes": 25488.19
             },
             {
-              "iterations": 64,
-              "wallMs": 0.348266214,
-              "cpuMs": 0.22696875,
-              "allocatedBytes": 25490.375
+              "iterations": 864,
+              "wallMs": 0.0234814706,
+              "cpuMs": 0.0234722222,
+              "allocatedBytes": 25488.1759
             },
             {
-              "iterations": 48,
-              "wallMs": 0.439748168,
-              "cpuMs": 0.229625,
-              "allocatedBytes": 25491.1667
+              "iterations": 752,
+              "wallMs": 0.0268683789,
+              "cpuMs": 0.0268683511,
+              "allocatedBytes": 25488.2021
             }
           ],
           "sink": 8203
@@ -1579,37 +1579,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 1.65581703,
-              "cpuMs": 0.8050625,
-              "allocatedBytes": 161793.5
+              "iterations": 320,
+              "wallMs": 0.0637248158,
+              "cpuMs": 0.063665625,
+              "allocatedBytes": 162296.475
             },
             {
-              "iterations": 16,
-              "wallMs": 2.89462507,
-              "cpuMs": 0.9628125,
-              "allocatedBytes": 161793.5
+              "iterations": 320,
+              "wallMs": 0.0631213188,
+              "cpuMs": 0.0631,
+              "allocatedBytes": 162296.475
             },
             {
-              "iterations": 16,
-              "wallMs": 1.69882178,
-              "cpuMs": 0.8221875,
-              "allocatedBytes": 161793.5
+              "iterations": 272,
+              "wallMs": 0.0757829231,
+              "cpuMs": 0.0757867647,
+              "allocatedBytes": 162296.559
             },
             {
-              "iterations": 16,
-              "wallMs": 1.78906322,
-              "cpuMs": 0.8283125,
-              "allocatedBytes": 161793.5
+              "iterations": 272,
+              "wallMs": 0.0751106178,
+              "cpuMs": 0.0751176471,
+              "allocatedBytes": 162296.559
             },
             {
-              "iterations": 16,
-              "wallMs": 2.16682255,
-              "cpuMs": 1.0135625,
-              "allocatedBytes": 161793.5
+              "iterations": 272,
+              "wallMs": 0.0755401219,
+              "cpuMs": 0.0753308824,
+              "allocatedBytes": 162296.559
             }
           ],
-          "sink": 0
+          "sink": 1035
         },
         {
           "size": 2048,
@@ -1618,37 +1618,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 3.60238552,
-              "cpuMs": 2.125125,
-              "allocatedBytes": 319489.5
+              "iterations": 144,
+              "wallMs": 0.152111053,
+              "cpuMs": 0.152097222,
+              "allocatedBytes": 319993.056
             },
             {
-              "iterations": 16,
-              "wallMs": 2.00618804,
-              "cpuMs": 1.7646875,
-              "allocatedBytes": 319489.5
+              "iterations": 144,
+              "wallMs": 0.142638882,
+              "cpuMs": 0.142659722,
+              "allocatedBytes": 319993.056
             },
             {
-              "iterations": 16,
-              "wallMs": 2.72162259,
-              "cpuMs": 1.5204375,
-              "allocatedBytes": 319489.5
+              "iterations": 128,
+              "wallMs": 0.175101683,
+              "cpuMs": 0.174890625,
+              "allocatedBytes": 319993.188
             },
             {
-              "iterations": 16,
-              "wallMs": 3.66687775,
-              "cpuMs": 1.6893125,
-              "allocatedBytes": 319489.5
+              "iterations": 80,
+              "wallMs": 0.255024433,
+              "cpuMs": 0.254575,
+              "allocatedBytes": 319993.9
             },
             {
-              "iterations": 16,
-              "wallMs": 4.82206047,
-              "cpuMs": 1.694,
-              "allocatedBytes": 319489.5
+              "iterations": 128,
+              "wallMs": 0.16858615,
+              "cpuMs": 0.168554688,
+              "allocatedBytes": 319993.188
             }
           ],
-          "sink": 2059
+          "sink": 0
         },
         {
           "size": 4096,
@@ -1657,34 +1657,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 9.24800336,
-              "cpuMs": 3.3051875,
-              "allocatedBytes": 634881.5
+              "iterations": 80,
+              "wallMs": 0.287136436,
+              "cpuMs": 0.2870375,
+              "allocatedBytes": 635385.9
             },
             {
-              "iterations": 16,
-              "wallMs": 9.4421953,
-              "cpuMs": 2.93325,
-              "allocatedBytes": 634881.5
+              "iterations": 80,
+              "wallMs": 0.294688344,
+              "cpuMs": 0.29455,
+              "allocatedBytes": 635385.9
             },
             {
-              "iterations": 16,
-              "wallMs": 8.25811923,
-              "cpuMs": 2.795375,
-              "allocatedBytes": 634881.5
+              "iterations": 80,
+              "wallMs": 0.290423632,
+              "cpuMs": 0.2904375,
+              "allocatedBytes": 635385.9
             },
             {
-              "iterations": 16,
-              "wallMs": 15.3194368,
-              "cpuMs": 3.3289375,
-              "allocatedBytes": 634881.5
+              "iterations": 80,
+              "wallMs": 0.27192533,
+              "cpuMs": 0.2719625,
+              "allocatedBytes": 635385.9
             },
             {
-              "iterations": 16,
-              "wallMs": 13.4695023,
-              "cpuMs": 2.9278125,
-              "allocatedBytes": 634881.5
+              "iterations": 80,
+              "wallMs": 0.295087695,
+              "cpuMs": 0.2951,
+              "allocatedBytes": 635385.9
             }
           ],
           "sink": 0
@@ -1696,37 +1696,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 16.9152468,
-              "cpuMs": 7.56075,
-              "allocatedBytes": 1265665.5
+              "iterations": 32,
+              "wallMs": 0.626184046,
+              "cpuMs": 0.6261875,
+              "allocatedBytes": 1266172.75
             },
             {
-              "iterations": 16,
-              "wallMs": 34.8222554,
-              "cpuMs": 7.2809375,
-              "allocatedBytes": 1265665.5
+              "iterations": 48,
+              "wallMs": 0.616893172,
+              "cpuMs": 0.616895833,
+              "allocatedBytes": 1266171.17
             },
             {
-              "iterations": 16,
-              "wallMs": 31.8471342,
-              "cpuMs": 8.0763125,
-              "allocatedBytes": 1265665.5
+              "iterations": 48,
+              "wallMs": 0.630582372,
+              "cpuMs": 0.630604167,
+              "allocatedBytes": 1266171.17
             },
             {
-              "iterations": 16,
-              "wallMs": 33.1245065,
-              "cpuMs": 7.829625,
-              "allocatedBytes": 1265665.5
+              "iterations": 48,
+              "wallMs": 0.596856078,
+              "cpuMs": 0.596895833,
+              "allocatedBytes": 1266171.17
             },
             {
-              "iterations": 16,
-              "wallMs": 30.2233696,
-              "cpuMs": 8.3065,
-              "allocatedBytes": 1265665.5
+              "iterations": 32,
+              "wallMs": 0.672250986,
+              "cpuMs": 0.6723125,
+              "allocatedBytes": 1266172.75
             }
           ],
-          "sink": 8203
+          "sink": 0
         }
       ],
       "completed": true
@@ -1742,37 +1742,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 3.64349782,
-              "cpuMs": 3.478375,
-              "allocatedBytes": 930529.5
+              "iterations": 48,
+              "wallMs": 0.442460179,
+              "cpuMs": 0.4418125,
+              "allocatedBytes": 931035.167
             },
             {
-              "iterations": 16,
-              "wallMs": 3.4058094,
-              "cpuMs": 3.3768125,
-              "allocatedBytes": 930529.5
+              "iterations": 48,
+              "wallMs": 0.443687042,
+              "cpuMs": 0.4436875,
+              "allocatedBytes": 931035.167
             },
             {
-              "iterations": 16,
-              "wallMs": 3.87318432,
-              "cpuMs": 3.8426875,
-              "allocatedBytes": 930529.5
+              "iterations": 48,
+              "wallMs": 0.521247586,
+              "cpuMs": 0.521270833,
+              "allocatedBytes": 931035.167
             },
             {
-              "iterations": 16,
-              "wallMs": 4.78343666,
-              "cpuMs": 3.9946875,
-              "allocatedBytes": 930529.5
+              "iterations": 48,
+              "wallMs": 0.517894824,
+              "cpuMs": 0.517666667,
+              "allocatedBytes": 931035.167
             },
             {
-              "iterations": 16,
-              "wallMs": 3.6920011,
-              "cpuMs": 3.4120625,
-              "allocatedBytes": 930529.5
+              "iterations": 48,
+              "wallMs": 0.505417585,
+              "cpuMs": 0.5054375,
+              "allocatedBytes": 931035.167
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 2048,
@@ -1781,34 +1781,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 36.8323773,
-              "cpuMs": 11.868,
-              "allocatedBytes": 1857249.5
+              "iterations": 32,
+              "wallMs": 0.904217362,
+              "cpuMs": 0.9041875,
+              "allocatedBytes": 1857756.75
             },
             {
-              "iterations": 16,
-              "wallMs": 24.2206156,
-              "cpuMs": 10.49925,
-              "allocatedBytes": 1857249.5
+              "iterations": 32,
+              "wallMs": 0.93562156,
+              "cpuMs": 0.93565625,
+              "allocatedBytes": 1857756.75
             },
             {
-              "iterations": 16,
-              "wallMs": 31.4013809,
-              "cpuMs": 11.132,
-              "allocatedBytes": 1857249.5
+              "iterations": 32,
+              "wallMs": 0.944249332,
+              "cpuMs": 0.94428125,
+              "allocatedBytes": 1857756.75
             },
             {
-              "iterations": 16,
-              "wallMs": 42.8662449,
-              "cpuMs": 10.5474375,
-              "allocatedBytes": 1857249.5
+              "iterations": 32,
+              "wallMs": 0.954963267,
+              "cpuMs": 0.9544375,
+              "allocatedBytes": 1857756.75
             },
             {
-              "iterations": 16,
-              "wallMs": 9.54163074,
-              "cpuMs": 7.3413125,
-              "allocatedBytes": 1857249.5
+              "iterations": 32,
+              "wallMs": 0.940747559,
+              "cpuMs": 0.94075,
+              "allocatedBytes": 1857756.75
             }
           ],
           "sink": 0
@@ -1821,36 +1821,36 @@
           "samples": [
             {
               "iterations": 16,
-              "wallMs": 67.9133683,
-              "cpuMs": 22.1824375,
-              "allocatedBytes": 3710689.5
+              "wallMs": 2.45644152,
+              "cpuMs": 2.456375,
+              "allocatedBytes": 3711201.5
             },
             {
               "iterations": 16,
-              "wallMs": 20.8981186,
-              "cpuMs": 18.827,
-              "allocatedBytes": 3710689.5
+              "wallMs": 2.61217356,
+              "cpuMs": 2.60925,
+              "allocatedBytes": 3711201.5
             },
             {
               "iterations": 16,
-              "wallMs": 45.8480716,
-              "cpuMs": 22.2751875,
-              "allocatedBytes": 3710689.5
+              "wallMs": 2.45642662,
+              "cpuMs": 2.4489375,
+              "allocatedBytes": 3711201.5
             },
             {
               "iterations": 16,
-              "wallMs": 36.6788208,
-              "cpuMs": 20.7500625,
-              "allocatedBytes": 3710689.5
+              "wallMs": 2.34767795,
+              "cpuMs": 2.3463125,
+              "allocatedBytes": 3711201.5
             },
             {
               "iterations": 16,
-              "wallMs": 21.4928091,
-              "cpuMs": 20.149125,
-              "allocatedBytes": 3710689.5
+              "wallMs": 2.59199739,
+              "cpuMs": 2.5919375,
+              "allocatedBytes": 3711201.5
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 8192,
@@ -1860,36 +1860,36 @@
           "samples": [
             {
               "iterations": 16,
-              "wallMs": 64.6464378,
-              "cpuMs": 39.033625,
-              "allocatedBytes": 7417569.5
+              "wallMs": 4.52569127,
+              "cpuMs": 4.5255625,
+              "allocatedBytes": 7418081.5
             },
             {
               "iterations": 16,
-              "wallMs": 45.8389372,
-              "cpuMs": 39.3410625,
-              "allocatedBytes": 7417569.5
+              "wallMs": 4.75862622,
+              "cpuMs": 4.758625,
+              "allocatedBytes": 7418081.5
             },
             {
               "iterations": 16,
-              "wallMs": 47.3118126,
-              "cpuMs": 37.146,
-              "allocatedBytes": 7417569.5
+              "wallMs": 4.9662441,
+              "cpuMs": 4.96475,
+              "allocatedBytes": 7418081.5
             },
             {
               "iterations": 16,
-              "wallMs": 156.90212,
-              "cpuMs": 40.3903125,
-              "allocatedBytes": 7417569.5
+              "wallMs": 4.73606586,
+              "cpuMs": 4.7348125,
+              "allocatedBytes": 7418081.5
             },
             {
               "iterations": 16,
-              "wallMs": 155.891687,
-              "cpuMs": 45.33625,
-              "allocatedBytes": 7417569.5
+              "wallMs": 4.78456914,
+              "cpuMs": 4.7809375,
+              "allocatedBytes": 7418081.5
             }
           ],
-          "sink": 0
+          "sink": 1
         }
       ],
       "completed": true
@@ -1905,34 +1905,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 48,
-              "wallMs": 0.58880945,
-              "cpuMs": 0.1515,
-              "allocatedBytes": 16547.1667
+              "iterations": 1072,
+              "wallMs": 0.0187854713,
+              "cpuMs": 0.0187751866,
+              "allocatedBytes": 16544.1418
             },
             {
-              "iterations": 48,
-              "wallMs": 0.579019388,
-              "cpuMs": 0.141854167,
-              "allocatedBytes": 16547.1667
+              "iterations": 1248,
+              "wallMs": 0.0161289787,
+              "cpuMs": 0.0161041667,
+              "allocatedBytes": 16544.1218
             },
             {
-              "iterations": 48,
-              "wallMs": 0.520790617,
-              "cpuMs": 0.124958333,
-              "allocatedBytes": 16547.1667
+              "iterations": 1216,
+              "wallMs": 0.016465391,
+              "cpuMs": 0.0164671053,
+              "allocatedBytes": 16544.125
             },
             {
-              "iterations": 16,
-              "wallMs": 4.17612493,
-              "cpuMs": 0.1139375,
-              "allocatedBytes": 16553.5
+              "iterations": 1136,
+              "wallMs": 0.0176532588,
+              "cpuMs": 0.0176390845,
+              "allocatedBytes": 16544.1338
             },
             {
-              "iterations": 16,
-              "wallMs": 1.55155361,
-              "cpuMs": 0.11425,
-              "allocatedBytes": 16553.5
+              "iterations": 1120,
+              "wallMs": 0.0178965075,
+              "cpuMs": 0.0178848214,
+              "allocatedBytes": 16544.1357
             }
           ],
           "sink": 5144
@@ -1944,37 +1944,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 80,
-              "wallMs": 0.3002882,
-              "cpuMs": 0.2898125,
-              "allocatedBytes": 31905.9
+              "iterations": 544,
+              "wallMs": 0.0368970282,
+              "cpuMs": 0.0367591912,
+              "allocatedBytes": 31904.2794
             },
             {
-              "iterations": 80,
-              "wallMs": 0.35943687,
-              "cpuMs": 0.2724625,
-              "allocatedBytes": 31905.9
+              "iterations": 560,
+              "wallMs": 0.0357734306,
+              "cpuMs": 0.035675,
+              "allocatedBytes": 31904.2714
             },
             {
-              "iterations": 48,
-              "wallMs": 0.70977211,
-              "cpuMs": 0.268770833,
-              "allocatedBytes": 31907.1667
+              "iterations": 576,
+              "wallMs": 0.0350868536,
+              "cpuMs": 0.0350902778,
+              "allocatedBytes": 31904.2639
             },
             {
-              "iterations": 64,
-              "wallMs": 0.332765281,
-              "cpuMs": 0.233,
-              "allocatedBytes": 31906.375
+              "iterations": 560,
+              "wallMs": 0.0376496996,
+              "cpuMs": 0.0376535714,
+              "allocatedBytes": 31904.2714
             },
             {
-              "iterations": 80,
-              "wallMs": 0.258362293,
-              "cpuMs": 0.225475,
-              "allocatedBytes": 31905.9
+              "iterations": 560,
+              "wallMs": 0.0357981239,
+              "cpuMs": 0.0358053571,
+              "allocatedBytes": 31904.2714
             }
           ],
-          "sink": 10264
+          "sink": 0
         },
         {
           "size": 4096,
@@ -1983,34 +1983,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 4.30350006,
-              "cpuMs": 0.509,
-              "allocatedBytes": 62633.5
+              "iterations": 256,
+              "wallMs": 0.0815549865,
+              "cpuMs": 0.0815507812,
+              "allocatedBytes": 62624.5938
             },
             {
-              "iterations": 16,
-              "wallMs": 5.34044206,
-              "cpuMs": 0.5931875,
-              "allocatedBytes": 62633.5
+              "iterations": 256,
+              "wallMs": 0.081460923,
+              "cpuMs": 0.0814375,
+              "allocatedBytes": 62624.5938
             },
             {
-              "iterations": 16,
-              "wallMs": 3.35499644,
-              "cpuMs": 0.4173125,
-              "allocatedBytes": 62633.5
+              "iterations": 240,
+              "wallMs": 0.0839134057,
+              "cpuMs": 0.0839208333,
+              "allocatedBytes": 62624.6333
             },
             {
-              "iterations": 16,
-              "wallMs": 3.67493927,
-              "cpuMs": 0.4385,
-              "allocatedBytes": 62633.5
+              "iterations": 240,
+              "wallMs": 0.0854502122,
+              "cpuMs": 0.0854541667,
+              "allocatedBytes": 62624.6333
             },
             {
-              "iterations": 16,
-              "wallMs": 4.03606892,
-              "cpuMs": 0.4123125,
-              "allocatedBytes": 62633.5
+              "iterations": 208,
+              "wallMs": 0.104476626,
+              "cpuMs": 0.104475962,
+              "allocatedBytes": 62624.7308
             }
           ],
           "sink": 0
@@ -2022,37 +2022,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.811219215,
-              "cpuMs": 0.80503125,
-              "allocatedBytes": 124068.75
+              "iterations": 160,
+              "wallMs": 0.133606791,
+              "cpuMs": 0.13345,
+              "allocatedBytes": 124064.95
             },
             {
-              "iterations": 32,
-              "wallMs": 0.799626112,
-              "cpuMs": 0.7934375,
-              "allocatedBytes": 124068.75
+              "iterations": 176,
+              "wallMs": 0.127243725,
+              "cpuMs": 0.127204545,
+              "allocatedBytes": 124064.864
             },
             {
-              "iterations": 32,
-              "wallMs": 0.813685358,
-              "cpuMs": 0.80053125,
-              "allocatedBytes": 124068.75
+              "iterations": 160,
+              "wallMs": 0.134931505,
+              "cpuMs": 0.1349375,
+              "allocatedBytes": 124064.95
             },
             {
-              "iterations": 32,
-              "wallMs": 0.780686736,
-              "cpuMs": 0.77596875,
-              "allocatedBytes": 124068.75
+              "iterations": 160,
+              "wallMs": 0.130343437,
+              "cpuMs": 0.13035,
+              "allocatedBytes": 124064.95
             },
             {
-              "iterations": 32,
-              "wallMs": 0.786341727,
-              "cpuMs": 0.77978125,
-              "allocatedBytes": 124068.75
+              "iterations": 160,
+              "wallMs": 0.130586326,
+              "cpuMs": 0.13059375,
+              "allocatedBytes": 124064.95
             }
           ],
-          "sink": 40984
+          "sink": 0
         }
       ],
       "completed": true
@@ -2068,34 +2068,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 9.80988145,
-              "cpuMs": 3.8865625,
-              "allocatedBytes": 947073.5
+              "iterations": 48,
+              "wallMs": 0.56583186,
+              "cpuMs": 0.565729167,
+              "allocatedBytes": 947579.167
             },
             {
-              "iterations": 16,
-              "wallMs": 13.0838752,
-              "cpuMs": 4.2369375,
-              "allocatedBytes": 947073.5
+              "iterations": 48,
+              "wallMs": 0.513310234,
+              "cpuMs": 0.513333333,
+              "allocatedBytes": 947579.167
             },
             {
-              "iterations": 16,
-              "wallMs": 11.5645528,
-              "cpuMs": 4.453875,
-              "allocatedBytes": 947073.5
+              "iterations": 48,
+              "wallMs": 0.462248921,
+              "cpuMs": 0.4621875,
+              "allocatedBytes": 947579.167
             },
             {
-              "iterations": 16,
-              "wallMs": 13.5266781,
-              "cpuMs": 4.6086875,
-              "allocatedBytes": 947073.5
+              "iterations": 48,
+              "wallMs": 0.476668278,
+              "cpuMs": 0.476666667,
+              "allocatedBytes": 947579.167
             },
             {
-              "iterations": 16,
-              "wallMs": 14.4947469,
-              "cpuMs": 3.9336875,
-              "allocatedBytes": 947073.5
+              "iterations": 48,
+              "wallMs": 0.480835636,
+              "cpuMs": 0.4809375,
+              "allocatedBytes": 947579.167
             }
           ],
           "sink": 5144
@@ -2107,34 +2107,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 29.8099965,
-              "cpuMs": 11.252625,
-              "allocatedBytes": 1889153.5
+              "iterations": 32,
+              "wallMs": 1.11299753,
+              "cpuMs": 1.1129375,
+              "allocatedBytes": 1889660.75
+            },
+            {
+              "iterations": 32,
+              "wallMs": 1.13306195,
+              "cpuMs": 1.13309375,
+              "allocatedBytes": 1889660.75
             },
             {
               "iterations": 16,
-              "wallMs": 25.9369463,
-              "cpuMs": 8.4345,
-              "allocatedBytes": 1889153.5
+              "wallMs": 1.36318803,
+              "cpuMs": 1.3633125,
+              "allocatedBytes": 1889665.5
             },
             {
               "iterations": 16,
-              "wallMs": 16.58687,
-              "cpuMs": 8.1016875,
-              "allocatedBytes": 1889153.5
+              "wallMs": 1.42624974,
+              "cpuMs": 1.42625,
+              "allocatedBytes": 1889665.5
             },
             {
               "iterations": 16,
-              "wallMs": 16.8758184,
-              "cpuMs": 8.3254375,
-              "allocatedBytes": 1889153.5
-            },
-            {
-              "iterations": 16,
-              "wallMs": 7.21713901,
-              "cpuMs": 7.1775,
-              "allocatedBytes": 1889153.5
+              "wallMs": 1.61349773,
+              "cpuMs": 1.5955625,
+              "allocatedBytes": 1889665.5
             }
           ],
           "sink": 10264
@@ -2147,36 +2147,36 @@
           "samples": [
             {
               "iterations": 16,
-              "wallMs": 77.2226155,
-              "cpuMs": 23.3348125,
-              "allocatedBytes": 3773313.5
+              "wallMs": 2.89112329,
+              "cpuMs": 2.890875,
+              "allocatedBytes": 3773825.5
             },
             {
               "iterations": 16,
-              "wallMs": 18.3071196,
-              "cpuMs": 17.651125,
-              "allocatedBytes": 3773313.5
+              "wallMs": 3.21644545,
+              "cpuMs": 3.2164375,
+              "allocatedBytes": 3773825.5
             },
             {
               "iterations": 16,
-              "wallMs": 30.9786797,
-              "cpuMs": 17.5795625,
-              "allocatedBytes": 3773313.5
+              "wallMs": 2.83481181,
+              "cpuMs": 2.8348125,
+              "allocatedBytes": 3773825.5
             },
             {
               "iterations": 16,
-              "wallMs": 32.0159942,
-              "cpuMs": 18.7849375,
-              "allocatedBytes": 3773313.5
+              "wallMs": 2.72813439,
+              "cpuMs": 2.728125,
+              "allocatedBytes": 3773825.5
             },
             {
               "iterations": 16,
-              "wallMs": 43.8078791,
-              "cpuMs": 18.9076875,
-              "allocatedBytes": 3773313.5
+              "wallMs": 2.7474463,
+              "cpuMs": 2.7473125,
+              "allocatedBytes": 3773825.5
             }
           ],
-          "sink": 20504
+          "sink": 0
         },
         {
           "size": 8192,
@@ -2186,33 +2186,33 @@
           "samples": [
             {
               "iterations": 16,
-              "wallMs": 35.6933773,
-              "cpuMs": 31.7261875,
-              "allocatedBytes": 7541633.5
+              "wallMs": 5.17043471,
+              "cpuMs": 5.16975,
+              "allocatedBytes": 7542145.5
             },
             {
               "iterations": 16,
-              "wallMs": 56.8606257,
-              "cpuMs": 31.7729375,
-              "allocatedBytes": 7541633.5
+              "wallMs": 5.12212515,
+              "cpuMs": 5.1201875,
+              "allocatedBytes": 7542145.5
             },
             {
               "iterations": 16,
-              "wallMs": 64.399749,
-              "cpuMs": 35.3966875,
-              "allocatedBytes": 7541633.5
+              "wallMs": 4.92437184,
+              "cpuMs": 4.921875,
+              "allocatedBytes": 7542145.5
             },
             {
               "iterations": 16,
-              "wallMs": 115.084752,
-              "cpuMs": 42.8763125,
-              "allocatedBytes": 7541633.5
+              "wallMs": 4.99993563,
+              "cpuMs": 4.9955,
+              "allocatedBytes": 7542145.5
             },
             {
               "iterations": 16,
-              "wallMs": 71.6574341,
-              "cpuMs": 36.3191875,
-              "allocatedBytes": 7541633.5
+              "wallMs": 5.48987091,
+              "cpuMs": 5.489875,
+              "allocatedBytes": 7542145.5
             }
           ],
           "sink": 40984
@@ -2231,37 +2231,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 4.28536534,
-              "cpuMs": 0.7864375,
-              "allocatedBytes": 434505.5
+              "iterations": 256,
+              "wallMs": 0.0813007355,
+              "cpuMs": 0.0813007812,
+              "allocatedBytes": 467592.594
             },
             {
-              "iterations": 16,
-              "wallMs": 2.93706357,
-              "cpuMs": 0.62475,
-              "allocatedBytes": 434505.5
+              "iterations": 256,
+              "wallMs": 0.0812262297,
+              "cpuMs": 0.0812304688,
+              "allocatedBytes": 467592.594
             },
             {
-              "iterations": 16,
-              "wallMs": 5.87880611,
-              "cpuMs": 0.8458125,
-              "allocatedBytes": 434505.5
+              "iterations": 208,
+              "wallMs": 0.104130461,
+              "cpuMs": 0.104134615,
+              "allocatedBytes": 467592.731
             },
             {
-              "iterations": 16,
-              "wallMs": 4.66699898,
-              "cpuMs": 0.9433125,
-              "allocatedBytes": 434505.5
+              "iterations": 224,
+              "wallMs": 0.0941476652,
+              "cpuMs": 0.0941205357,
+              "allocatedBytes": 467592.679
             },
             {
-              "iterations": 16,
-              "wallMs": 4.29549813,
-              "cpuMs": 0.79525,
-              "allocatedBytes": 434505.5
+              "iterations": 240,
+              "wallMs": 0.0867297252,
+              "cpuMs": 0.0867208333,
+              "allocatedBytes": 467592.633
             }
           ],
-          "sink": 128
+          "sink": 0
         },
         {
           "size": 256,
@@ -2270,34 +2270,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 8.39361548,
-              "cpuMs": 1.3519375,
-              "allocatedBytes": 868681.5
+              "iterations": 96,
+              "wallMs": 0.218741596,
+              "cpuMs": 0.21875,
+              "allocatedBytes": 934537.583
             },
             {
-              "iterations": 16,
-              "wallMs": 9.86225903,
-              "cpuMs": 1.3876875,
-              "allocatedBytes": 868681.5
+              "iterations": 128,
+              "wallMs": 0.17564185,
+              "cpuMs": 0.175648438,
+              "allocatedBytes": 934537.188
             },
             {
-              "iterations": 16,
-              "wallMs": 8.96944106,
-              "cpuMs": 1.2704375,
-              "allocatedBytes": 868681.5
+              "iterations": 128,
+              "wallMs": 0.171499327,
+              "cpuMs": 0.171539062,
+              "allocatedBytes": 934537.188
             },
             {
-              "iterations": 16,
-              "wallMs": 8.75750184,
-              "cpuMs": 1.303625,
-              "allocatedBytes": 868681.5
+              "iterations": 128,
+              "wallMs": 0.168703496,
+              "cpuMs": 0.168734375,
+              "allocatedBytes": 934537.188
             },
             {
-              "iterations": 16,
-              "wallMs": 6.72781467,
-              "cpuMs": 1.0671875,
-              "allocatedBytes": 868681.5
+              "iterations": 128,
+              "wallMs": 0.167211518,
+              "cpuMs": 0.16721875,
+              "allocatedBytes": 934537.188
             }
           ],
           "sink": 0
@@ -2309,34 +2309,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 12.3608112,
-              "cpuMs": 2.8455,
-              "allocatedBytes": 1737033.5
+              "iterations": 64,
+              "wallMs": 0.39287284,
+              "cpuMs": 0.37696875,
+              "allocatedBytes": 1868426.38
             },
             {
-              "iterations": 16,
-              "wallMs": 12.2145563,
-              "cpuMs": 3.192625,
-              "allocatedBytes": 1737033.5
+              "iterations": 64,
+              "wallMs": 0.375296921,
+              "cpuMs": 0.374578125,
+              "allocatedBytes": 1868426.38
             },
             {
-              "iterations": 16,
-              "wallMs": 14.3755525,
-              "cpuMs": 2.8336875,
-              "allocatedBytes": 1737033.5
+              "iterations": 64,
+              "wallMs": 0.341232866,
+              "cpuMs": 0.332828125,
+              "allocatedBytes": 1868426.38
             },
             {
-              "iterations": 16,
-              "wallMs": 4.7570616,
-              "cpuMs": 2.544375,
-              "allocatedBytes": 1737033.5
+              "iterations": 64,
+              "wallMs": 0.33396855,
+              "cpuMs": 0.329953125,
+              "allocatedBytes": 1868426.38
             },
             {
-              "iterations": 16,
-              "wallMs": 2.20169127,
-              "cpuMs": 2.183625,
-              "allocatedBytes": 1737033.5
+              "iterations": 64,
+              "wallMs": 0.333469361,
+              "cpuMs": 0.33346875,
+              "allocatedBytes": 1868426.38
             }
           ],
           "sink": 512
@@ -2348,34 +2348,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 7.39850104,
-              "cpuMs": 5.446625,
-              "allocatedBytes": 3473737.5
+              "iterations": 32,
+              "wallMs": 0.773027539,
+              "cpuMs": 0.773,
+              "allocatedBytes": 3736204.75
             },
             {
-              "iterations": 16,
-              "wallMs": 8.52067769,
-              "cpuMs": 5.7073125,
-              "allocatedBytes": 3473737.5
+              "iterations": 32,
+              "wallMs": 0.753343105,
+              "cpuMs": 0.7533125,
+              "allocatedBytes": 3736204.75
             },
             {
-              "iterations": 16,
-              "wallMs": 7.62663782,
-              "cpuMs": 5.5975625,
-              "allocatedBytes": 3473737.5
+              "iterations": 32,
+              "wallMs": 0.892840326,
+              "cpuMs": 0.89284375,
+              "allocatedBytes": 3736204.75
             },
             {
-              "iterations": 16,
-              "wallMs": 19.2946792,
-              "cpuMs": 6.578625,
-              "allocatedBytes": 3473737.5
+              "iterations": 32,
+              "wallMs": 0.950872898,
+              "cpuMs": 0.95090625,
+              "allocatedBytes": 3736204.75
             },
             {
-              "iterations": 16,
-              "wallMs": 7.3825568,
-              "cpuMs": 5.2140625,
-              "allocatedBytes": 3473737.5
+              "iterations": 32,
+              "wallMs": 0.877559185,
+              "cpuMs": 0.87753125,
+              "allocatedBytes": 3736204.75
             }
           ],
           "sink": 0
@@ -2394,34 +2394,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 2.63948739,
-              "cpuMs": 0.197875,
-              "allocatedBytes": 114993.5
+              "iterations": 752,
+              "wallMs": 0.0270120007,
+              "cpuMs": 0.0270079787,
+              "allocatedBytes": 114984.202
             },
             {
-              "iterations": 32,
-              "wallMs": 1.12690032,
-              "cpuMs": 0.21834375,
-              "allocatedBytes": 114988.75
+              "iterations": 736,
+              "wallMs": 0.0273041103,
+              "cpuMs": 0.0273057065,
+              "allocatedBytes": 114984.207
             },
             {
-              "iterations": 16,
-              "wallMs": 1.65237486,
-              "cpuMs": 0.215,
-              "allocatedBytes": 114993.5
+              "iterations": 800,
+              "wallMs": 0.0253686309,
+              "cpuMs": 0.02535375,
+              "allocatedBytes": 114984.19
             },
             {
-              "iterations": 32,
-              "wallMs": 1.04074925,
-              "cpuMs": 0.21546875,
-              "allocatedBytes": 114988.75
+              "iterations": 800,
+              "wallMs": 0.0251173973,
+              "cpuMs": 0.0251175,
+              "allocatedBytes": 114984.19
             },
             {
-              "iterations": 16,
-              "wallMs": 1.39437616,
-              "cpuMs": 0.2061875,
-              "allocatedBytes": 114993.5
+              "iterations": 816,
+              "wallMs": 0.0246973599,
+              "cpuMs": 0.0246887255,
+              "allocatedBytes": 114984.186
             }
           ],
           "sink": 0
@@ -2433,37 +2433,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 48,
-              "wallMs": 0.451475382,
-              "cpuMs": 0.416,
-              "allocatedBytes": 229931.167
+              "iterations": 384,
+              "wallMs": 0.0533902397,
+              "cpuMs": 0.0533880208,
+              "allocatedBytes": 229928.396
             },
             {
-              "iterations": 48,
-              "wallMs": 0.422100226,
-              "cpuMs": 0.422125,
-              "allocatedBytes": 229931.167
+              "iterations": 368,
+              "wallMs": 0.0551278177,
+              "cpuMs": 0.0551168478,
+              "allocatedBytes": 229928.413
             },
             {
-              "iterations": 64,
-              "wallMs": 0.396873802,
-              "cpuMs": 0.396921875,
-              "allocatedBytes": 229930.375
+              "iterations": 368,
+              "wallMs": 0.0560134649,
+              "cpuMs": 0.0560163043,
+              "allocatedBytes": 229928.413
             },
             {
-              "iterations": 64,
-              "wallMs": 0.406123698,
-              "cpuMs": 0.40278125,
-              "allocatedBytes": 229930.375
+              "iterations": 384,
+              "wallMs": 0.0539012253,
+              "cpuMs": 0.0539088542,
+              "allocatedBytes": 229928.396
             },
             {
-              "iterations": 64,
-              "wallMs": 0.388219953,
-              "cpuMs": 0.38825,
-              "allocatedBytes": 229930.375
+              "iterations": 368,
+              "wallMs": 0.0553370818,
+              "cpuMs": 0.0553396739,
+              "allocatedBytes": 229928.413
             }
           ],
-          "sink": 4608
+          "sink": 0
         },
         {
           "size": 512,
@@ -2472,34 +2472,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.03025138,
-              "cpuMs": 0.8131875,
-              "allocatedBytes": 459820.75
+              "iterations": 176,
+              "wallMs": 0.115057284,
+              "cpuMs": 0.115051136,
+              "allocatedBytes": 459816.864
             },
             {
-              "iterations": 32,
-              "wallMs": 0.762715936,
-              "cpuMs": 0.74221875,
-              "allocatedBytes": 459820.75
+              "iterations": 192,
+              "wallMs": 0.112873813,
+              "cpuMs": 0.112880208,
+              "allocatedBytes": 459816.792
             },
             {
-              "iterations": 32,
-              "wallMs": 0.869438052,
-              "cpuMs": 0.853125,
-              "allocatedBytes": 459820.75
+              "iterations": 192,
+              "wallMs": 0.112958252,
+              "cpuMs": 0.112921875,
+              "allocatedBytes": 459816.792
             },
             {
-              "iterations": 32,
-              "wallMs": 0.791653991,
-              "cpuMs": 0.78825,
-              "allocatedBytes": 459820.75
+              "iterations": 192,
+              "wallMs": 0.112432986,
+              "cpuMs": 0.112432292,
+              "allocatedBytes": 459816.792
             },
             {
-              "iterations": 32,
-              "wallMs": 0.769406557,
-              "cpuMs": 0.77025,
-              "allocatedBytes": 459820.75
+              "iterations": 176,
+              "wallMs": 0.115101988,
+              "cpuMs": 0.115113636,
+              "allocatedBytes": 459816.864
             }
           ],
           "sink": 0
@@ -2511,37 +2511,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 1.91456079,
-              "cpuMs": 1.818,
-              "allocatedBytes": 919601.5
+              "iterations": 96,
+              "wallMs": 0.235219796,
+              "cpuMs": 0.2348125,
+              "allocatedBytes": 919593.583
             },
             {
-              "iterations": 16,
-              "wallMs": 1.96194649,
-              "cpuMs": 1.8220625,
-              "allocatedBytes": 919601.5
+              "iterations": 80,
+              "wallMs": 0.255250931,
+              "cpuMs": 0.255275,
+              "allocatedBytes": 919593.9
             },
             {
-              "iterations": 16,
-              "wallMs": 2.45082378,
-              "cpuMs": 1.7908125,
-              "allocatedBytes": 919601.5
+              "iterations": 80,
+              "wallMs": 0.26166141,
+              "cpuMs": 0.2617,
+              "allocatedBytes": 919593.9
             },
             {
-              "iterations": 16,
-              "wallMs": 2.17531621,
-              "cpuMs": 1.7929375,
-              "allocatedBytes": 919601.5
+              "iterations": 80,
+              "wallMs": 0.250273943,
+              "cpuMs": 0.2502875,
+              "allocatedBytes": 919593.9
             },
             {
-              "iterations": 16,
-              "wallMs": 1.90062821,
-              "cpuMs": 1.87875,
-              "allocatedBytes": 919601.5
+              "iterations": 96,
+              "wallMs": 0.240040322,
+              "cpuMs": 0.23990625,
+              "allocatedBytes": 919593.583
             }
           ],
-          "sink": 0
+          "sink": 18432
         }
       ],
       "completed": true
@@ -2557,37 +2557,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 1.26132369,
-              "cpuMs": 0.650375,
-              "allocatedBytes": 549489.5
+              "iterations": 208,
+              "wallMs": 0.102053468,
+              "cpuMs": 0.102048077,
+              "allocatedBytes": 582576.731
             },
             {
-              "iterations": 16,
-              "wallMs": 1.75955892,
-              "cpuMs": 0.630875,
-              "allocatedBytes": 549489.5
+              "iterations": 208,
+              "wallMs": 0.101990425,
+              "cpuMs": 0.101932692,
+              "allocatedBytes": 582576.731
             },
             {
-              "iterations": 16,
-              "wallMs": 2.1944344,
-              "cpuMs": 0.686,
-              "allocatedBytes": 549489.5
+              "iterations": 208,
+              "wallMs": 0.101572046,
+              "cpuMs": 0.101581731,
+              "allocatedBytes": 582576.731
             },
             {
-              "iterations": 16,
-              "wallMs": 1.63805485,
-              "cpuMs": 0.693375,
-              "allocatedBytes": 549489.5
+              "iterations": 192,
+              "wallMs": 0.107406328,
+              "cpuMs": 0.107416667,
+              "allocatedBytes": 582576.792
             },
             {
-              "iterations": 16,
-              "wallMs": 2.26737559,
-              "cpuMs": 0.712875,
-              "allocatedBytes": 549489.5
+              "iterations": 208,
+              "wallMs": 0.101130742,
+              "cpuMs": 0.101105769,
+              "allocatedBytes": 582576.731
             }
           ],
-          "sink": 2304
+          "sink": 0
         },
         {
           "size": 256,
@@ -2596,37 +2596,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 9.30961967,
-              "cpuMs": 2.3381875,
-              "allocatedBytes": 1098609.5
+              "iterations": 96,
+              "wallMs": 0.214887162,
+              "cpuMs": 0.214270833,
+              "allocatedBytes": 1164465.58
             },
             {
-              "iterations": 16,
-              "wallMs": 9.31850076,
-              "cpuMs": 2.1941875,
-              "allocatedBytes": 1098609.5
+              "iterations": 96,
+              "wallMs": 0.210719804,
+              "cpuMs": 0.210729167,
+              "allocatedBytes": 1164465.58
             },
             {
-              "iterations": 16,
-              "wallMs": 4.45693731,
-              "cpuMs": 1.798875,
-              "allocatedBytes": 1098609.5
+              "iterations": 96,
+              "wallMs": 0.209718943,
+              "cpuMs": 0.20971875,
+              "allocatedBytes": 1164465.58
             },
             {
-              "iterations": 16,
-              "wallMs": 4.85281646,
-              "cpuMs": 1.7065,
-              "allocatedBytes": 1098609.5
+              "iterations": 96,
+              "wallMs": 0.225198766,
+              "cpuMs": 0.225208333,
+              "allocatedBytes": 1164465.58
             },
             {
-              "iterations": 16,
-              "wallMs": 3.33705544,
-              "cpuMs": 1.715,
-              "allocatedBytes": 1098609.5
+              "iterations": 96,
+              "wallMs": 0.216364861,
+              "cpuMs": 0.216385417,
+              "allocatedBytes": 1164465.58
             }
           ],
-          "sink": 0
+          "sink": 4608
         },
         {
           "size": 512,
@@ -2635,37 +2635,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 19.4553733,
-              "cpuMs": 4.131625,
-              "allocatedBytes": 2196849.5
+              "iterations": 48,
+              "wallMs": 0.461662809,
+              "cpuMs": 0.461645833,
+              "allocatedBytes": 2328243.17
             },
             {
-              "iterations": 16,
-              "wallMs": 20.5313861,
-              "cpuMs": 4.03125,
-              "allocatedBytes": 2196849.5
+              "iterations": 48,
+              "wallMs": 0.462432702,
+              "cpuMs": 0.462458333,
+              "allocatedBytes": 2328243.17
             },
             {
-              "iterations": 16,
-              "wallMs": 23.6031264,
-              "cpuMs": 4.5369375,
-              "allocatedBytes": 2196849.5
+              "iterations": 48,
+              "wallMs": 0.4555583,
+              "cpuMs": 0.455625,
+              "allocatedBytes": 2328243.17
             },
             {
-              "iterations": 16,
-              "wallMs": 13.6045069,
-              "cpuMs": 4.14575,
-              "allocatedBytes": 2196849.5
+              "iterations": 48,
+              "wallMs": 0.471770763,
+              "cpuMs": 0.471791667,
+              "allocatedBytes": 2328243.17
             },
             {
-              "iterations": 16,
-              "wallMs": 26.4460593,
-              "cpuMs": 5.12525,
-              "allocatedBytes": 2196849.5
+              "iterations": 48,
+              "wallMs": 0.472312172,
+              "cpuMs": 0.472354167,
+              "allocatedBytes": 2328243.17
             }
           ],
-          "sink": 0
+          "sink": 9216
         },
         {
           "size": 1024,
@@ -2674,37 +2674,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 23.7716883,
-              "cpuMs": 10.609375,
-              "allocatedBytes": 4393329.5
+              "iterations": 32,
+              "wallMs": 1.01947039,
+              "cpuMs": 1.0191875,
+              "allocatedBytes": 4655796.75
             },
             {
-              "iterations": 16,
-              "wallMs": 10.5044395,
-              "cpuMs": 9.025,
-              "allocatedBytes": 4393329.5
+              "iterations": 32,
+              "wallMs": 1.08546764,
+              "cpuMs": 1.08546875,
+              "allocatedBytes": 4655796.75
             },
             {
-              "iterations": 16,
-              "wallMs": 9.452492,
-              "cpuMs": 9.007,
-              "allocatedBytes": 4393329.5
+              "iterations": 32,
+              "wallMs": 1.06312335,
+              "cpuMs": 1.06246875,
+              "allocatedBytes": 4655796.75
             },
             {
-              "iterations": 16,
-              "wallMs": 21.7819363,
-              "cpuMs": 10.4184375,
-              "allocatedBytes": 4393329.5
+              "iterations": 32,
+              "wallMs": 1.12115592,
+              "cpuMs": 1.12115625,
+              "allocatedBytes": 4655796.75
             },
             {
-              "iterations": 16,
-              "wallMs": 40.2529389,
-              "cpuMs": 13.17525,
-              "allocatedBytes": 4393329.5
+              "iterations": 32,
+              "wallMs": 1.11178309,
+              "cpuMs": 1.11175,
+              "allocatedBytes": 4655796.75
             }
           ],
-          "sink": 18432
+          "sink": 0
         }
       ],
       "completed": true
@@ -2720,34 +2720,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 416,
-              "wallMs": 0.053553054,
-              "cpuMs": 0.0118028846,
-              "allocatedBytes": 11552.3654
+              "iterations": 14320,
+              "wallMs": 0.00139699635,
+              "cpuMs": 0.00139567039,
+              "allocatedBytes": 12064.0106
             },
             {
-              "iterations": 352,
-              "wallMs": 0.0571134416,
-              "cpuMs": 0.0116818182,
-              "allocatedBytes": 11552.4318
+              "iterations": 14608,
+              "wallMs": 0.00136938897,
+              "cpuMs": 0.00136610077,
+              "allocatedBytes": 12064.0104
             },
             {
-              "iterations": 368,
-              "wallMs": 0.0550513682,
-              "cpuMs": 0.0115842391,
-              "allocatedBytes": 11552.413
+              "iterations": 14496,
+              "wallMs": 0.00138072581,
+              "cpuMs": 0.00138086369,
+              "allocatedBytes": 12064.0105
             },
             {
-              "iterations": 416,
-              "wallMs": 0.0525747354,
-              "cpuMs": 0.0121274038,
-              "allocatedBytes": 11552.3654
+              "iterations": 14288,
+              "wallMs": 0.00139990819,
+              "cpuMs": 0.00139942609,
+              "allocatedBytes": 12064.0106
             },
             {
-              "iterations": 464,
-              "wallMs": 0.0440560538,
-              "cpuMs": 0.0110344828,
-              "allocatedBytes": 11552.3276
+              "iterations": 14368,
+              "wallMs": 0.0013934411,
+              "cpuMs": 0.00139351336,
+              "allocatedBytes": 12064.0106
             }
           ],
           "sink": 0
@@ -2759,37 +2759,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 416,
-              "wallMs": 0.0494930607,
-              "cpuMs": 0.0243942308,
-              "allocatedBytes": 20320.3654
+              "iterations": 8656,
+              "wallMs": 0.00231067156,
+              "cpuMs": 0.00231088262,
+              "allocatedBytes": 20832.0176
             },
             {
-              "iterations": 416,
-              "wallMs": 0.064197068,
-              "cpuMs": 0.0221658654,
-              "allocatedBytes": 20320.3654
+              "iterations": 8608,
+              "wallMs": 0.00232388871,
+              "cpuMs": 0.00232156134,
+              "allocatedBytes": 20832.0177
             },
             {
-              "iterations": 224,
-              "wallMs": 0.103566263,
-              "cpuMs": 0.0222633929,
-              "allocatedBytes": 20320.6786
+              "iterations": 8560,
+              "wallMs": 0.00233853532,
+              "cpuMs": 0.00233866822,
+              "allocatedBytes": 20832.0178
             },
             {
-              "iterations": 464,
-              "wallMs": 0.0435560942,
-              "cpuMs": 0.0209224138,
-              "allocatedBytes": 20320.3276
+              "iterations": 8080,
+              "wallMs": 0.00247970076,
+              "cpuMs": 0.00248019802,
+              "allocatedBytes": 20832.0188
             },
             {
-              "iterations": 512,
-              "wallMs": 0.0437712297,
-              "cpuMs": 0.0203496094,
-              "allocatedBytes": 20320.2969
+              "iterations": 7936,
+              "wallMs": 0.00252433482,
+              "cpuMs": 0.00252444556,
+              "allocatedBytes": 20832.0192
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 32,
@@ -2798,34 +2798,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 608,
-              "wallMs": 0.0337777953,
-              "cpuMs": 0.03328125,
-              "allocatedBytes": 38624.25
+              "iterations": 4368,
+              "wallMs": 0.00459365137,
+              "cpuMs": 0.00459363553,
+              "allocatedBytes": 39136.0348
             },
             {
-              "iterations": 480,
-              "wallMs": 0.0423123439,
-              "cpuMs": 0.03825,
-              "allocatedBytes": 38624.3167
+              "iterations": 4288,
+              "wallMs": 0.0046702352,
+              "cpuMs": 0.00467047575,
+              "allocatedBytes": 39136.0354
             },
             {
-              "iterations": 496,
-              "wallMs": 0.040427331,
-              "cpuMs": 0.0404294355,
-              "allocatedBytes": 38624.3065
+              "iterations": 4368,
+              "wallMs": 0.00459135889,
+              "cpuMs": 0.0045867674,
+              "allocatedBytes": 39136.0348
             },
             {
-              "iterations": 624,
-              "wallMs": 0.0327932529,
-              "cpuMs": 0.0327980769,
-              "allocatedBytes": 38624.2436
+              "iterations": 4368,
+              "wallMs": 0.00459501595,
+              "cpuMs": 0.00459500916,
+              "allocatedBytes": 39136.0348
             },
             {
-              "iterations": 608,
-              "wallMs": 0.0330558733,
-              "cpuMs": 0.0317631579,
-              "allocatedBytes": 38624.25
+              "iterations": 4384,
+              "wallMs": 0.00457481964,
+              "cpuMs": 0.00457504562,
+              "allocatedBytes": 39136.0347
             }
           ],
           "sink": 0
@@ -2837,34 +2837,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 368,
-              "wallMs": 0.0557420046,
-              "cpuMs": 0.0548668478,
-              "allocatedBytes": 78304.413
+              "iterations": 2000,
+              "wallMs": 0.0100054741,
+              "cpuMs": 0.010005,
+              "allocatedBytes": 78816.076
             },
             {
-              "iterations": 400,
-              "wallMs": 0.0518351793,
-              "cpuMs": 0.0516925,
-              "allocatedBytes": 78304.38
+              "iterations": 2352,
+              "wallMs": 0.00854039273,
+              "cpuMs": 0.00854081633,
+              "allocatedBytes": 78816.0646
             },
             {
-              "iterations": 256,
-              "wallMs": 0.0828867778,
-              "cpuMs": 0.0830351562,
-              "allocatedBytes": 78304.5938
+              "iterations": 2256,
+              "wallMs": 0.00891892623,
+              "cpuMs": 0.00891932624,
+              "allocatedBytes": 78816.0674
             },
             {
-              "iterations": 352,
-              "wallMs": 0.0585107641,
-              "cpuMs": 0.0585085227,
-              "allocatedBytes": 78304.4318
+              "iterations": 2224,
+              "wallMs": 0.00902431474,
+              "cpuMs": 0.00900089928,
+              "allocatedBytes": 78816.0683
             },
             {
-              "iterations": 256,
-              "wallMs": 0.0785822049,
-              "cpuMs": 0.0602539063,
-              "allocatedBytes": 78304.5938
+              "iterations": 2320,
+              "wallMs": 0.00867966948,
+              "cpuMs": 0.00868017241,
+              "allocatedBytes": 78816.0655
             }
           ],
           "sink": 1
@@ -2876,37 +2876,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 160,
-              "wallMs": 0.132356584,
-              "cpuMs": 0.13073125,
-              "allocatedBytes": 169952.95
+              "iterations": 1072,
+              "wallMs": 0.0188310645,
+              "cpuMs": 0.0188031716,
+              "allocatedBytes": 170464.142
             },
             {
-              "iterations": 80,
-              "wallMs": 0.263410807,
-              "cpuMs": 0.1370625,
-              "allocatedBytes": 169953.9
+              "iterations": 1120,
+              "wallMs": 0.0179471714,
+              "cpuMs": 0.0179473214,
+              "allocatedBytes": 170464.136
             },
             {
-              "iterations": 80,
-              "wallMs": 0.294825435,
-              "cpuMs": 0.1317,
-              "allocatedBytes": 169953.9
+              "iterations": 1088,
+              "wallMs": 0.0183981131,
+              "cpuMs": 0.0183860294,
+              "allocatedBytes": 170464.14
             },
             {
-              "iterations": 96,
-              "wallMs": 0.218605002,
-              "cpuMs": 0.120333333,
-              "allocatedBytes": 169953.583
+              "iterations": 1104,
+              "wallMs": 0.0183867372,
+              "cpuMs": 0.0183731884,
+              "allocatedBytes": 170464.138
             },
             {
-              "iterations": 32,
-              "wallMs": 0.704281032,
-              "cpuMs": 0.33134375,
-              "allocatedBytes": 169956.75
+              "iterations": 1136,
+              "wallMs": 0.0176681599,
+              "cpuMs": 0.0176417254,
+              "allocatedBytes": 170464.134
             }
           ],
-          "sink": 0
+          "sink": 1
         },
         {
           "size": 192,
@@ -2915,34 +2915,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.986844301,
-              "cpuMs": 0.20596875,
-              "allocatedBytes": 277988.75
+              "iterations": 736,
+              "wallMs": 0.0273598277,
+              "cpuMs": 0.0273559783,
+              "allocatedBytes": 278496.207
             },
             {
-              "iterations": 16,
-              "wallMs": 2.09994614,
-              "cpuMs": 0.2251875,
-              "allocatedBytes": 277993.5
+              "iterations": 704,
+              "wallMs": 0.0285154039,
+              "cpuMs": 0.0284815341,
+              "allocatedBytes": 278496.216
             },
             {
-              "iterations": 16,
-              "wallMs": 1.34769082,
-              "cpuMs": 0.28175,
-              "allocatedBytes": 277993.5
+              "iterations": 704,
+              "wallMs": 0.028768385,
+              "cpuMs": 0.0287698864,
+              "allocatedBytes": 278496.216
             },
             {
-              "iterations": 16,
-              "wallMs": 2.16856599,
-              "cpuMs": 0.21275,
-              "allocatedBytes": 277993.5
+              "iterations": 688,
+              "wallMs": 0.0294866257,
+              "cpuMs": 0.0294665698,
+              "allocatedBytes": 278496.221
             },
             {
-              "iterations": 16,
-              "wallMs": 1.26768649,
-              "cpuMs": 0.204125,
-              "allocatedBytes": 277993.5
+              "iterations": 688,
+              "wallMs": 0.0292877125,
+              "cpuMs": 0.0292892442,
+              "allocatedBytes": 278496.221
             }
           ],
           "sink": 1
@@ -2961,34 +2961,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 192,
-              "wallMs": 0.104412436,
-              "cpuMs": 0.0106510417,
-              "allocatedBytes": 5544.79167
+              "iterations": 16960,
+              "wallMs": 0.00117994704,
+              "cpuMs": 0.00117989387,
+              "allocatedBytes": 5544.00896
             },
             {
-              "iterations": 256,
-              "wallMs": 0.0783624128,
-              "cpuMs": 0.0080859375,
-              "allocatedBytes": 5544.59375
+              "iterations": 13344,
+              "wallMs": 0.0015002289,
+              "cpuMs": 0.00150029976,
+              "allocatedBytes": 5544.01139
             },
             {
-              "iterations": 240,
-              "wallMs": 0.0919044018,
-              "cpuMs": 0.00859583333,
-              "allocatedBytes": 5544.63333
+              "iterations": 13872,
+              "wallMs": 0.00144218147,
+              "cpuMs": 0.00144232987,
+              "allocatedBytes": 5544.01096
             },
             {
-              "iterations": 256,
-              "wallMs": 0.0831754878,
-              "cpuMs": 0.00898828125,
-              "allocatedBytes": 5544.59375
+              "iterations": 12352,
+              "wallMs": 0.00162079081,
+              "cpuMs": 0.00162087111,
+              "allocatedBytes": 5544.01231
             },
             {
-              "iterations": 688,
-              "wallMs": 0.0483781792,
-              "cpuMs": 0.00768168605,
-              "allocatedBytes": 5544.22093
+              "iterations": 15776,
+              "wallMs": 0.00126895629,
+              "cpuMs": 0.00126907961,
+              "allocatedBytes": 5544.00963
             }
           ],
           "sink": 0
@@ -3000,34 +3000,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 416,
-              "wallMs": 0.0485525681,
-              "cpuMs": 0.0154855769,
-              "allocatedBytes": 10176.3654
+              "iterations": 7936,
+              "wallMs": 0.00252166102,
+              "cpuMs": 0.00251814516,
+              "allocatedBytes": 10176.0192
             },
             {
-              "iterations": 592,
-              "wallMs": 0.0340660682,
-              "cpuMs": 0.0169712838,
-              "allocatedBytes": 10176.2568
+              "iterations": 8528,
+              "wallMs": 0.00234675117,
+              "cpuMs": 0.00234498124,
+              "allocatedBytes": 10176.0178
             },
             {
-              "iterations": 1376,
-              "wallMs": 0.0146242768,
-              "cpuMs": 0.0142725291,
-              "allocatedBytes": 10176.1105
+              "iterations": 8400,
+              "wallMs": 0.00238441286,
+              "cpuMs": 0.00238440476,
+              "allocatedBytes": 10176.0181
             },
             {
-              "iterations": 1440,
-              "wallMs": 0.0140110652,
-              "cpuMs": 0.0140138889,
-              "allocatedBytes": 10176.1056
+              "iterations": 7616,
+              "wallMs": 0.00262698706,
+              "cpuMs": 0.00262736345,
+              "allocatedBytes": 10176.02
             },
             {
-              "iterations": 1392,
-              "wallMs": 0.0143958919,
-              "cpuMs": 0.0143699713,
-              "allocatedBytes": 10176.1092
+              "iterations": 7248,
+              "wallMs": 0.00276378712,
+              "cpuMs": 0.00276310706,
+              "allocatedBytes": 10176.021
             }
           ],
           "sink": 0
@@ -3039,34 +3039,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 384,
-              "wallMs": 0.0573930641,
-              "cpuMs": 0.025953125,
-              "allocatedBytes": 19440.3958
+              "iterations": 4224,
+              "wallMs": 0.00473935947,
+              "cpuMs": 0.00473910985,
+              "allocatedBytes": 19440.036
             },
             {
-              "iterations": 416,
-              "wallMs": 0.0602912444,
-              "cpuMs": 0.0275336538,
-              "allocatedBytes": 19440.3654
+              "iterations": 4752,
+              "wallMs": 0.00421783137,
+              "cpuMs": 0.00421548822,
+              "allocatedBytes": 19440.032
             },
             {
-              "iterations": 208,
-              "wallMs": 0.112966849,
-              "cpuMs": 0.0264711538,
-              "allocatedBytes": 19440.7308
+              "iterations": 4720,
+              "wallMs": 0.00424809375,
+              "cpuMs": 0.00424661017,
+              "allocatedBytes": 19440.0322
             },
             {
-              "iterations": 208,
-              "wallMs": 0.103606628,
-              "cpuMs": 0.0266682692,
-              "allocatedBytes": 19440.7308
+              "iterations": 4416,
+              "wallMs": 0.00453967115,
+              "cpuMs": 0.00453962862,
+              "allocatedBytes": 19440.0344
             },
             {
-              "iterations": 208,
-              "wallMs": 0.102172677,
-              "cpuMs": 0.0257788462,
-              "allocatedBytes": 19440.7308
+              "iterations": 4144,
+              "wallMs": 0.00483856238,
+              "cpuMs": 0.00483445946,
+              "allocatedBytes": 19440.0367
             }
           ],
           "sink": 875
@@ -3078,37 +3078,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 128,
-              "wallMs": 0.225953758,
-              "cpuMs": 0.056640625,
-              "allocatedBytes": 37969.1875
+              "iterations": 1760,
+              "wallMs": 0.011423772,
+              "cpuMs": 0.01138125,
+              "allocatedBytes": 37968.0864
             },
             {
-              "iterations": 96,
-              "wallMs": 0.308156013,
-              "cpuMs": 0.0581458333,
-              "allocatedBytes": 37969.5833
+              "iterations": 1904,
+              "wallMs": 0.0105498969,
+              "cpuMs": 0.0105509454,
+              "allocatedBytes": 37968.0798
             },
             {
-              "iterations": 112,
-              "wallMs": 0.21274175,
-              "cpuMs": 0.0520625,
-              "allocatedBytes": 37969.3571
+              "iterations": 2016,
+              "wallMs": 0.00998212232,
+              "cpuMs": 0.00998214286,
+              "allocatedBytes": 37968.0754
             },
             {
-              "iterations": 128,
-              "wallMs": 0.162029639,
-              "cpuMs": 0.052703125,
-              "allocatedBytes": 37969.1875
+              "iterations": 2192,
+              "wallMs": 0.00914604995,
+              "cpuMs": 0.0091459854,
+              "allocatedBytes": 37968.0693
             },
             {
-              "iterations": 128,
-              "wallMs": 0.242851675,
-              "cpuMs": 0.0556953125,
-              "allocatedBytes": 37969.1875
+              "iterations": 2208,
+              "wallMs": 0.00908873651,
+              "cpuMs": 0.00908876812,
+              "allocatedBytes": 37968.0688
             }
           ],
-          "sink": 0
+          "sink": 1739
         },
         {
           "size": 128,
@@ -3117,34 +3117,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.671006739,
-              "cpuMs": 0.1205625,
-              "allocatedBytes": 75028.75
+              "iterations": 1120,
+              "wallMs": 0.0180751085,
+              "cpuMs": 0.0180714286,
+              "allocatedBytes": 75024.1357
             },
             {
-              "iterations": 48,
-              "wallMs": 0.590418776,
-              "cpuMs": 0.1158125,
-              "allocatedBytes": 75027.1667
+              "iterations": 1136,
+              "wallMs": 0.0176566168,
+              "cpuMs": 0.0176514085,
+              "allocatedBytes": 75024.1338
             },
             {
-              "iterations": 48,
-              "wallMs": 0.619853536,
-              "cpuMs": 0.112375,
-              "allocatedBytes": 75027.1667
+              "iterations": 1152,
+              "wallMs": 0.017458366,
+              "cpuMs": 0.0174548611,
+              "allocatedBytes": 75024.1319
             },
             {
-              "iterations": 48,
-              "wallMs": 0.432834029,
-              "cpuMs": 0.123875,
-              "allocatedBytes": 75027.1667
+              "iterations": 1120,
+              "wallMs": 0.0180054988,
+              "cpuMs": 0.01800625,
+              "allocatedBytes": 75024.1357
             },
             {
-              "iterations": 16,
-              "wallMs": 2.63062119,
-              "cpuMs": 0.10125,
-              "allocatedBytes": 75033.5
+              "iterations": 1120,
+              "wallMs": 0.0181000148,
+              "cpuMs": 0.0181008929,
+              "allocatedBytes": 75024.1357
             }
           ],
           "sink": 3467
@@ -3156,34 +3156,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.12018734,
-              "cpuMs": 0.1824375,
-              "allocatedBytes": 112084.75
+              "iterations": 752,
+              "wallMs": 0.0267938731,
+              "cpuMs": 0.026793883,
+              "allocatedBytes": 112080.202
             },
             {
-              "iterations": 16,
-              "wallMs": 1.47381425,
-              "cpuMs": 0.1515,
-              "allocatedBytes": 112089.5
+              "iterations": 752,
+              "wallMs": 0.0267114411,
+              "cpuMs": 0.026712766,
+              "allocatedBytes": 112080.202
             },
             {
-              "iterations": 16,
-              "wallMs": 1.33574009,
-              "cpuMs": 0.1665625,
-              "allocatedBytes": 112089.5
+              "iterations": 768,
+              "wallMs": 0.0264542177,
+              "cpuMs": 0.0264244792,
+              "allocatedBytes": 112080.198
             },
             {
-              "iterations": 32,
-              "wallMs": 0.992998481,
-              "cpuMs": 0.17671875,
-              "allocatedBytes": 112084.75
+              "iterations": 736,
+              "wallMs": 0.027542205,
+              "cpuMs": 0.027544837,
+              "allocatedBytes": 112080.207
             },
             {
-              "iterations": 32,
-              "wallMs": 0.947467983,
-              "cpuMs": 0.16628125,
-              "allocatedBytes": 112084.75
+              "iterations": 704,
+              "wallMs": 0.0287456946,
+              "cpuMs": 0.0286818182,
+              "allocatedBytes": 112080.216
             }
           ],
           "sink": 5195
@@ -3202,34 +3202,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 320,
-              "wallMs": 0.0630028546,
-              "cpuMs": 0.0232125,
-              "allocatedBytes": 17096.475
+              "iterations": 7120,
+              "wallMs": 0.00281276998,
+              "cpuMs": 0.00281264045,
+              "allocatedBytes": 17608.0213
             },
             {
-              "iterations": 352,
-              "wallMs": 0.0575171276,
-              "cpuMs": 0.0195539773,
-              "allocatedBytes": 17096.4318
+              "iterations": 7584,
+              "wallMs": 0.00264055493,
+              "cpuMs": 0.00264082278,
+              "allocatedBytes": 17608.02
             },
             {
-              "iterations": 240,
-              "wallMs": 0.0840077798,
-              "cpuMs": 0.0258583333,
-              "allocatedBytes": 17096.6333
+              "iterations": 7696,
+              "wallMs": 0.00260383077,
+              "cpuMs": 0.0026039501,
+              "allocatedBytes": 17608.0198
             },
             {
-              "iterations": 256,
-              "wallMs": 0.0894330442,
-              "cpuMs": 0.0192890625,
-              "allocatedBytes": 17096.5938
+              "iterations": 7456,
+              "wallMs": 0.00268336018,
+              "cpuMs": 0.00268361052,
+              "allocatedBytes": 17608.0204
             },
             {
-              "iterations": 496,
-              "wallMs": 0.0479961595,
-              "cpuMs": 0.0184657258,
-              "allocatedBytes": 17096.3065
+              "iterations": 7568,
+              "wallMs": 0.00264588547,
+              "cpuMs": 0.00264587738,
+              "allocatedBytes": 17608.0201
             }
           ],
           "sink": 227
@@ -3241,37 +3241,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 160,
-              "wallMs": 0.165431201,
-              "cpuMs": 0.03370625,
-              "allocatedBytes": 30496.95
+              "iterations": 3968,
+              "wallMs": 0.00504085854,
+              "cpuMs": 0.00503931452,
+              "allocatedBytes": 31008.0383
             },
             {
-              "iterations": 160,
-              "wallMs": 0.146225095,
-              "cpuMs": 0.0333,
-              "allocatedBytes": 30496.95
+              "iterations": 3968,
+              "wallMs": 0.00506098713,
+              "cpuMs": 0.00506123992,
+              "allocatedBytes": 31008.0383
             },
             {
-              "iterations": 144,
-              "wallMs": 0.199660659,
-              "cpuMs": 0.033,
-              "allocatedBytes": 30497.0556
+              "iterations": 4160,
+              "wallMs": 0.00482161458,
+              "cpuMs": 0.004821875,
+              "allocatedBytes": 31008.0365
             },
             {
-              "iterations": 128,
-              "wallMs": 0.157061964,
-              "cpuMs": 0.0342109375,
-              "allocatedBytes": 30497.1875
+              "iterations": 4000,
+              "wallMs": 0.00501352549,
+              "cpuMs": 0.00501375,
+              "allocatedBytes": 31008.038
             },
             {
-              "iterations": 112,
-              "wallMs": 0.299928444,
-              "cpuMs": 0.0320714286,
-              "allocatedBytes": 30497.3571
+              "iterations": 4048,
+              "wallMs": 0.00495107278,
+              "cpuMs": 0.00495158103,
+              "allocatedBytes": 31008.0375
             }
           ],
-          "sink": 443
+          "sink": 0
         },
         {
           "size": 32,
@@ -3280,37 +3280,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 144,
-              "wallMs": 0.145625737,
-              "cpuMs": 0.0641458333,
-              "allocatedBytes": 58065.0556
+              "iterations": 2080,
+              "wallMs": 0.00966535165,
+              "cpuMs": 0.00956586538,
+              "allocatedBytes": 58576.0731
             },
             {
-              "iterations": 48,
-              "wallMs": 0.749523441,
-              "cpuMs": 0.0720416667,
-              "allocatedBytes": 58067.1667
+              "iterations": 2160,
+              "wallMs": 0.00926896378,
+              "cpuMs": 0.00926898148,
+              "allocatedBytes": 58576.0704
             },
             {
-              "iterations": 176,
-              "wallMs": 0.203601339,
-              "cpuMs": 0.0601477273,
-              "allocatedBytes": 58064.8636
+              "iterations": 2144,
+              "wallMs": 0.00938862117,
+              "cpuMs": 0.00938899254,
+              "allocatedBytes": 58576.0709
             },
             {
-              "iterations": 96,
-              "wallMs": 1.29214674,
-              "cpuMs": 0.0859270833,
-              "allocatedBytes": 58065.5833
+              "iterations": 2176,
+              "wallMs": 0.00923115979,
+              "cpuMs": 0.00923207721,
+              "allocatedBytes": 58576.0699
             },
             {
-              "iterations": 48,
-              "wallMs": 1.48212413,
-              "cpuMs": 0.0664583333,
-              "allocatedBytes": 58067.1667
+              "iterations": 2192,
+              "wallMs": 0.00918662026,
+              "cpuMs": 0.0091870438,
+              "allocatedBytes": 58576.0693
             }
           ],
-          "sink": 0
+          "sink": 875
         },
         {
           "size": 64,
@@ -3319,37 +3319,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 48,
-              "wallMs": 0.612830122,
-              "cpuMs": 0.112916667,
-              "allocatedBytes": 116275.167
+              "iterations": 1040,
+              "wallMs": 0.0194923236,
+              "cpuMs": 0.0194865385,
+              "allocatedBytes": 116784.146
             },
             {
-              "iterations": 48,
-              "wallMs": 0.686873992,
-              "cpuMs": 0.121229167,
-              "allocatedBytes": 116275.167
+              "iterations": 992,
+              "wallMs": 0.0203468146,
+              "cpuMs": 0.0203477823,
+              "allocatedBytes": 116784.153
             },
             {
-              "iterations": 48,
-              "wallMs": 0.816578666,
-              "cpuMs": 0.119791667,
-              "allocatedBytes": 116275.167
+              "iterations": 1008,
+              "wallMs": 0.0199027478,
+              "cpuMs": 0.0199047619,
+              "allocatedBytes": 116784.151
             },
             {
-              "iterations": 32,
-              "wallMs": 1.1760667,
-              "cpuMs": 0.1248125,
-              "allocatedBytes": 116276.75
+              "iterations": 1024,
+              "wallMs": 0.019623898,
+              "cpuMs": 0.0196240234,
+              "allocatedBytes": 116784.148
             },
             {
-              "iterations": 32,
-              "wallMs": 0.712431967,
-              "cpuMs": 0.12403125,
-              "allocatedBytes": 116276.75
+              "iterations": 1056,
+              "wallMs": 0.0190217838,
+              "cpuMs": 0.0190227273,
+              "allocatedBytes": 116784.144
             }
           ],
-          "sink": 1739
+          "sink": 0
         },
         {
           "size": 128,
@@ -3358,34 +3358,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 80,
-              "wallMs": 0.298950076,
-              "cpuMs": 0.2464375,
-              "allocatedBytes": 244977.9
+              "iterations": 512,
+              "wallMs": 0.0395234674,
+              "cpuMs": 0.0395019531,
+              "allocatedBytes": 245488.297
             },
             {
-              "iterations": 32,
-              "wallMs": 0.869192183,
-              "cpuMs": 0.273625,
-              "allocatedBytes": 244980.75
+              "iterations": 496,
+              "wallMs": 0.0410724071,
+              "cpuMs": 0.0410766129,
+              "allocatedBytes": 245488.306
             },
             {
-              "iterations": 16,
-              "wallMs": 2.09368765,
-              "cpuMs": 0.270625,
-              "allocatedBytes": 244985.5
+              "iterations": 496,
+              "wallMs": 0.041272371,
+              "cpuMs": 0.0412580645,
+              "allocatedBytes": 245488.306
             },
             {
-              "iterations": 16,
-              "wallMs": 1.82037055,
-              "cpuMs": 0.4926875,
-              "allocatedBytes": 244985.5
+              "iterations": 496,
+              "wallMs": 0.0408445635,
+              "cpuMs": 0.0408467742,
+              "allocatedBytes": 245488.306
             },
             {
-              "iterations": 32,
-              "wallMs": 0.7404387,
-              "cpuMs": 0.2896875,
-              "allocatedBytes": 244980.75
+              "iterations": 496,
+              "wallMs": 0.0409618501,
+              "cpuMs": 0.0409516129,
+              "allocatedBytes": 245488.306
             }
           ],
           "sink": 0
@@ -3397,37 +3397,37 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.14968419,
-              "cpuMs": 0.52615625,
-              "allocatedBytes": 390068.75
+              "iterations": 288,
+              "wallMs": 0.071350899,
+              "cpuMs": 0.07134375,
+              "allocatedBytes": 390576.528
             },
             {
-              "iterations": 16,
-              "wallMs": 1.70944631,
-              "cpuMs": 0.4499375,
-              "allocatedBytes": 390073.5
+              "iterations": 304,
+              "wallMs": 0.0686386698,
+              "cpuMs": 0.0686414474,
+              "allocatedBytes": 390576.5
             },
             {
-              "iterations": 16,
-              "wallMs": 2.34013796,
-              "cpuMs": 0.4471875,
-              "allocatedBytes": 390073.5
+              "iterations": 336,
+              "wallMs": 0.0621335847,
+              "cpuMs": 0.0621369048,
+              "allocatedBytes": 390576.452
             },
             {
-              "iterations": 16,
-              "wallMs": 3.06843221,
-              "cpuMs": 0.470375,
-              "allocatedBytes": 390073.5
+              "iterations": 320,
+              "wallMs": 0.0627249479,
+              "cpuMs": 0.062725,
+              "allocatedBytes": 390576.475
             },
             {
-              "iterations": 16,
-              "wallMs": 3.71280313,
-              "cpuMs": 0.5208125,
-              "allocatedBytes": 390073.5
+              "iterations": 320,
+              "wallMs": 0.0632748008,
+              "cpuMs": 0.0630875,
+              "allocatedBytes": 390576.475
             }
           ],
-          "sink": 5195
+          "sink": 0
         }
       ],
       "completed": true
@@ -3443,34 +3443,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 624,
-              "wallMs": 0.0343315112,
-              "cpuMs": 0.0181698718,
-              "allocatedBytes": 21520.2436
+              "iterations": 7536,
+              "wallMs": 0.00265550715,
+              "cpuMs": 0.00264994692,
+              "allocatedBytes": 22032.0202
             },
             {
-              "iterations": 544,
-              "wallMs": 0.0370898668,
-              "cpuMs": 0.0194448529,
-              "allocatedBytes": 21520.2794
+              "iterations": 7360,
+              "wallMs": 0.00272198864,
+              "cpuMs": 0.00272228261,
+              "allocatedBytes": 22032.0207
             },
             {
-              "iterations": 432,
-              "wallMs": 0.0466229739,
-              "cpuMs": 0.0257384259,
-              "allocatedBytes": 21520.3519
+              "iterations": 7072,
+              "wallMs": 0.00283385024,
+              "cpuMs": 0.0028334276,
+              "allocatedBytes": 22032.0215
             },
             {
-              "iterations": 336,
-              "wallMs": 0.0752856334,
-              "cpuMs": 0.0281369048,
-              "allocatedBytes": 21520.4524
+              "iterations": 7328,
+              "wallMs": 0.00273062152,
+              "cpuMs": 0.00273075873,
+              "allocatedBytes": 22032.0207
             },
             {
-              "iterations": 288,
-              "wallMs": 0.0703997082,
-              "cpuMs": 0.0233819444,
-              "allocatedBytes": 21520.5278
+              "iterations": 7296,
+              "wallMs": 0.00274354559,
+              "cpuMs": 0.00274232456,
+              "allocatedBytes": 22032.0208
             }
           ],
           "sink": 0
@@ -3482,37 +3482,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 96,
-              "wallMs": 0.210084021,
-              "cpuMs": 0.0434375,
-              "allocatedBytes": 41025.5833
+              "iterations": 3376,
+              "wallMs": 0.00594167913,
+              "cpuMs": 0.0059410545,
+              "allocatedBytes": 41536.045
             },
             {
-              "iterations": 64,
-              "wallMs": 0.313673168,
-              "cpuMs": 0.046390625,
-              "allocatedBytes": 41026.375
+              "iterations": 3808,
+              "wallMs": 0.00526918834,
+              "cpuMs": 0.00526943277,
+              "allocatedBytes": 41536.0399
             },
             {
-              "iterations": 64,
-              "wallMs": 0.318717211,
-              "cpuMs": 0.04625,
-              "allocatedBytes": 41026.375
+              "iterations": 3696,
+              "wallMs": 0.00542853818,
+              "cpuMs": 0.00542884199,
+              "allocatedBytes": 41536.0411
             },
             {
-              "iterations": 96,
-              "wallMs": 0.228404999,
-              "cpuMs": 0.0502916667,
-              "allocatedBytes": 41025.5833
+              "iterations": 3728,
+              "wallMs": 0.00537042966,
+              "cpuMs": 0.00537097639,
+              "allocatedBytes": 41536.0408
             },
             {
-              "iterations": 144,
-              "wallMs": 0.149917271,
-              "cpuMs": 0.0387847222,
-              "allocatedBytes": 41025.0556
+              "iterations": 3568,
+              "wallMs": 0.00561159021,
+              "cpuMs": 0.00561182735,
+              "allocatedBytes": 41536.0426
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 32,
@@ -3521,37 +3521,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 224,
-              "wallMs": 0.0905713865,
-              "cpuMs": 0.0899464286,
-              "allocatedBytes": 83104.6786
+              "iterations": 1696,
+              "wallMs": 0.0118850818,
+              "cpuMs": 0.0118755896,
+              "allocatedBytes": 83616.0896
             },
             {
-              "iterations": 272,
-              "wallMs": 0.0740035492,
-              "cpuMs": 0.0735073529,
-              "allocatedBytes": 83104.5588
+              "iterations": 1744,
+              "wallMs": 0.0115062939,
+              "cpuMs": 0.0114891055,
+              "allocatedBytes": 83616.0872
             },
             {
-              "iterations": 224,
-              "wallMs": 0.0925585628,
-              "cpuMs": 0.08128125,
-              "allocatedBytes": 83104.6786
+              "iterations": 1792,
+              "wallMs": 0.0111863815,
+              "cpuMs": 0.011186942,
+              "allocatedBytes": 83616.0848
             },
             {
-              "iterations": 272,
-              "wallMs": 0.076286933,
-              "cpuMs": 0.0756323529,
-              "allocatedBytes": 83104.5588
+              "iterations": 1776,
+              "wallMs": 0.0113023294,
+              "cpuMs": 0.011303491,
+              "allocatedBytes": 83616.0856
             },
             {
-              "iterations": 288,
-              "wallMs": 0.072364178,
-              "cpuMs": 0.0718194444,
-              "allocatedBytes": 83104.5278
+              "iterations": 1648,
+              "wallMs": 0.0121875585,
+              "cpuMs": 0.0121881068,
+              "allocatedBytes": 83616.0922
             }
           ],
-          "sink": 1
+          "sink": 0
         },
         {
           "size": 64,
@@ -3560,34 +3560,34 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 112,
-              "wallMs": 0.185955848,
-              "cpuMs": 0.171866071,
-              "allocatedBytes": 179553.357
+              "iterations": 784,
+              "wallMs": 0.0260061755,
+              "cpuMs": 0.0260063776,
+              "allocatedBytes": 180064.194
             },
             {
-              "iterations": 96,
-              "wallMs": 0.228854517,
-              "cpuMs": 0.170020833,
-              "allocatedBytes": 179553.583
+              "iterations": 800,
+              "wallMs": 0.0252699852,
+              "cpuMs": 0.02527125,
+              "allocatedBytes": 180064.19
             },
             {
-              "iterations": 112,
-              "wallMs": 0.201357262,
-              "cpuMs": 0.169883929,
-              "allocatedBytes": 179553.357
+              "iterations": 800,
+              "wallMs": 0.0253638625,
+              "cpuMs": 0.02536375,
+              "allocatedBytes": 180064.19
             },
             {
-              "iterations": 80,
-              "wallMs": 0.256174803,
-              "cpuMs": 0.17445,
-              "allocatedBytes": 179553.9
+              "iterations": 768,
+              "wallMs": 0.02643466,
+              "cpuMs": 0.026421875,
+              "allocatedBytes": 180064.198
             },
             {
-              "iterations": 64,
-              "wallMs": 0.478107482,
-              "cpuMs": 0.271109375,
-              "allocatedBytes": 179554.375
+              "iterations": 784,
+              "wallMs": 0.0257437326,
+              "cpuMs": 0.0257436224,
+              "allocatedBytes": 180064.194
             }
           ],
           "sink": 1
@@ -3599,37 +3599,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.694409013,
-              "cpuMs": 0.4749375,
-              "allocatedBytes": 421604.75
+              "iterations": 336,
+              "wallMs": 0.0610266413,
+              "cpuMs": 0.0610267857,
+              "allocatedBytes": 422112.452
             },
             {
-              "iterations": 48,
-              "wallMs": 0.436539451,
-              "cpuMs": 0.430125,
-              "allocatedBytes": 421603.167
+              "iterations": 320,
+              "wallMs": 0.0644594431,
+              "cpuMs": 0.0644625,
+              "allocatedBytes": 422112.475
             },
             {
-              "iterations": 32,
-              "wallMs": 0.715129077,
-              "cpuMs": 0.46065625,
-              "allocatedBytes": 421604.75
+              "iterations": 320,
+              "wallMs": 0.0646881759,
+              "cpuMs": 0.064690625,
+              "allocatedBytes": 422112.475
             },
             {
-              "iterations": 48,
-              "wallMs": 0.471914808,
-              "cpuMs": 0.457375,
-              "allocatedBytes": 421603.167
+              "iterations": 320,
+              "wallMs": 0.0653900206,
+              "cpuMs": 0.06539375,
+              "allocatedBytes": 422112.475
             },
             {
-              "iterations": 16,
-              "wallMs": 1.26443803,
-              "cpuMs": 0.74975,
-              "allocatedBytes": 421609.5
+              "iterations": 320,
+              "wallMs": 0.0656746328,
+              "cpuMs": 0.065675,
+              "allocatedBytes": 422112.475
             }
           ],
-          "sink": 0
+          "sink": 1
         },
         {
           "size": 192,
@@ -3638,37 +3638,37 @@
           "phase": "parse",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 0.88390708,
-              "cpuMs": 0.835625,
-              "allocatedBytes": 729188.75
+              "iterations": 176,
+              "wallMs": 0.119175423,
+              "cpuMs": 0.119170455,
+              "allocatedBytes": 729696.864
             },
             {
-              "iterations": 32,
-              "wallMs": 0.808469951,
-              "cpuMs": 0.79934375,
-              "allocatedBytes": 729188.75
+              "iterations": 176,
+              "wallMs": 0.122551214,
+              "cpuMs": 0.122551136,
+              "allocatedBytes": 729696.864
             },
             {
-              "iterations": 32,
-              "wallMs": 0.869750977,
-              "cpuMs": 0.818625,
-              "allocatedBytes": 729188.75
+              "iterations": 176,
+              "wallMs": 0.120181929,
+              "cpuMs": 0.1201875,
+              "allocatedBytes": 729696.864
             },
             {
-              "iterations": 32,
-              "wallMs": 0.786751509,
-              "cpuMs": 0.78459375,
-              "allocatedBytes": 729188.75
+              "iterations": 160,
+              "wallMs": 0.132843852,
+              "cpuMs": 0.13285,
+              "allocatedBytes": 729696.95
             },
             {
-              "iterations": 32,
-              "wallMs": 0.821501017,
-              "cpuMs": 0.78296875,
-              "allocatedBytes": 729188.75
+              "iterations": 160,
+              "wallMs": 0.127087533,
+              "cpuMs": 0.12709375,
+              "allocatedBytes": 729696.95
             }
           ],
-          "sink": 1
+          "sink": 0
         }
       ],
       "completed": true
@@ -3684,37 +3684,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 320,
-              "wallMs": 0.0742532313,
-              "cpuMs": 0.020603125,
-              "allocatedBytes": 7760.475
+              "iterations": 9920,
+              "wallMs": 0.00201701637,
+              "cpuMs": 0.00201673387,
+              "allocatedBytes": 7760.01532
             },
             {
-              "iterations": 448,
-              "wallMs": 0.0514132636,
-              "cpuMs": 0.0159308036,
-              "allocatedBytes": 7760.33929
+              "iterations": 9632,
+              "wallMs": 0.00207695454,
+              "cpuMs": 0.0020771387,
+              "allocatedBytes": 7760.01578
             },
             {
-              "iterations": 160,
-              "wallMs": 0.151018798,
-              "cpuMs": 0.0194,
-              "allocatedBytes": 7760.95
+              "iterations": 9648,
+              "wallMs": 0.0020754624,
+              "cpuMs": 0.0020753524,
+              "allocatedBytes": 7760.01575
             },
             {
-              "iterations": 336,
-              "wallMs": 0.0890415339,
-              "cpuMs": 0.0156785714,
-              "allocatedBytes": 7760.45238
+              "iterations": 9696,
+              "wallMs": 0.00206322068,
+              "cpuMs": 0.00206322195,
+              "allocatedBytes": 7760.01568
             },
             {
-              "iterations": 624,
-              "wallMs": 0.049235347,
-              "cpuMs": 0.0139695513,
-              "allocatedBytes": 7760.24359
+              "iterations": 9536,
+              "wallMs": 0.00209796349,
+              "cpuMs": 0.00209658138,
+              "allocatedBytes": 7760.01594
             }
           ],
-          "sink": 180
+          "sink": 0
         },
         {
           "size": 16,
@@ -3723,37 +3723,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 96,
-              "wallMs": 0.342803697,
-              "cpuMs": 0.0291458333,
-              "allocatedBytes": 14657.5833
+              "iterations": 4592,
+              "wallMs": 0.00435866753,
+              "cpuMs": 0.00435844948,
+              "allocatedBytes": 14656.0331
             },
             {
-              "iterations": 112,
-              "wallMs": 0.302874616,
-              "cpuMs": 0.0243125,
-              "allocatedBytes": 14657.3571
+              "iterations": 4720,
+              "wallMs": 0.00424430532,
+              "cpuMs": 0.00424470339,
+              "allocatedBytes": 14656.0322
             },
             {
-              "iterations": 208,
-              "wallMs": 0.185779654,
-              "cpuMs": 0.0274903846,
-              "allocatedBytes": 14656.7308
+              "iterations": 4672,
+              "wallMs": 0.00428296115,
+              "cpuMs": 0.00428296233,
+              "allocatedBytes": 14656.0325
             },
             {
-              "iterations": 112,
-              "wallMs": 0.221599426,
-              "cpuMs": 0.0243660714,
-              "allocatedBytes": 14657.3571
+              "iterations": 4816,
+              "wallMs": 0.00416529535,
+              "cpuMs": 0.00416549003,
+              "allocatedBytes": 14656.0316
             },
             {
-              "iterations": 752,
-              "wallMs": 0.0270573383,
-              "cpuMs": 0.0241755319,
-              "allocatedBytes": 14656.2021
+              "iterations": 4432,
+              "wallMs": 0.00452279829,
+              "cpuMs": 0.00452301444,
+              "allocatedBytes": 14656.0343
             }
           ],
-          "sink": 356
+          "sink": 0
         },
         {
           "size": 32,
@@ -3762,34 +3762,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 384,
-              "wallMs": 0.0541483363,
-              "cpuMs": 0.0528671875,
-              "allocatedBytes": 28448.3958
+              "iterations": 2400,
+              "wallMs": 0.00837415457,
+              "cpuMs": 0.00837375,
+              "allocatedBytes": 28448.0633
             },
             {
-              "iterations": 352,
-              "wallMs": 0.0574121421,
-              "cpuMs": 0.0508011364,
-              "allocatedBytes": 28448.4318
+              "iterations": 2400,
+              "wallMs": 0.00837296247,
+              "cpuMs": 0.00837375,
+              "allocatedBytes": 28448.0633
             },
             {
-              "iterations": 256,
-              "wallMs": 0.104304403,
-              "cpuMs": 0.0532304688,
-              "allocatedBytes": 28448.5938
+              "iterations": 2416,
+              "wallMs": 0.00829017715,
+              "cpuMs": 0.00829014901,
+              "allocatedBytes": 28448.0629
             },
             {
-              "iterations": 416,
-              "wallMs": 0.0490700969,
-              "cpuMs": 0.0490697115,
-              "allocatedBytes": 28448.3654
+              "iterations": 2336,
+              "wallMs": 0.00856724912,
+              "cpuMs": 0.00856164384,
+              "allocatedBytes": 28448.0651
             },
             {
-              "iterations": 400,
-              "wallMs": 0.0514674187,
-              "cpuMs": 0.05128,
-              "allocatedBytes": 28448.38
+              "iterations": 2368,
+              "wallMs": 0.00848178122,
+              "cpuMs": 0.00848353041,
+              "allocatedBytes": 28448.0642
             }
           ],
           "sink": 708
@@ -3801,37 +3801,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.313218683,
-              "cpuMs": 0.112453125,
-              "allocatedBytes": 56034.375
+              "iterations": 1120,
+              "wallMs": 0.018074257,
+              "cpuMs": 0.0180464286,
+              "allocatedBytes": 56032.1357
             },
             {
-              "iterations": 80,
-              "wallMs": 0.271788239,
-              "cpuMs": 0.1021125,
-              "allocatedBytes": 56033.9
+              "iterations": 1040,
+              "wallMs": 0.0192816441,
+              "cpuMs": 0.0181336538,
+              "allocatedBytes": 56032.1462
             },
             {
-              "iterations": 144,
-              "wallMs": 0.143473347,
-              "cpuMs": 0.0966111111,
-              "allocatedBytes": 56033.0556
+              "iterations": 1232,
+              "wallMs": 0.0163920514,
+              "cpuMs": 0.0163693182,
+              "allocatedBytes": 56032.1234
             },
             {
-              "iterations": 192,
-              "wallMs": 0.108728806,
-              "cpuMs": 0.10028125,
-              "allocatedBytes": 56032.7917
+              "iterations": 1088,
+              "wallMs": 0.0185633407,
+              "cpuMs": 0.0185569853,
+              "allocatedBytes": 56032.1397
             },
             {
-              "iterations": 80,
-              "wallMs": 0.269511342,
-              "cpuMs": 0.0992875,
-              "allocatedBytes": 56033.9
+              "iterations": 1024,
+              "wallMs": 0.0198876951,
+              "cpuMs": 0.0193808594,
+              "allocatedBytes": 56032.1484
             }
           ],
-          "sink": 0
+          "sink": 1412
         },
         {
           "size": 128,
@@ -3840,37 +3840,37 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 112,
-              "wallMs": 0.197519149,
-              "cpuMs": 0.195866071,
-              "allocatedBytes": 111201.357
+              "iterations": 496,
+              "wallMs": 0.0409719444,
+              "cpuMs": 0.0409717742,
+              "allocatedBytes": 111200.306
             },
             {
-              "iterations": 80,
-              "wallMs": 0.293889642,
-              "cpuMs": 0.284175,
-              "allocatedBytes": 111201.9
+              "iterations": 528,
+              "wallMs": 0.0380796917,
+              "cpuMs": 0.0380587121,
+              "allocatedBytes": 111200.288
             },
             {
-              "iterations": 96,
-              "wallMs": 0.213436782,
-              "cpuMs": 0.205989583,
-              "allocatedBytes": 111201.583
+              "iterations": 480,
+              "wallMs": 0.041710337,
+              "cpuMs": 0.04155,
+              "allocatedBytes": 111200.317
             },
             {
-              "iterations": 112,
-              "wallMs": 0.207945704,
-              "cpuMs": 0.205241071,
-              "allocatedBytes": 111201.357
+              "iterations": 544,
+              "wallMs": 0.0371652491,
+              "cpuMs": 0.0371452206,
+              "allocatedBytes": 111200.279
             },
             {
-              "iterations": 96,
-              "wallMs": 0.213198364,
-              "cpuMs": 0.202916667,
-              "allocatedBytes": 111201.583
+              "iterations": 576,
+              "wallMs": 0.0348004202,
+              "cpuMs": 0.0347673611,
+              "allocatedBytes": 111200.264
             }
           ],
-          "sink": 0
+          "sink": 2820
         },
         {
           "size": 192,
@@ -3879,34 +3879,34 @@
           "phase": "render",
           "samples": [
             {
-              "iterations": 64,
-              "wallMs": 0.369045883,
-              "cpuMs": 0.365984375,
-              "allocatedBytes": 166370.375
+              "iterations": 400,
+              "wallMs": 0.0518375635,
+              "cpuMs": 0.05178,
+              "allocatedBytes": 166368.38
             },
             {
-              "iterations": 64,
-              "wallMs": 0.348158181,
-              "cpuMs": 0.342890625,
-              "allocatedBytes": 166370.375
+              "iterations": 384,
+              "wallMs": 0.0523465375,
+              "cpuMs": 0.0522864583,
+              "allocatedBytes": 166368.396
             },
             {
-              "iterations": 48,
-              "wallMs": 0.488395492,
-              "cpuMs": 0.481895833,
-              "allocatedBytes": 166371.167
+              "iterations": 400,
+              "wallMs": 0.051150322,
+              "cpuMs": 0.0510575,
+              "allocatedBytes": 166368.38
             },
             {
-              "iterations": 64,
-              "wallMs": 0.39594993,
-              "cpuMs": 0.391359375,
-              "allocatedBytes": 166370.375
+              "iterations": 384,
+              "wallMs": 0.0543308755,
+              "cpuMs": 0.0543177083,
+              "allocatedBytes": 166368.396
             },
             {
-              "iterations": 64,
-              "wallMs": 0.357814133,
-              "cpuMs": 0.354890625,
-              "allocatedBytes": 166370.375
+              "iterations": 352,
+              "wallMs": 0.0591108745,
+              "cpuMs": 0.05903125,
+              "allocatedBytes": 166368.432
             }
           ],
           "sink": 0
@@ -3925,34 +3925,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 384,
-              "wallMs": 0.0726456443,
-              "cpuMs": 0.0305598958,
-              "allocatedBytes": 29280.3958
+              "iterations": 3552,
+              "wallMs": 0.0056421703,
+              "cpuMs": 0.00563992117,
+              "allocatedBytes": 29792.0428
             },
             {
-              "iterations": 208,
-              "wallMs": 0.0978123683,
-              "cpuMs": 0.0352644231,
-              "allocatedBytes": 29280.7308
+              "iterations": 3904,
+              "wallMs": 0.00514187774,
+              "cpuMs": 0.00514036885,
+              "allocatedBytes": 29792.0389
             },
             {
-              "iterations": 448,
-              "wallMs": 0.0558617924,
-              "cpuMs": 0.0313325893,
-              "allocatedBytes": 29280.3393
+              "iterations": 3136,
+              "wallMs": 0.00638035791,
+              "cpuMs": 0.0063778699,
+              "allocatedBytes": 29792.0485
             },
             {
-              "iterations": 144,
-              "wallMs": 0.178457962,
-              "cpuMs": 0.0389930556,
-              "allocatedBytes": 29281.0556
+              "iterations": 4304,
+              "wallMs": 0.00464755585,
+              "cpuMs": 0.00464614312,
+              "allocatedBytes": 29792.0353
             },
             {
-              "iterations": 224,
-              "wallMs": 0.0902584621,
-              "cpuMs": 0.03428125,
-              "allocatedBytes": 29280.6786
+              "iterations": 4144,
+              "wallMs": 0.00483131317,
+              "cpuMs": 0.00483180502,
+              "allocatedBytes": 29792.0367
             }
           ],
           "sink": 180
@@ -3964,34 +3964,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 96,
-              "wallMs": 0.354103744,
-              "cpuMs": 0.101333333,
-              "allocatedBytes": 55681.5833
+              "iterations": 1968,
+              "wallMs": 0.0102215908,
+              "cpuMs": 0.0102210366,
+              "allocatedBytes": 56192.0772
             },
             {
-              "iterations": 64,
-              "wallMs": 0.32261014,
-              "cpuMs": 0.07284375,
-              "allocatedBytes": 55682.375
+              "iterations": 1936,
+              "wallMs": 0.0103761342,
+              "cpuMs": 0.010375,
+              "allocatedBytes": 56192.0785
             },
             {
-              "iterations": 112,
-              "wallMs": 0.326418451,
-              "cpuMs": 0.0709821429,
-              "allocatedBytes": 55681.3571
+              "iterations": 2016,
+              "wallMs": 0.00995433047,
+              "cpuMs": 0.00995535714,
+              "allocatedBytes": 56192.0754
             },
             {
-              "iterations": 112,
-              "wallMs": 0.185919659,
-              "cpuMs": 0.0814375,
-              "allocatedBytes": 55681.3571
+              "iterations": 1904,
+              "wallMs": 0.0105913447,
+              "cpuMs": 0.0105756303,
+              "allocatedBytes": 56192.0798
             },
             {
-              "iterations": 144,
-              "wallMs": 0.143125653,
-              "cpuMs": 0.0738263889,
-              "allocatedBytes": 55681.0556
+              "iterations": 1952,
+              "wallMs": 0.010278137,
+              "cpuMs": 0.0102756148,
+              "allocatedBytes": 56192.0779
             }
           ],
           "sink": 0
@@ -4003,34 +4003,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 32,
-              "wallMs": 1.01912767,
-              "cpuMs": 0.2165625,
-              "allocatedBytes": 111556.75
+              "iterations": 960,
+              "wallMs": 0.0212281942,
+              "cpuMs": 0.0211989583,
+              "allocatedBytes": 112064.158
             },
             {
-              "iterations": 48,
-              "wallMs": 0.458101432,
-              "cpuMs": 0.164625,
-              "allocatedBytes": 111555.167
+              "iterations": 880,
+              "wallMs": 0.0230306929,
+              "cpuMs": 0.0230056818,
+              "allocatedBytes": 112064.173
             },
             {
-              "iterations": 32,
-              "wallMs": 0.760473311,
-              "cpuMs": 0.1668125,
-              "allocatedBytes": 111556.75
+              "iterations": 992,
+              "wallMs": 0.0204898177,
+              "cpuMs": 0.0204919355,
+              "allocatedBytes": 112064.153
             },
             {
-              "iterations": 32,
-              "wallMs": 0.975400209,
-              "cpuMs": 0.1605,
-              "allocatedBytes": 111556.75
+              "iterations": 912,
+              "wallMs": 0.0219734614,
+              "cpuMs": 0.0219572368,
+              "allocatedBytes": 112064.167
             },
             {
-              "iterations": 16,
-              "wallMs": 1.51218474,
-              "cpuMs": 0.3310625,
-              "allocatedBytes": 111561.5
+              "iterations": 976,
+              "wallMs": 0.0206454367,
+              "cpuMs": 0.0206137295,
+              "allocatedBytes": 112064.156
             }
           ],
           "sink": 0
@@ -4042,34 +4042,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 80,
-              "wallMs": 0.268062949,
-              "cpuMs": 0.250975,
-              "allocatedBytes": 235585.9
+              "iterations": 464,
+              "wallMs": 0.043885975,
+              "cpuMs": 0.0438793103,
+              "allocatedBytes": 236096.328
             },
             {
-              "iterations": 80,
-              "wallMs": 0.282663107,
-              "cpuMs": 0.2747625,
-              "allocatedBytes": 235585.9
+              "iterations": 448,
+              "wallMs": 0.0447008227,
+              "cpuMs": 0.0446473214,
+              "allocatedBytes": 236096.339
             },
             {
-              "iterations": 48,
-              "wallMs": 0.545084476,
-              "cpuMs": 0.2868125,
-              "allocatedBytes": 235587.167
+              "iterations": 448,
+              "wallMs": 0.044825886,
+              "cpuMs": 0.0448325893,
+              "allocatedBytes": 236096.339
             },
             {
-              "iterations": 16,
-              "wallMs": 2.28881836,
-              "cpuMs": 0.38375,
-              "allocatedBytes": 235593.5
+              "iterations": 464,
+              "wallMs": 0.0433469641,
+              "cpuMs": 0.0433491379,
+              "allocatedBytes": 236096.328
             },
             {
-              "iterations": 32,
-              "wallMs": 0.748284161,
-              "cpuMs": 0.3095625,
-              "allocatedBytes": 235588.75
+              "iterations": 416,
+              "wallMs": 0.0481318969,
+              "cpuMs": 0.04809375,
+              "allocatedBytes": 236096.365
             }
           ],
           "sink": 0
@@ -4081,34 +4081,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 2.7898699,
-              "cpuMs": 0.918125,
-              "allocatedBytes": 532809.5
+              "iterations": 208,
+              "wallMs": 0.102726313,
+              "cpuMs": 0.102730769,
+              "allocatedBytes": 533312.731
             },
             {
-              "iterations": 16,
-              "wallMs": 1.77887082,
-              "cpuMs": 0.774125,
-              "allocatedBytes": 532809.5
+              "iterations": 208,
+              "wallMs": 0.103658208,
+              "cpuMs": 0.103663462,
+              "allocatedBytes": 533312.731
             },
             {
-              "iterations": 16,
-              "wallMs": 2.09106505,
-              "cpuMs": 0.6976875,
-              "allocatedBytes": 532809.5
+              "iterations": 192,
+              "wallMs": 0.104937702,
+              "cpuMs": 0.104947917,
+              "allocatedBytes": 533312.792
             },
             {
-              "iterations": 16,
-              "wallMs": 1.41711533,
-              "cpuMs": 0.707,
-              "allocatedBytes": 532809.5
+              "iterations": 208,
+              "wallMs": 0.10190331,
+              "cpuMs": 0.101913462,
+              "allocatedBytes": 533312.731
             },
             {
-              "iterations": 16,
-              "wallMs": 1.25418603,
-              "cpuMs": 0.6625625,
-              "allocatedBytes": 532809.5
+              "iterations": 208,
+              "wallMs": 0.100937027,
+              "cpuMs": 0.100932692,
+              "allocatedBytes": 533312.731
             }
           ],
           "sink": 0
@@ -4120,34 +4120,34 @@
           "phase": "html",
           "samples": [
             {
-              "iterations": 16,
-              "wallMs": 3.93205881,
-              "cpuMs": 1.268375,
-              "allocatedBytes": 895561.5
+              "iterations": 112,
+              "wallMs": 0.182786158,
+              "cpuMs": 0.182767857,
+              "allocatedBytes": 896065.357
             },
             {
-              "iterations": 16,
-              "wallMs": 3.39131057,
-              "cpuMs": 1.2541875,
-              "allocatedBytes": 895561.5
+              "iterations": 112,
+              "wallMs": 0.191205314,
+              "cpuMs": 0.191258929,
+              "allocatedBytes": 896065.357
             },
             {
-              "iterations": 16,
-              "wallMs": 3.81694734,
-              "cpuMs": 1.269375,
-              "allocatedBytes": 895561.5
+              "iterations": 112,
+              "wallMs": 0.184197511,
+              "cpuMs": 0.184205357,
+              "allocatedBytes": 896065.357
             },
             {
-              "iterations": 16,
-              "wallMs": 5.40474057,
-              "cpuMs": 1.3314375,
-              "allocatedBytes": 895561.5
+              "iterations": 112,
+              "wallMs": 0.180653163,
+              "cpuMs": 0.180669643,
+              "allocatedBytes": 896065.357
             },
             {
-              "iterations": 16,
-              "wallMs": 5.4898113,
-              "cpuMs": 1.50875,
-              "allocatedBytes": 895561.5
+              "iterations": 112,
+              "wallMs": 0.179876174,
+              "cpuMs": 0.179892857,
+              "allocatedBytes": 896065.357
             }
           ],
           "sink": 0

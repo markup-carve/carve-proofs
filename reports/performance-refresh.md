@@ -12,10 +12,10 @@ The 26 Carve layout theorems compile without added assumptions. The authored
 traces and generated table, trace and prefix examples pass. The model and its
 original reader and specification pins remain unchanged.
 
-The eight Djot theorem assumption checks, two footnote witnesses and eight
+The eleven Djot theorem assumption checks, four footnote witnesses and eight
 extension witnesses also pass without axioms. The packaged Djot extraction
-still differs from fresh extraction under Rocq 9.2 and OCaml 4.14.2. That is
-the same recorded mismatch: the combined proof/extraction command exits 1.
+still differs from fresh extraction under Rocq 9.2 and OCaml 4.14.2. The refreshed upstream check at `f38c92d` differs in four generated library
+files; the combined proof/extraction command exits 1.
 The [recheck record](proof-refresh.json) keeps that failure separate from the
 successful theorem checks. The engines have no complete parser verification
 or proven linear runtime bound in this repository.

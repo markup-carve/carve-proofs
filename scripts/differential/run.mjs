@@ -35,13 +35,13 @@ const reproducers=cases.map((row,i)=>{
 })
 const upstreamFixture = reproducers.filter(r=>['footnote-lazy','footnote-indented-control','footnote-blank-control','footnote-unreferenced'].includes(r.id)).map(r=>'```\n'+r.source+'.\n'+r.jsCurrent+'```\n').join('\n')
 assert.equal(readFileSync(new URL('../../tests/differential/footnote-lazy.test',import.meta.url),'utf8'),upstreamFixture,'Portable fixture differs from verified current JS output')
-assert.ok(reproducers.find(r=>r.id==='footnote-lazy').ocaml.startsWith('<p>b</p>\n'))
+assert.equal(reproducers.find(r=>r.id==='footnote-lazy').ocaml,reproducers.find(r=>r.id==='footnote-lazy').jsCurrent)
+assert.equal(reproducers.find(r=>r.id==='footnote-unreferenced').ocaml,'')
 assert.equal(reproducers.find(r=>r.id==='footnote-unreferenced').jsCurrent,'')
 assert.equal(reproducers.find(r=>r.id==='image-unresolved').jsCurrent,'<p><img></p>\n')
 assert.equal(reproducers.find(r=>r.id==='image-unresolved').ocaml,'<p><img alt="x"></p>\n')
 const reductions=[]
 for(const [id,original,accept] of [
- ['footnote-lazy','[^note]: alpha\nbeta\n',s=>/^\[\^[a-z]+\]: [a-z]+\n[a-z]+\n?$/.test(s)],
  ['image-unresolved','![alpha][missing]\n',s=>/^!\[[a-z]+\]\[[a-z]+\]\n?$/.test(s)]
 ]) {
  const evaluate=sources=>nativeBatch(binary,sources).map((html,i)=>render(current,sources[i])!==html)

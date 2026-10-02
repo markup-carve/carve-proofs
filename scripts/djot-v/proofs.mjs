@@ -8,8 +8,8 @@ assert.equal(toolchain.ocaml,built.ocaml); assert.equal(toolchain.dune,built.dun
 const vendor = root + '.cache/djot-v'
 execFileSync('opam',[...opamArgs,'dune','build','--root',vendor,'-j','2'],{cwd:root,stdio:'inherit'})
 extractionEnvironment()
-const names = ['hard_wrap_one_para','hard_wrap_para_then_rest','quote_uniformity','list_uniformity','prefix_determinism','no_future_line_dependence','classify_inlines_locality','iscan_str_no_reread']
-const source = 'From DjotV Require Import Invariants Uniformity ListUniformity InlineScan.\n' + names.map(name => `Check ${name}.\nPrint Assumptions ${name}.`).join('\n')+'\n'
+const names = ['hard_wrap_one_para','hard_wrap_para_then_rest','quote_uniformity','list_uniformity','prefix_determinism','no_future_line_dependence','classify_inlines_locality','iscan_str_no_reread','lazy_stack_line','list_spacing_separates','block_shape_independent']
+const source = 'From DjotV Require Import Invariants Uniformity ListUniformity InlineScan Tightness BlockShape.\n' + names.map(name => `${name === 'block_shape_independent' ? 'Set Printing Implicit.\n' : ''}Check ${name}.\nPrint Assumptions ${name}.`).join('\n')+'\n'
 writeFileSync(root+'.cache/CheckDjot.v',source)
 const transcript = output('opam',[...opamArgs,'rocq','compile','-R',vendor+'/_build/default/theories','DjotV',root+'.cache/CheckDjot.v'])
 assert.equal((transcript.match(/Closed under the global context/g)??[]).length,names.length)

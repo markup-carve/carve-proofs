@@ -1,16 +1,16 @@
-# Differential testing found a footnote conformance bug
+# Differential comparison after the lazy-footnote fix
 
-The packaged `djot.v` parser moves a lazy continuation line out of its footnote and into the main document. Current `djot.js` keeps it inside the note, as the Djot syntax reference requires.
+The packaged `djot.v` parser now keeps lazy continuation lines inside a footnote. Both former failing examples and their controls agree with djot.js. The remaining exact HTML differences include intentional behavior and candidates that still need triage.
 
 Tested pins:
 
 | Implementation | Revision |
 |---|---|
-| djot.v | [`3279f36`](https://github.com/hon-gyu/djot.v/tree/3279f362fbbcc6d33c3a2795252f903ab0a7288f) |
-| Current djot.js at the time of this run | [`d93aff3`](https://github.com/jgm/djot.js/tree/d93aff39561a4306c8d59cebd9e07cc6712e1be3) |
+| djot.v | [`{{nativeShort}}`](https://github.com/hon-gyu/djot.v/tree/{{nativeCommit}}) |
+| djot.js pinned development source | [`d93aff3`](https://github.com/jgm/djot.js/tree/d93aff39561a4306c8d59cebd9e07cc6712e1be3) |
 | Released djot.js, secondary comparison | npm `@djot/djot` 0.3.2 |
 
-## Lazy footnote continuation
+## Resolved: lazy footnote continuation
 
 ```djot
 [^n]: a
@@ -19,25 +19,13 @@ b
 [^n]
 ```
 
-| Result | djot.js at d93aff3 | djot.v at 3279f36 |
-|---|---|---|
-| Footnote paragraph | `a` followed by `b` | Only `a` |
-| Extra main-document paragraph | None | `<p>b</p>` |
+Both parsers keep `a` and `b` in the footnote paragraph, with no extra main-document paragraph. The unreferenced version renders nothing in both. An indented `b` also stays in the note; a blank before an unindented `b` puts it outside.
 
-The [footnote syntax](https://github.com/jgm/djot/blob/d77f8a0cbea6785c42b3e2b03463195b5ca6f7c7/doc/syntax.md#footnote) permits subsequent paragraph lines to omit indentation. This input has no intervening blank line, so `b` belongs to the footnote paragraph.
+The [footnote syntax](https://github.com/jgm/djot/blob/d77f8a0cbea6785c42b3e2b03463195b5ca6f7c7/doc/syntax.md#footnote) permits subsequent paragraph lines to omit indentation. The [upstream ledger](https://github.com/hon-gyu/djot.v/blob/{{nativeCommit}}/.project/djotjs-divergences.md#closed-2026-09-28----a-footnotes-paragraph-continues-on-a-lazy-line) records the fix. Our [earlier evidence](https://github.com/markup-carve/carve-proofs/blob/203c77c/reports/djot-differential.md) remains available for the failure at `3279f36`; it is not a current defect.
 
-Two controls agree in both parsers: indent `b` by one space and it stays in the note; put a blank line before an unindented `b` and it becomes a main-document paragraph. An unreferenced note exposes the same bug more compactly:
+Four [Rocq witnesses](../scripts/differential/FootnoteWitness.v) check lazy ownership, indented ownership, equality of the lazy and indented parsed content, and the blank-line control. All four are [closed under the global context](djot-differential-proofs.json). These concrete examples establish the checked cases, not universal footnote conformance.
 
-```djot
-[^n]: a
-b
-```
-
-Djot.js renders nothing, while djot.v renders `<p>b</p>`.
-
-The [`PFoot` branch](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/theories/Step.v#L2177) accepts blank or sufficiently indented continuation lines, then closes the footnote for other lines. It does not take the lazy-paragraph continuation branch used elsewhere. No upstream fix was attempted. Two [Rocq witnesses](../scripts/differential/FootnoteWitness.v) also check the block shapes directly: the lazy case has a footnote followed by a top-level paragraph; the indented case has only a footnote. Both are [closed under the global context](djot-differential-proofs.json). The discrepancy is therefore present in the Rocq source model as well as the packaged runtime. The [default API](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/dist/src/djot.ml#L245) selects the [Djot profile](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/theories/Profile.v#L41), whose inline and block settings match the witness; both use semantic positions.
-
-[footnote-lazy.test](../tests/differential/footnote-lazy.test) contains four cases in djot.js's conformance-test format: the referenced and unreferenced failures, plus both controls. Expected HTML matches current djot.js. Our runner verifies the file against fresh outputs. The djot.v conformance harness reads this format: running its `test/diff.exe` with the packaged parser as `--subject` produced [two matches, two mismatches and zero errors](djot-differential-upstream.txt). The file is ready for that harness and would add four passing cases to djot.js. Its two failing djot.v cases expose the bug.
+[footnote-lazy.test](../tests/differential/footnote-lazy.test) retains the same four portable conformance cases. Expected HTML matches djot.js. The runner checks them against fresh outputs, and upstream's conformance harness with the packaged parser as `--subject` now reports [four matches, zero mismatches and zero errors](djot-differential-upstream.txt).
 
 ## Separate renderer candidate: unresolved image alt text
 
@@ -61,21 +49,17 @@ The deterministic corpus has {{inputs}} distinct inputs: combinations of inline 
 
 These counts are candidate inputs, not distinct bugs. No HTML whitespace, attribute ordering or other serialization is normalized. Of the current comparison, {{matches}} inputs match exactly. [The raw record](djot-differential.json) contains every observed disagreement, both JavaScript outputs, native output, pins, suite digest, focused controls and reductions.
 
-The focused triage also checks three already documented differences: [recovered attributes inside containers and escaped closing brackets in reference labels](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/.project/djotjs-divergences.md), and the intentional use of rendered smart punctuation in heading IDs. Those are not presented as new findings. A duplicate footnote-reference ID difference in npm 0.3.2 is already fixed in the current source revision. The focused fixture records that agreement as a control.
+The focused triage also checks three already documented differences: [recovered attributes inside containers and escaped closing brackets in reference labels](https://github.com/hon-gyu/djot.v/blob/{{nativeCommit}}/.project/djotjs-divergences.md), and the intentional use of rendered smart punctuation in heading IDs. Those are not presented as new findings. A duplicate footnote-reference ID difference in npm 0.3.2 is already fixed in the current source revision. The focused fixture records that agreement as a control.
 
 Twelve focused cases were checked in both batch and fresh processes for all three readers. JavaScript batch runs reset smart-quote defaults using upstream's test-harness recipe. Native messages use byte-length framing; the focused Unicode case checks that framing against a fresh process.
 
-A character-deletion reducer shrinks the two selected families while retaining a valid two-line footnote or a nonempty reference image. It reaches these inputs:
-
-```djot
-[^e]: a
-a
-```
+A character-deletion reducer shrinks the remaining unresolved-image family while retaining a nonempty reference image. It reaches:
 
 ```djot
 ![a][g]
 ```
- No single-character deletion that stays in the selected family retains a disagreement. This is a local minimality claim, not a proof of globally shortest inputs. Combined-input disagreements have not all been assigned independent root causes.
+
+No single-character deletion that stays in that family retains a disagreement. This is a local minimality claim, not a proof of globally shortest inputs. The former lazy-footnote reduction is no longer an active disagreement. Combined-input disagreements have not all been assigned independent root causes.
 
 ## Reproduce
 

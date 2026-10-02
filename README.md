@@ -140,7 +140,7 @@ do not isolate the effect of parser changes.
 The [djot.v report](reports/djot-v.md) checks the pinned OCaml package against
 the shared fixtures, separates raw parsing from document processing, and
 records streaming composition and native timing measurements. It also records
-eight theorem assumption checks and the extraction diff under our toolchain.
+eleven theorem assumption checks and the extraction diff under our toolchain.
 
 Run `npm run build:djot-v` with OCaml 4.14.2 and Dune 3.23.1 available through
 opam, then `npm run check:djot-v -- --check reports/djot-v-results.json`.
@@ -159,8 +159,8 @@ runner and eight Rocq witnesses make the example reproducible. Run
 the pinned package.
 
 The [differential report](reports/djot-differential.md) compares 4,177 inputs
-against pinned current djot.js, its npm release and djot.v. It includes a
-footnote conformance bug, an unresolved-image rendering candidate, controls
+against pinned current djot.js, its npm release and djot.v. It confirms the upstream
+lazy-footnote fix and records an unresolved-image rendering candidate, controls
 and a portable upstream test fixture. Run `npm run build:djot-differential`
 and `npm run check:djot-differential` after building the native package.
 
