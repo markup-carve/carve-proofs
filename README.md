@@ -14,7 +14,7 @@ It remains a partial model, not a verified implementation of the full parser.
 
 ## Visual evidence
 
-Explore the [evidence site](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
+Explore the [**evidence site**](https://markup-carve.github.io/carve-proofs/) for reader comparisons, exportable scaling charts, proof coverage and changes between recorded runs. See the [site build instructions](site/README.md) to reproduce it locally.
 
 ## Development snapshot
 
