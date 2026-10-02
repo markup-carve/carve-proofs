@@ -2,8 +2,8 @@
   {
     "id": "footnote-lazy",
     "source": "[^n]: a\nb\n\n[^n]\n",
-    "expectedAgreement": false,
-    "classification": "djot-v-conformance-bug"
+    "expectedAgreement": true,
+    "classification": "fixed-in-djot-v"
   },
   {
     "id": "footnote-indented-control",
@@ -20,8 +20,8 @@
   {
     "id": "footnote-unreferenced",
     "source": "[^n]: a\nb\n",
-    "expectedAgreement": false,
-    "classification": "djot-v-conformance-bug"
+    "expectedAgreement": true,
+    "classification": "fixed-in-djot-v"
   },
   {
     "id": "image-unresolved",

@@ -1,11 +1,11 @@
 {
-  "recordedAt": "2026-09-30T01:30:07.608075+00:00",
-  "baseCommit": "0512bc6a475e9614c633b390c18ed59b3ab8e1d5",
+  "recordedAt": "2026-10-02T10:38:55.039822+00:00",
+  "baseCommit": "203c77c06a6b5bd8b8ed3ca0435198917775a8de",
   "compiler": "The Rocq Prover, version 9.2\ncompiled with OCaml 4.14.2",
   "checks": [
     {
       "name": "layout",
-      "command": "opam exec -- node scripts/layout-proof-check.mjs",
+      "command": "opam exec --switch=carve-proofs -- node scripts/layout-proof-check.mjs",
       "closedTheoremsOrWitnesses": 26,
       "exitCode": 0,
       "transcriptSha256": "976cf22cd7d4cc1589344d51488a8742027aadf9787fab45cf525be2e2d60a89",
@@ -13,36 +13,36 @@
     },
     {
       "name": "djot-assumptions",
-      "command": "opam exec -- node scripts/djot-v/proofs.mjs",
-      "closedTheoremsOrWitnesses": 8,
+      "command": "DJOT_V_OPAM_SWITCH=carve-proofs node scripts/djot-v/proofs.mjs",
+      "closedTheoremsOrWitnesses": 11,
       "exitCode": 1,
-      "limitation": "The eight assumption checks pass; packaged extraction remains stale, so the combined proof/extraction command exits 1.",
+      "limitation": "All eleven assumption checks pass; fresh extraction differs in four library files under this toolchain, so the combined command exits 1.",
       "artifact": "reports/djot-v-proofs.json",
-      "artifactSha256": "00ee3ee3e3f9e8718ae3618583c5411f7eb540eb7aee49b1e39bd13c91c216c5",
-      "transcript": "hard_wrap_one_para\n     : forall (T : InlineTable.dtable) (K : Step.bconfig),\n       wrap_neutral K ->\n       forall (a : String.string) (ls : list String.string),\n       Line.classify a = Line.KText ->\n       List.forallb Strings.nonblank ls = true ->\n       Step.parse_lines (a :: ls) (Step.PPara nil) =\n       (Ast.mk\n          (Ast.Para\n             (para_inlines (ListDef.map Strings.drop_leading_ws (a :: ls))))\n        :: nil)%list\nClosed under the global context\nhard_wrap_para_then_rest\n     : forall (T : InlineTable.dtable) (K : Step.bconfig),\n       wrap_neutral K ->\n       forall (a : String.string) (ls : list String.string)\n         (b : String.string) (rest : list String.string),\n       Line.classify a = Line.KText ->\n       List.forallb Strings.nonblank ls = true ->\n       Strings.is_blank b = true ->\n       Step.parse_lines ((a :: ls) ++ b :: rest) (Step.PPara nil) =\n       (Ast.mk\n          (Ast.Para\n             (para_inlines (ListDef.map Strings.drop_leading_ws (a :: ls))))\n        :: Step.parse_lines rest (Step.PPara nil))%list\nClosed under the global context\nquote_uniformity\n     : forall (l : String.string) (lines : list String.string),\n       Step.quote_header l = None ->\n       Step.parse_lines\n         (ListDef.map\n            (fun x : String.string =>\n             String.append\n               (String.String\n                  (Ascii.Ascii false true true true true true false false)\n                  (String.String\n                     (Ascii.Ascii false false false false false true false\n                        false)\n                     String.EmptyString))\n               x)\n            (l :: lines))\n         (Step.PPara nil) =\n       (Ast.mk\n          (Ast.BlockQuote (Step.parse_lines (l :: lines) (Step.PPara nil)))\n        :: nil)%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nlist_uniformity\n     : forall (m0 : Line.marker) (sp : Ast.list_spacing)\n         (L0 : list String.string)\n         (tail : list (Line.marker * list String.string)),\n       Line.marker_ok m0 = true ->\n       items_ok m0 ((m0, L0) :: tail) = true ->\n       Step.parse_lines\n         (list_lines sp (ListDef.map litem_lines ((m0, L0) :: tail)))\n         (Step.PPara nil) =\n       (Step.marker_list_checked m0\n          (list_spacing_of sp (ListDef.map snd ((m0, L0) :: tail)))\n          (ListDef.map\n             (fun it : Line.marker * list String.string =>\n              Line.mk_check (fst it))\n             ((m0, L0) :: tail))\n          (ListDef.map\n             (fun it : Line.marker * list String.string =>\n              Step.parse_lines (snd it) (Step.PPara nil))\n             ((m0, L0) :: tail))\n        :: nil)%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nprefix_determinism\n     : forall (xs ys : list String.string) (st : Step.pstate),\n       Step.parse_lines (xs ++ ys) st =\n       (committed xs st ++ Step.parse_lines ys (snd (run_lines xs st)))%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nno_future_line_dependence\n     : forall (xs ys ys' : list String.string) (st : Step.pstate),\n       ListDef.firstn (length (committed xs st))\n         (Step.parse_lines (xs ++ ys) st) =\n       ListDef.firstn (length (committed xs st))\n         (Step.parse_lines (xs ++ ys') st)\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nclassify_inlines_locality\n     : forall (a b : inline_env) (l : list String.string),\n       classify_inlines a l = classify_inlines b l\nwhere\n?T : [ |- InlineTable.dtable]\nClosed under the global context\niscan_str_no_reread\n     : forall (s : String.string) (st : iscan),\n       iscan_str_fuel (String.length s) s st = Some (iscan_str s st)\nwhere\n?T : [ |- InlineTable.dtable]\nClosed under the global context",
-      "transcriptSha256": "5a04635c5fdf78cf1be83e07e5c6aee021c9a720be0cecef98a847ba7eb45c00",
+      "artifactSha256": "2fb3e4c39a52d15331e262172b0942f4acba86bef4338675c54c7a226c816041",
+      "transcript": "hard_wrap_one_para\n     : forall (T : InlineTable.dtable) (K : Step.bconfig),\n       wrap_neutral K ->\n       forall (a : String.string) (ls : list String.string),\n       Line.classify a = Line.KText ->\n       List.forallb Strings.nonblank ls = true ->\n       Step.parse_lines (a :: ls) (Step.PPara nil) =\n       (Ast.mk\n          (Ast.Para\n             (para_inlines (ListDef.map Strings.drop_leading_ws (a :: ls))))\n        :: nil)%list\nClosed under the global context\nhard_wrap_para_then_rest\n     : forall (T : InlineTable.dtable) (K : Step.bconfig),\n       wrap_neutral K ->\n       forall (a : String.string) (ls : list String.string)\n         (b : String.string) (rest : list String.string),\n       Line.classify a = Line.KText ->\n       List.forallb Strings.nonblank ls = true ->\n       Strings.is_blank b = true ->\n       Step.parse_lines ((a :: ls) ++ b :: rest) (Step.PPara nil) =\n       (Ast.mk\n          (Ast.Para\n             (para_inlines (ListDef.map Strings.drop_leading_ws (a :: ls))))\n        :: Step.parse_lines rest (Step.PPara nil))%list\nClosed under the global context\nquote_uniformity\n     : forall (l : String.string) (lines : list String.string),\n       Step.quote_header l = None ->\n       Step.parse_lines\n         (ListDef.map\n            (fun x : String.string =>\n             String.append\n               (String.String\n                  (Ascii.Ascii false true true true true true false false)\n                  (String.String\n                     (Ascii.Ascii false false false false false true false\n                        false)\n                     String.EmptyString))\n               x)\n            (l :: lines))\n         (Step.PPara nil) =\n       (Ast.mk\n          (Ast.BlockQuote (Step.parse_lines (l :: lines) (Step.PPara nil)))\n        :: nil)%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nlist_uniformity\n     : forall (m0 : Line.marker) (sp : Ast.list_spacing)\n         (L0 : list String.string)\n         (tail : list (Line.marker * list String.string)),\n       Line.marker_ok m0 = true ->\n       items_ok m0 ((m0, L0) :: tail) = true ->\n       Step.parse_lines\n         (list_lines sp (ListDef.map litem_lines ((m0, L0) :: tail)))\n         (Step.PPara nil) =\n       (Step.marker_list_checked m0\n          (list_spacing_of sp (ListDef.map snd ((m0, L0) :: tail)))\n          (ListDef.map\n             (fun it : Line.marker * list String.string =>\n              Line.mk_check (fst it))\n             ((m0, L0) :: tail))\n          (ListDef.map\n             (fun it : Line.marker * list String.string =>\n              Step.parse_lines (snd it) (Step.PPara nil))\n             ((m0, L0) :: tail))\n        :: nil)%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nprefix_determinism\n     : forall (xs ys : list String.string) (st : Step.pstate),\n       Step.parse_lines (xs ++ ys) st =\n       (committed xs st ++ Step.parse_lines ys (snd (run_lines xs st)))%list\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nno_future_line_dependence\n     : forall (xs ys ys' : list String.string) (st : Step.pstate),\n       ListDef.firstn (length (committed xs st))\n         (Step.parse_lines (xs ++ ys) st) =\n       ListDef.firstn (length (committed xs st))\n         (Step.parse_lines (xs ++ ys') st)\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nclassify_inlines_locality\n     : forall (a b : inline_env) (l : list String.string),\n       classify_inlines a l = classify_inlines b l\nwhere\n?T : [ |- InlineTable.dtable]\nClosed under the global context\niscan_str_no_reread\n     : forall (s : String.string) (st : iscan),\n       iscan_str_fuel (String.length s) s st = Some (iscan_str s st)\nwhere\n?T : [ |- InlineTable.dtable]\nClosed under the global context\nlazy_stack_line\n     : forall (l : String.string) (st : Step.pstate),\n       lazy_stack st ->\n       Line.classify l = Line.KText ->\n       Step.bunderline_of l = None ->\n       Step.step l st = (nil, Step.feed_lazy l st) /\\\n       Step.step (String.append (Step.spine_prefix 0 st) l) st =\n       Step.step l st\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nlist_spacing_separates\n     : forall (sp : Ast.list_spacing) (itemss : list (list String.string)),\n       List.forallb\n         (fun L : list String.string =>\n          (run_safe L (Step.PPara nil) &&\n           negb (Strings.is_blank (List.hd String.EmptyString L)))%bool)\n         itemss =\n       true ->\n       list_spacing_of sp itemss = Ast.Loose ->\n       (exists L : list String.string,\n          List.In L itemss /\\ (exists i : nat, separates L i)) \\/\n       sp = Ast.Loose /\\\n       (exists\n          (pre : list (list String.string)) (L M : list String.string) \n        (post : list (list String.string)),\n          itemss = (pre ++ L :: M :: post)%list /\\ separates_after L)\nwhere\n?T : [ |- InlineTable.dtable]\n?K : [ |- Step.bconfig]\nClosed under the global context\nblock_shape_independent\n     : forall (T T' : InlineTable.dtable) (K : Step.bconfig)\n         (LI : Step.LineIx) (P : Ast.PosPolicy) (s : String.string),\n       @Step.bkeyed K = false ->\n       Shape.of_blocks (@Step.parse_blocks T K LI P s) =\n       Shape.of_blocks (@Step.parse_blocks T' K LI P s)\nClosed under the global context",
+      "transcriptSha256": "52c820d003761b7dfd42f9c32ce259e9c829d2ffd98091f401269ddcd8c1f45a",
       "assumptionChecksPassed": true,
-      "closedUnderGlobalContext": 8,
+      "closedUnderGlobalContext": 11,
       "extractionMatches": false,
       "extractionConsistencyExitCode": 2
     },
     {
       "name": "footnote-witnesses",
-      "command": "opam exec -- node scripts/differential/proof.mjs --check reports/djot-differential-proofs.json",
-      "closedTheoremsOrWitnesses": 2,
+      "command": "DJOT_V_OPAM_SWITCH=carve-proofs node scripts/differential/proof.mjs --output reports/djot-differential-proofs.json",
+      "closedTheoremsOrWitnesses": 4,
       "exitCode": 0,
       "artifact": "reports/djot-differential-proofs.json",
-      "artifactSha256": "ce164b98bd66100b433c5d585cdeff28ec8e4cb22caba104e3e3e91961e6a844",
-      "transcript": "Closed under the global context\nClosed under the global context",
-      "transcriptSha256": "4d36c047e1316742bb3a97c6776dd6471e7e446e17a30004cb621e8663519f33"
+      "artifactSha256": "8bab6d7a96323b4d0548dbba466e9cfca62f10a6a07a17901e68da47519439c2",
+      "transcript": "Closed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context",
+      "transcriptSha256": "2d259da2d302a3738368e9d27d381805a806d0929126661d32fa53c8f7e1a0e3"
     },
     {
       "name": "extension-witnesses",
-      "command": "opam exec -- node scripts/djot-v/extensions-proof.mjs --check reports/djot-extension-proofs.json",
+      "command": "DJOT_V_OPAM_SWITCH=carve-proofs node scripts/djot-v/extensions-proof.mjs --output reports/djot-extension-proofs.json",
       "closedTheoremsOrWitnesses": 8,
       "exitCode": 0,
       "artifact": "reports/djot-extension-proofs.json",
-      "artifactSha256": "1ac9eed99dbf716b504e34aecf17b7cd60d8dcbb31182db5ccaef4315c53abd2",
+      "artifactSha256": "1508eca8d60b41548a82be002c5a717480b48ca5ae0aeed61234cf483acb458d",
       "transcript": "Closed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context\nClosed under the global context",
       "transcriptSha256": "8a1aa8a97a7a9806a370065a9c6095c1ac7e9842b6a26bbfddca4cf54d9c577c"
     }
@@ -90,6 +90,6 @@
   "proofSources": {
     "proofs/layout/Ownership.v": "c9e2183f9b999daec7fda33fb77e161fbac13ea0252da8d3202b8a2fe012cd50",
     "scripts/djot-v/ExtensionWitness.v": "3d10fd7e3a88b149f46aecee95e752cd1b2073ea263fda5df3522ebb697cdee6",
-    "scripts/differential/FootnoteWitness.v": "47e403161f85ae30f4a3c520dd181f89aadef6a0fbf84e5a582e8c51a1ce0cf3"
+    "scripts/differential/FootnoteWitness.v": "903385b8392afc63594d6d12ce09e37ef395acecfb489949ee7702717d1aba41"
   }
 }

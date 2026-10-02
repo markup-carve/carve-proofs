@@ -1,6 +1,6 @@
 # djot.v: executable checks and theorem scope
 
-Tested [djot.v 3279f36](https://github.com/hon-gyu/djot.v/tree/3279f362fbbcc6d33c3a2795252f903ab0a7288f), using the packaged OCaml code with its default Djot profile and positions disabled. OCaml 4.14.2; Dune 3.23.1.
+Tested [djot.v f38c92d](https://github.com/hon-gyu/djot.v/tree/f38c92d585b914d673e35d0fca23cf5cad0a6b56), using the packaged OCaml code with its default Djot profile and positions disabled. OCaml 4.14.2; Dune 3.23.1.
 
 ## Behavior
 
@@ -22,7 +22,7 @@ All 36 streaming checks pass both composition and preservation of committed bloc
 
 ## Formal checks and extraction boundary
 
-The upstream Rocq project builds with Rocq 9.2 and stdlib 9.1. Each of these eight theorems prints `Closed under the global context`:
+The upstream Rocq project builds with Rocq 9.2 and stdlib 9.1. Each of these eleven theorems prints `Closed under the global context`:
 
 - `hard_wrap_one_para`
 - `hard_wrap_para_then_rest`
@@ -32,8 +32,11 @@ The upstream Rocq project builds with Rocq 9.2 and stdlib 9.1. Each of these eig
 - `no_future_line_dependence`
 - `classify_inlines_locality`
 - `iscan_str_no_reread`
+- `lazy_stack_line`
+- `list_spacing_separates`
+- `block_shape_independent`
 
-The [compiler transcript](djot-v-proofs.json) records the full signatures. Hard wrapping requires the configuration and line conditions in the theorem; it preserves a paragraph's structure, not arbitrary inline bytes. Quote uniformity has a header condition. List uniformity requires valid markers and items in the canonical layout. Prefix stability concerns emitted blocks, not an EOF-finished tree. Inline locality concerns classification before reference resolution.
+The [compiler transcript](djot-v-proofs.json) records the full signatures. Hard wrapping requires the configuration and line conditions in the theorem; it preserves a paragraph's structure, not arbitrary inline bytes. Quote uniformity has a header condition. List uniformity requires valid markers and items in the canonical layout. Prefix stability concerns emitted blocks, not an EOF-finished tree. Inline locality concerns classification before reference resolution. Lazy continuation requires a lazy stack, a text-classified line and no underline. List spacing is proved in one direction, under the item-safety and nonblank-first-line conditions: a loose list has a separating blank. Block-shape independence requires keyed blocks to be disabled; its projection erases inline content and table captions.
 
 Fresh extraction differs from the packaged kernel under this toolchain. The [complete extraction diff](djot-v-extraction.diff) records the discrepancy; the upstream `ocaml-pkg-check-current` command also failed (its status and output are in the proof evidence). The diff includes generated BinNat and FMapAVL modules. Fresh files have trailing whitespace removed, matching the upstream consistency command. This run does not establish why they differ or semantic inequivalence. The behavioral and timing results use the pinned packaged kernel. The theorem checks cover Rocq definitions; extraction overrides, the public API and runtime complexity are outside these checks.
 
@@ -45,33 +48,33 @@ Host: AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, linux/x64. The parse phase
 
 | Family | Phase | Size range | CPU ms, first → last | Allocation bytes, first → last |
 |---|---|---:|---:|---:|
-| long-line | parse | 1024 → 8192 | 0.2824 → 3.0412 | 95202 → 740330 |
-| long-line | render | 1024 → 8192 | 0.1108 → 1.0424 | 16274 → 123802 |
-| long-line | html | 1024 → 8192 | 0.4587 → 5.0728 | 111482 → 864122 |
-| unmatched-brackets | parse | 16 → 1024 | 0.0214 → 1.4989 | 12072 → 1089634 |
-| unmatched-brackets | render | 16 → 1024 | 0.0016 → 0.0241 | 960 → 3984 |
-| unmatched-brackets | html | 16 → 1024 | 0.0231 → 1.4201 | 13032 → 1093618 |
-| unmatched-closers | parse | 1024 → 8192 | 0.6946 → 5.3869 | 157810 → 1240178 |
-| unmatched-closers | render | 1024 → 8192 | 0.0270 → 0.2296 | 3985 → 25490 |
-| unmatched-closers | html | 1024 → 8192 | 0.8283 → 7.8296 | 161794 → 1265666 |
-| unclosed-code | parse | 1024 → 8192 | 3.4784 → 39.3411 | 930530 → 7417570 |
-| unclosed-code | render | 1024 → 8192 | 0.1250 → 0.7934 | 16547 → 124069 |
-| unclosed-code | html | 1024 → 8192 | 4.2369 → 35.3967 | 947074 → 7541634 |
-| many-paragraphs | parse | 128 → 1024 | 0.7953 → 5.5976 | 434506 → 3473738 |
-| many-paragraphs | render | 128 → 1024 | 0.2150 → 1.8180 | 114994 → 919602 |
-| many-paragraphs | html | 128 → 1024 | 0.6860 → 10.4184 | 549490 → 4393330 |
-| nested-quotes | parse | 8 → 192 | 0.0117 → 0.2127 | 11552 → 277994 |
-| nested-quotes | render | 8 → 192 | 0.0086 → 0.1666 | 5545 → 112085 |
-| nested-quotes | html | 8 → 192 | 0.0196 → 0.4704 | 17096 → 390074 |
-| nested-lists | parse | 8 → 192 | 0.0234 → 0.7993 | 21520 → 729189 |
-| nested-lists | render | 8 → 192 | 0.0159 → 0.3660 | 7760 → 166370 |
-| nested-lists | html | 8 → 192 | 0.0343 → 1.2694 | 29281 → 895562 |
+| long-line | parse | 1024 → 8192 | 0.0707 → 0.5220 | 95713 → 740835 |
+| long-line | render | 1024 → 8192 | 0.0199 → 0.1581 | 16272 → 123793 |
+| long-line | html | 1024 → 8192 | 0.0898 → 0.8003 | 111985 → 864629 |
+| unmatched-brackets | parse | 16 → 1024 | 0.0026 → 0.1511 | 12584 → 1090137 |
+| unmatched-brackets | render | 16 → 1024 | 0.0002 → 0.0035 | 960 → 3984 |
+| unmatched-brackets | html | 16 → 1024 | 0.0023 → 0.1072 | 13544 → 1094121 |
+| unmatched-closers | parse | 1024 → 8192 | 0.0622 → 0.5571 | 158312 → 1240683 |
+| unmatched-closers | render | 1024 → 8192 | 0.0027 → 0.0269 | 3984 → 25488 |
+| unmatched-closers | html | 1024 → 8192 | 0.0751 → 0.6262 | 162297 → 1266171 |
+| unclosed-code | parse | 1024 → 8192 | 0.5054 → 4.7586 | 931035 → 7418082 |
+| unclosed-code | render | 1024 → 8192 | 0.0176 → 0.1306 | 16544 → 124065 |
+| unclosed-code | html | 1024 → 8192 | 0.4809 → 5.1202 | 947579 → 7542146 |
+| many-paragraphs | parse | 128 → 1024 | 0.0867 → 0.8775 | 467593 → 3736205 |
+| many-paragraphs | render | 128 → 1024 | 0.0254 → 0.2503 | 114984 → 919594 |
+| many-paragraphs | html | 128 → 1024 | 0.1019 → 1.0855 | 582577 → 4655797 |
+| nested-quotes | parse | 8 → 192 | 0.0014 → 0.0288 | 12064 → 278496 |
+| nested-quotes | render | 8 → 192 | 0.0014 → 0.0268 | 5544 → 112080 |
+| nested-quotes | html | 8 → 192 | 0.0026 → 0.0631 | 17608 → 390576 |
+| nested-lists | parse | 8 → 192 | 0.0027 → 0.1226 | 22032 → 729697 |
+| nested-lists | render | 8 → 192 | 0.0021 → 0.0523 | 7760 → 166368 |
+| nested-lists | html | 8 → 192 | 0.0051 → 0.1828 | 29792 → 896065 |
 
 Sizes mean repeated words, delimiters, paragraphs or nesting depth as defined in [the fixtures](../scripts/properties/scaling-cases.mjs). All 12 nested fixtures were checked to produce their requested AST depth, up to 192.
 
-For nested-quotes, depth 64 → 128 gives 2.25× parse CPU and 2.17× allocation.
+For nested-quotes, depth 64 → 128 gives 2.06× parse CPU and 2.16× allocation.
 
-For nested-lists, depth 64 → 128 gives 2.68× parse CPU and 2.35× allocation.
+For nested-lists, depth 64 → 128 gives 2.51× parse CPU and 2.34× allocation.
 
 These finite ranges do not establish an asymptotic bound. They provide regression fixtures and support measuring depth separately from document length.
 

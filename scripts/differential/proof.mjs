@@ -11,10 +11,10 @@ execFileSync('opam',[...opamArgs,'dune','build','--root',vendor,'-j','2','theori
 const source=root+'.cache/FootnoteWitness.v'
 copyFileSync(new URL('./FootnoteWitness.v',import.meta.url),source)
 const transcript=output('opam',[...opamArgs,'rocq','compile','-R',vendor+'/_build/default/theories','DjotV',source])
-assert.equal((transcript.match(/Closed under the global context/g)??[]).length,2)
+assert.equal((transcript.match(/Closed under the global context/g)??[]).length,4)
 assert.ok(!transcript.includes('Axioms:'))
 extractionEnvironment()
-const data={pin,sourceSha256:digest(['scripts/differential/FootnoteWitness.v','scripts/differential/proof.mjs']),rocq:output('opam',[...opamArgs,'rocq','--version']),closedUnderGlobalContext:2,transcript}
+const data={pin,sourceSha256:digest(['scripts/differential/FootnoteWitness.v','scripts/differential/proof.mjs']),rocq:output('opam',[...opamArgs,'rocq','--version']),closedUnderGlobalContext:4,transcript}
 if(values.check)assert.deepEqual(data,JSON.parse(readFileSync(values.check)))
 if(values.output)writeFileSync(values.output,JSON.stringify(data,null,2)+'\n')
-console.log('Footnote failure and indented control checked in the Rocq source model without axioms')
+console.log('Footnote lazy continuation, indentation equivalence and blank control checked in the Rocq source model without axioms')

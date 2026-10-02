@@ -14,7 +14,7 @@ alpha
 - beta
 ```
 
-Default Djot keeps the wrapped example in one paragraph and requires a blank line before the sublist. These fixtures demonstrate both sides of that choice with the packaged OCaml parser from [djot.v at 3279f36](https://github.com/hon-gyu/djot.v/tree/3279f362fbbcc6d33c3a2795252f903ab0a7288f).
+Default Djot keeps the wrapped example in one paragraph and requires a blank line before the sublist. These fixtures demonstrate both sides of that choice with the packaged OCaml parser from [djot.v at f38c92d](https://github.com/hon-gyu/djot.v/tree/f38c92d585b914d673e35d0fca23cf5cad0a6b56).
 
 ## The configuration change
 
@@ -43,7 +43,7 @@ The projection checks block structure: paragraph and code-block leaves, recursiv
 
 ## Connection to the proofs
 
-Upstream [`wrap_neutral`](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/theories/Invariants.v#L318) requires marker interruption to return false for every input, along with conditions on underlines and keyed blocks. [`hard_wrap_one_para`](https://github.com/hon-gyu/djot.v/blob/3279f362fbbcc6d33c3a2795252f903ab0a7288f/theories/Invariants.v#L346) uses that condition and its stated line preconditions to guarantee one paragraph.
+Upstream [`wrap_neutral`](https://github.com/hon-gyu/djot.v/blob/f38c92d585b914d673e35d0fca23cf5cad0a6b56/theories/Invariants.v#L318) requires marker interruption to return false for every input, along with conditions on underlines and keyed blocks. [`hard_wrap_one_para`](https://github.com/hon-gyu/djot.v/blob/f38c92d585b914d673e35d0fca23cf5cad0a6b56/theories/Invariants.v#L346) uses that condition and its stated line preconditions to guarantee one paragraph.
 
 [ExtensionWitness.v](../../scripts/djot-v/ExtensionWitness.v) checks eight claims in Rocq: the default setting satisfies `wrap_neutral`; the changed setting does not; incremental parsing holds for every block configuration, including the changed setting; and the concrete hyphen example has one block before wrapping, two after wrapping under the changed setting, and one after wrapping under the default setting. Two further checks establish that the changed configuration equals upstream `sublist_bconfig` and that the wrapped input meets the theorem's first-line and nonblank-line conditions. [The compiler record](../../reports/djot-extension-proofs.json) reports all eight closed under the global context.
 
