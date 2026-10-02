@@ -46,7 +46,11 @@
     "report:runtime": "node scripts/runtime/report.mjs",
     "check:scaling-guards": "node scripts/scaling-guards.mjs --check reports/scaling-guards.json",
     "report:budgets": "node scripts/budgets/report.mjs",
-    "check:budgets": "node scripts/budgets/check.mjs"
+    "check:budgets": "node scripts/budgets/check.mjs",
+    "build:ownership:current": "node scripts/ownership/current.mjs build",
+    "check:ownership:current": "node scripts/ownership/current.mjs check --check reports/ownership-current-results.json",
+    "check:ownership:contracts": "node scripts/ownership/current.mjs contracts --check reports/ownership-current-contracts.json",
+    "report:ownership:current": "node scripts/ownership/current-report.mjs --check"
   },
   "devDependencies": {
     "@djot/djot": "0.3.2",

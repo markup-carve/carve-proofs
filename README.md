@@ -172,6 +172,12 @@ zero structural disagreements. Run `npm run build:ownership`, then
 `npm run check:ownership -- --check reports/ownership-results.json`.
 The matrix uses separate pins and does not extend the layout proofs.
 
+The [current-reader report](reports/ownership-current.md) separately checks 535
+inputs, including 63 normative opaque-quote, continuation and tab cases, plus
+68 versioned contract observations. Run `npm run build:ownership:current`,
+`npm run check:ownership:current` and `npm run check:ownership:contracts`.
+Historical measurements retain their original pins.
+
 ## Rust and PHP scaling
 
 The [runtime measurements](reports/runtime-timings.json) cover Carve Rust and

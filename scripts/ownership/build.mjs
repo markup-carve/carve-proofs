@@ -7,8 +7,10 @@ import { resolve } from 'node:path'
 import { createHash } from 'node:crypto'
 
 export const root = fileURLToPath(new URL('../../', import.meta.url))
-export const cache = root + '.cache/ownership/'
-export const pins = JSON.parse(readFileSync(new URL('./pins.json', import.meta.url)))
+export const profile = process.env.CARVE_OWNERSHIP_PROFILE ?? 'recorded'
+assert.ok(['recorded', 'current'].includes(profile), 'Unknown ownership profile')
+export const cache = root + (profile === 'current' ? '.cache/ownership-current/' : '.cache/ownership/')
+export const pins = JSON.parse(readFileSync(new URL(profile === 'current' ? './current-pins.json' : './pins.json', import.meta.url)))
 const run = (command, args, cwd) => execFileSync(command, args, { cwd, stdio: 'inherit' })
 const output = (command, args, cwd) => execFileSync(command, args, { cwd, encoding: 'utf8' }).trim()
 export const hash = file => createHash('sha256').update(readFileSync(file)).digest('hex')
