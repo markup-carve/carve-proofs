@@ -95,6 +95,8 @@ jobs:
           git diff --exit-code -- reports/properties.md
       - name: Check model proofs and recorded evidence
         run: opam exec -- npm run proof:layout
+      - name: Check candidate-stack selection and extracted helper
+        run: opam exec -- npm run proof:stack
       - name: Measure parser scaling
         if: github.event_name == 'workflow_dispatch' && inputs.benchmark
         run: npm run bench:scaling -- reports/scaling-ci.json
