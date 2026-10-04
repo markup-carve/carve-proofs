@@ -87,3 +87,12 @@ records this local host and its load. Neither comparison with an older host
 nor a small change between samples isolates an engine speed improvement.
 The next implementation PRs should use alternating baseline/candidate runs
 and retain exact AST/HTML parity on the ownership and container suites.
+
+## Current container follow-up
+
+The [current container measurements](current-container-costs.md) compare the
+historical reader pins with later Rust and PHP main snapshots. They retain exact
+output fingerprints and separate Rust allocation churn from shared-host timing
+observations. The original quote-allocation lead is resolved in current Rust;
+PHP deep-list rendering remains expensive; code inspection identifies repeated
+subtree indentation as a candidate cause.
