@@ -1,5 +1,8 @@
 # Carve proofs
 
+> [!IMPORTANT]
+> This repository moved to [markup-carve/carve-conformance](https://github.com/markup-carve/carve-conformance) (`proofs/`), and its website to <https://markup-carve.github.io/carve-conformance/proofs/>. It is kept read-only for its commit history.
+
 Checked models of [Carve](https://github.com/markup-carve/carve) parsing rules,
 with tests comparing their predictions against the executable
 specification and the pinned JavaScript engine. The Carve repository remains the
